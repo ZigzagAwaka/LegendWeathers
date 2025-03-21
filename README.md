@@ -1,6 +1,6 @@
-# PremiumScraps
+# LegendWeathers
 
-This is the repository for the PremiumScraps Lethal Company mod.
+This is the repository for the LegendWeathers Lethal Company mod.
 
 You can post some suggestions or issues in the 'Issues' tab.
 
@@ -8,4 +8,4 @@ You can post some suggestions or issues in the 'Issues' tab.
 
 ## More info
 You can check more info on Thunderstore:
-https://thunderstore.io/c/lethal-company/p/Zigzag/PremiumScraps/
+https://thunderstore.io/c/lethal-company/p/Zigzag/LegendWeathers/

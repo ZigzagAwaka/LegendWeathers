@@ -54,8 +54,8 @@ crashlytics-build.properties
 # Custom
 /.vsconfig
 /.vscode
-/PremiumScraps/bin/
-/PremiumScraps/obj/
+/LegendWeathers/bin/
+/LegendWeathers/obj/
 /Assets/AssetBundles/
 /Assets/AudioMixerController/
 /Assets/Plugins/
