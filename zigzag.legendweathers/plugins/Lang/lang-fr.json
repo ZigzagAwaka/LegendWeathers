@@ -1,0 +1,46 @@
+{
+    "HEART_ATTACK": "ALERTE ! RYTHME CARDIAQUE INSTABLE. RETOURNEZ RAPIDEMENT AU VAISSEAU DE VOTRE EQUIPE !",
+    "CURSED_INFO": "Il y a quelque chose de différent dans l'air...",
+    "CURSED_INFO2": "                                Quelque chose de terrible viens de vous arriver",
+    "CURSED_INFO3": "Vous êtes déjà maudit",
+    "COWORKERS_INFO": "Vous allez enfin pouvoir rencontrer vos c̶͂͆o̶͑͗l̵̤̓l̷͂̓è̶͈̂g̶̀̋u̸̥͝e̶̳̿ṣ̶̓ !",
+    "COWORKERS_INFO2": "                                Vous devriez utiliser le CV la prochaine fois que vous arriverez sur une planète :)",
+    "COWORKERS_WARNING": "Alerte",
+    "COWORKERS_WARNING2": "Nombre anormal d'employés détectés !",
+    "JOB_USAGE": "Invoquer des amis : [RMB]",
+    "JOB_USAGE2": "Lire: [Z]",
+    
+    "STICK_STORY": "La lance en bois bénie de l'ermite manchot des cavernes des montagnes du nord près de l'arrière de ma maison",
+
+    "END_FRIENDSHIP": "L'amitié s'arrête ici : [E]",
+    "END_FRIENDSHIP2": "Es-tu vraiment sûr de ton coup? : [RMB]",
+    "TROLL_USAGE": "Pas maintenant",
+    "TROLL_USAGE2": "Essayez un tout petit peu plus tard :)",
+    "TROLL_INFO": "Fais pas ça mec",
+    "TROLL_INFO2": "N'écoutes pas les voix dans ta tête.",
+    "TROLL_WARNING": "Tu as été prévenu",
+    "TROLL_WARNING2": "Réalises-tu seulement qu'il n'y aura pas de retour en arrière possible après ce que tu t'apprêtes à faire?",
+    "TROLL_FINAL": "C̷͚̋'e̷̢͌st̵̮͂ l̴͇̓'hẽ̸̲ur̸̥͆e ̶̳͑ḏ̷͛e fairė̶͉ ̵͎͝des dingueries̛̲",
+
+    "BOOK_USAGE": "Lire le livre : [RMB]",
+    "BOOK_END": "Indigne",
+    "BOOK_END2": "Retournez au travail !",
+    "LIAM_STORY": "Transformons un espace de 0,01 mètre carré en une maison fonctionnelle. Liam a vécu de manière frugale et a travaillé assidument pendant 2 ans, réussissant à économiser 1/2 million pour acheter une maison à New York, cependant en emménagant il a été choqué par la petite taille de la maison, il ne pouvais même pas étirer ses doigts le long de la surface.",
+    "LIAM_STORY2": "Maintenant explorons comment aider Liam à la transformer en un foyer fonctionnel. D'abord il a soudé un cadre en acier galvanisé carré et a emrunté des vis d'expansion à sa tante pour le fixer au mur, il l'a recouvert de plaquage de bois éco-durable pendant 10.000 ans et a installé de grandes fenêtres du sol au plafond en aluminium à rupture de pont thermique pour un aspect élégant.",
+    "LIAM_STORY3": "Ensuite il a ajouté un grand matelas moelleux afin qu'il et sa petite amie puissent dormir confortablement ensemble et même avoir de la place pour un bébé. Il a installé une alarme spéciale car il a du mal à se lever le matin, alors laissons dieux décider. En dessous il a construit une table de chevet, installé une prise et mis en place un projecteur pour lire des livres,",
+    "LIAM_STORY4": "il a ajouté un rembourrage doux autour du lit pour plus de comfort et a placé une table pliante au bout du lit à utiliser comme espace de travail, il peut également s'y asseoir pour se détendre et pêcher, transformant sa prise en un repas copieux. Ensuite, Liam a construit une armoire contre le mur et un porte-carte rétractable en dessous, la petite chaise",
+    "LIAM_STORY5": "fait également office de lit. Il a ajouté une table à manger pliante pour que toute la famille puisse profiter des repas ensemble et économiser de l'espace lorsqu'elle est repliée. Tous les vêtements de la famille sont suspendus dans l'armoir. Il a ensuite installé une armoire modulaire près de la porte avec un bassin étanche d'un côté pour créer une mini-cuisine.",
+    "LIAM_STORY6": "Il a placé une cuisinière à induction à proximité avec un placard-mirroir au dessus et des compartiments étanches pour les assaisonnements et les articles de toilettes. Une toilette murale est installée à côté de la porte, parfaite pour s'asseoir comfortablement et prendre une douche. Liam a suspendu un rideau au dessus du lit pour regarder des drames Coréens quotidiennement.",
+    "LIAM_STORY7": "Avec cette configuration, même un espace limité peut offrir des possibilités infinies.",
+    
+    "GAZPACHO_POISON": "Vous avez été empoisonné !",
+    "GAZPACHO_POISON2": "Vous ressentez une sensation brulante dans votre estomac...",
+    "GAZPACHO_USAGE": "Boire : [RMB]",
+
+    "KING_USAGE": "Utiliser : [RMB]",
+    "KING_USAGE2": "Cette paix est ce pourquoi lutte tous les vrais guerriers!",
+
+    "DICE_INFO": "Bienvenue!",
+    "DICE_INFO2": "Ṽ̶̳oŝ̴̌ c̶̽͠am̶͔̈́ar̴̋͠aď̸͠es̵̚ de cl̸̊̈́as̴̓̅s̸̤̓e ̴̊sont̀ ̸̱͛im̶pati̧͠e̴nts̈ de̵̐̕ ̴͙́v̷̰̉o̴us rencon̷̂͝ẗ̷̻́r̶̺̕er̴",
+    "DICE_INFO3": "Émetteur radio alimenté plasmique, en ligne!"
+}
