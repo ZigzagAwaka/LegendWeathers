@@ -1,11 +1,10 @@
 {
-    "name": "PremiumScraps",
-    "version_number": "2.3.5",
-    "website_url": "https://github.com/ZigzagAwaka/PremiumScraps",
-    "description": "Adds several scrap items to the game, some with custom effect!",
+    "name": "LegendWeathers",
+    "version_number": "0.1.0",
+    "website_url": "https://github.com/ZigzagAwaka/LegendWeathers",
+    "description": "A mod that aims to add several new special weather effects to the game!",
     "dependencies": [
-        "Evaisa-LethalLib-0.16.1",
-        "AudioKnight-StarlancerAIFix-3.8.4",
+        "mrov-WeatherRegistry-0.5.4",
         "BepInEx-BepInExPack-5.4.2100"
     ]
 }
