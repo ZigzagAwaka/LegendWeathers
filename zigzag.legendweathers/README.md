@@ -8,10 +8,10 @@ Compatible with v69 of Lethal Company.
 
 ##
 
-### Majora's Moon
+### Majora
 
 
-![Preview](https://raw.githubusercontent.com/ZigzagAwaka/SelfSortingStorage/main/Images/SSS_Preview2.PNG)
+![Preview](https://raw.githubusercontent.com/ZigzagAwaka/SelfSortingStorage/main/Images/wip.PNG)
 
 ##
 

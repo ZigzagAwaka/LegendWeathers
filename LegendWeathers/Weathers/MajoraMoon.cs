@@ -1,6 +1,8 @@
-﻿namespace LegendWeathers.Weathers
+﻿using Unity.Netcode;
+
+namespace LegendWeathers.Weathers
 {
-    internal class MajoraMoon
+    internal class MajoraMoon : NetworkBehaviour
     {
     }
 }
