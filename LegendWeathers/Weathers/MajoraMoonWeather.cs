@@ -5,7 +5,7 @@ namespace LegendWeathers.Weathers
 {
     public class MajoraMoonWeather : LegendWeathers
     {
-        public static WeatherInfo weatherInfo = new WeatherInfo("Majora", 30, 1.6f, 1.2f, new Color(1f, 0.2f, 0.2f, 1f));
+        public static WeatherInfo weatherInfo = new WeatherInfo("Majora Moon", 30, 1.6f, 1.2f, new Color(0.7f, 0f, 0.15f, 1f));
         private GameObject? spawnedMoon = null;
 
         public MajoraMoonWeather() : base(weatherInfo) { }
@@ -13,9 +13,12 @@ namespace LegendWeathers.Weathers
         public override void OnEnable()
         {
             base.OnEnable();
-            if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsServer)
+            if (!WeatherRegistry.WeatherManager.IsSetupFinished)
+                return;
+            if (NetworkManager.Singleton.IsServer)
             {
-                spawnedMoon = Instantiate(Plugin.instance.majoraMoonObject, RoundManager.Instance.outsideAINodes[0].transform.position, Quaternion.Euler(0f, 0f, 0f));
+                var position = MajoraMoonPositions.Get(RoundManager.Instance.currentLevel.PlanetName);
+                spawnedMoon = Instantiate(Plugin.instance.majoraMoonObject, position.Item1, Quaternion.Euler(position.Item2));
                 spawnedMoon?.GetComponent<NetworkObject>().Spawn(true);
             }
         }
@@ -23,7 +26,9 @@ namespace LegendWeathers.Weathers
         public override void OnDisable()
         {
             base.OnDisable();
-            if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsServer)
+            if (!WeatherRegistry.WeatherManager.IsSetupFinished)
+                return;
+            if (NetworkManager.Singleton.IsServer)
             {
                 if (spawnedMoon != null)
                 {

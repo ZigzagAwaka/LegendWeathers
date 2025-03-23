@@ -2,7 +2,7 @@
 
 namespace LegendWeathers.Weathers
 {
-    internal class MajoraMoon : NetworkBehaviour
+    public class MajoraMoon : NetworkBehaviour
     {
     }
 }

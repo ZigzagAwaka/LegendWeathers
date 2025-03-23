@@ -8,7 +8,7 @@ Compatible with v69 of Lethal Company.
 
 ##
 
-### Majora
+### Majora Moon
 
 
 ![Preview](https://raw.githubusercontent.com/ZigzagAwaka/SelfSortingStorage/main/Images/wip.PNG)
@@ -43,6 +43,8 @@ If you want to suggest new features or contact me please go to the mod release p
 
 ## Credits
 
-- Thanks [Mrov](https://thunderstore.io/c/lethal-company/p/mrov/) for creating [WeatherRegistry](https://thunderstore.io/c/lethal-company/p/mrov/WeatherRegistry/)!
+- Thanks [Mrov](https://thunderstore.io/c/lethal-company/p/mrov/) for creating [WeatherRegistry](https://thunderstore.io/c/lethal-company/p/mrov/WeatherRegistry/) and for helping with parts of the code!
 
-- Some assets are ripped from various games and imported thanks to https://www.models-resource.com/
+- Thanks [Voxx](https://thunderstore.io/c/lethal-company/p/v0xx/) for providing help from time to time!
+
+- Some assets are ripped from various games and imported thanks to https://www.models-resource.com/, you can check the list [here](https://github.com/ZigzagAwaka/LegendWeathers/blob/main/models-resource-credits.txt)

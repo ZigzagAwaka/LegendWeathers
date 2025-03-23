@@ -32,17 +32,18 @@ namespace LegendWeathers
             harmony.PatchAll();
         }
 
-        private GameObject GetEffect(GameObject objectPrefab)
+        private GameObject GetEffect<T>() where T : Component
         {
-            var effect = Instantiate(objectPrefab);
+            var effect = Instantiate(new GameObject(typeof(T).Name));
             effect.hideFlags = HideFlags.HideAndDontSave;
             DontDestroyOnLoad(effect);
+            effect.AddComponent<T>();
             return effect;
         }
 
-        private void RegisterWeather(GameObject objectPrefab, Weathers.LegendWeathers.WeatherInfo info)
+        private void RegisterWeather<T>(Weathers.LegendWeathers.WeatherInfo info) where T : Component
         {
-            var weatherEffect = new ImprovedWeatherEffect(null, GetEffect(objectPrefab));
+            var weatherEffect = new ImprovedWeatherEffect(null, GetEffect<T>());
             var weather = new Weather(info.name, weatherEffect);
             weather.Config.DefaultWeight.DefaultValue = info.weight;
             weather.Config.ScrapAmountMultiplier.DefaultValue = info.scrapAmount;
@@ -61,19 +62,26 @@ namespace LegendWeathers
 
             string assetDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "legendweathers");
             AssetBundle bundle = AssetBundle.LoadFromFile(assetDir);
-
             string directory = "Assets/Data/_Misc/LegendWeathers/";
-            majoraMoonObject = bundle.LoadAsset<GameObject>(directory + "MajoraMoon/MajoraMoon.prefab");
-            NetworkPrefabs.RegisterNetworkPrefab(majoraMoonObject);
 
             config = new Config(Config);
             config.SetupCustomConfigs();
             Effects.SetupNetwork();
 
-            RegisterWeather(majoraMoonObject, MajoraMoonWeather.weatherInfo);
+            if (config.majoraWeather.Value)
+            {
+                majoraMoonObject = bundle.LoadAsset<GameObject>(directory + "MajoraMoon/MajoraMoon.prefab");
+                if (config.majoraMoonModel.Value == "N64")
+                {
+                    majoraMoonObject.transform.Find("Model1").gameObject.SetActive(true);
+                    majoraMoonObject.transform.Find("Model2").gameObject.SetActive(false);
+                }
+                NetworkPrefabs.RegisterNetworkPrefab(majoraMoonObject);
+                RegisterWeather<MajoraMoonWeather>(MajoraMoonWeather.weatherInfo);
+            }
 
             HarmonyPatchAll();
-            logger.LogInfo("LegendWeathers is loaded !");
+            logger.LogInfo(NAME + " is loaded !");
         }
     }
 }

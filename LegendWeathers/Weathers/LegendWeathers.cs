@@ -1,5 +1,4 @@
-﻿using Unity.Netcode;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace LegendWeathers.Weathers
 {
@@ -32,13 +31,13 @@ namespace LegendWeathers.Weathers
 
         public virtual void OnEnable()
         {
-            if (NetworkManager.Singleton != null)
+            if (WeatherRegistry.WeatherManager.IsSetupFinished)
                 Plugin.logger.LogInfo(weatherInfo.name + " Weather is enabled !");
         }
 
         public virtual void OnDisable()
         {
-            if (NetworkManager.Singleton != null)
+            if (WeatherRegistry.WeatherManager.IsSetupFinished)
                 Plugin.logger.LogInfo(weatherInfo.name + " Weather is destroyed.");
         }
     }
