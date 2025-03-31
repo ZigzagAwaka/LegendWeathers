@@ -26,6 +26,7 @@ namespace LegendWeathers
         internal static Config config { get; private set; } = null!;
 
         public GameObject? majoraMoonObject;
+        public GameObject? majoraSkyObject;
 
         void HarmonyPatchAll()
         {
@@ -41,9 +42,20 @@ namespace LegendWeathers
             return effect;
         }
 
+        private void RegisterWeather<T, T2>(Weathers.LegendWeathers.WeatherInfo info) where T : Component where T2 : Component
+        {
+            var weatherEffect = new ImprovedWeatherEffect(GetEffect<T2>(), GetEffect<T>());
+            RegisterWeather(info, weatherEffect);
+        }
+
         private void RegisterWeather<T>(Weathers.LegendWeathers.WeatherInfo info) where T : Component
         {
             var weatherEffect = new ImprovedWeatherEffect(null, GetEffect<T>());
+            RegisterWeather(info, weatherEffect);
+        }
+
+        private void RegisterWeather(Weathers.LegendWeathers.WeatherInfo info, ImprovedWeatherEffect weatherEffect)
+        {
             var weather = new Weather(info.name, weatherEffect);
             weather.Config.DefaultWeight.DefaultValue = info.weight;
             weather.Config.ScrapAmountMultiplier.DefaultValue = info.scrapAmount;
@@ -71,13 +83,14 @@ namespace LegendWeathers
             if (config.majoraWeather.Value)
             {
                 majoraMoonObject = bundle.LoadAsset<GameObject>(directory + "MajoraMoon/MajoraMoon.prefab");
+                majoraSkyObject = bundle.LoadAsset<GameObject>(directory + "MajoraMoon/MajoraSky.prefab");
                 if (config.majoraMoonModel.Value == "N64")
                 {
                     majoraMoonObject.transform.Find("Model1").gameObject.SetActive(true);
                     majoraMoonObject.transform.Find("Model2").gameObject.SetActive(false);
                 }
                 NetworkPrefabs.RegisterNetworkPrefab(majoraMoonObject);
-                RegisterWeather<MajoraMoonWeather>(MajoraMoonWeather.weatherInfo);
+                RegisterWeather<MajoraMoonWeather, MajoraSkyEffect>(MajoraMoonWeather.weatherInfo);
             }
 
             HarmonyPatchAll();

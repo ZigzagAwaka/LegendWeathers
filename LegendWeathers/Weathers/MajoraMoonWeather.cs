@@ -5,7 +5,7 @@ namespace LegendWeathers.Weathers
 {
     public class MajoraMoonWeather : LegendWeathers
     {
-        public static WeatherInfo weatherInfo = new WeatherInfo("Majora Moon", 30, 1.6f, 1.2f, new Color(0.7f, 0f, 0.15f, 1f));
+        public static WeatherInfo weatherInfo = new WeatherInfo("Majora Moon", 50, 1.8f, 1f, new Color(0.7f, 0f, 0.8f, 1f));
         private GameObject? spawnedMoon = null;
 
         public MajoraMoonWeather() : base(weatherInfo) { }
@@ -15,12 +15,26 @@ namespace LegendWeathers.Weathers
             base.OnEnable();
             if (!WeatherRegistry.WeatherManager.IsSetupFinished)
                 return;
+            if (!RoundManager.Instance.currentLevel.planetHasTime)
+            {
+                Plugin.logger.LogError(weatherInfo.name + " requires a planet with time.");
+                return;
+            }
             if (NetworkManager.Singleton.IsServer)
             {
                 var position = MajoraMoonPositions.Get(RoundManager.Instance.currentLevel.PlanetName);
                 spawnedMoon = Instantiate(Plugin.instance.majoraMoonObject, position.Item1, Quaternion.Euler(position.Item2));
-                spawnedMoon?.GetComponent<NetworkObject>().Spawn(true);
+                if (spawnedMoon != null)
+                {
+                    var moonNetObj = spawnedMoon.GetComponent<NetworkObject>();
+                    moonNetObj.Spawn(true);
+                    spawnedMoon.GetComponent<MajoraMoon>().InitializeMoonServerRpc(moonNetObj, position.Item3);
+                }
+                else
+                    Plugin.logger.LogError("Failed to spawn " + weatherInfo.name + " on the server.");
             }
+            EnableVanillaSun(false);
+            EnableVanillaVolumeFog(false);
         }
 
         public override void OnDisable()
@@ -40,6 +54,8 @@ namespace LegendWeathers.Weathers
                     spawnedMoon = null;
                 }
             }
+            EnableVanillaSun(true);
+            EnableVanillaVolumeFog(true);
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.HighDefinition;
 
 namespace LegendWeathers.Weathers
 {
@@ -23,6 +25,9 @@ namespace LegendWeathers.Weathers
         }
 
         private readonly WeatherInfo weatherInfo;
+        private Transform? sunTextureTransform = null;
+        private VolumeProfile? vanillaVolumeProfile = null;
+        private bool fogVolumeComponentExists = false;
 
         public LegendWeathers(WeatherInfo info)
         {
@@ -39,6 +44,62 @@ namespace LegendWeathers.Weathers
         {
             if (WeatherRegistry.WeatherManager.IsSetupFinished)
                 Plugin.logger.LogInfo(weatherInfo.name + " Weather is destroyed.");
+        }
+
+        public void EnableVanillaSun(bool enabled)
+        {
+            try
+            {
+                if (sunTextureTransform == null)
+                {
+                    var sunAnim = FindObjectOfType<animatedSun>();
+                    if (sunAnim != null)
+                    {
+                        sunTextureTransform = sunAnim.transform.Find("SunTexture");
+                    }
+                }
+                sunTextureTransform?.gameObject?.SetActive(enabled);
+            }
+            catch (System.Exception)
+            {
+                Plugin.logger.LogInfo("Failed to " + (enabled ? "enable" : "disable") + " vanilla sun. Probably not an error if the ship is going back in orbit.");
+            }
+        }
+
+        public void EnableVanillaVolumeFog(bool enabled)
+        {
+            try
+            {
+                if (enabled && !fogVolumeComponentExists)
+                    return;
+                if (vanillaVolumeProfile == null)
+                {
+                    foreach (var volume in FindObjectsOfType<Volume>())
+                    {
+                        if (volume.name == "Sky and Fog Global Volume" || volume.priority == 1)
+                        {
+                            vanillaVolumeProfile = volume.profile;
+                            break;
+                        }
+                    }
+                }
+                if (vanillaVolumeProfile != null)
+                {
+                    foreach (var component in vanillaVolumeProfile.components)
+                    {
+                        if (component.active && component is Fog)
+                        {
+                            component.active = enabled;
+                            fogVolumeComponentExists = !enabled;
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (System.Exception)
+            {
+                Plugin.logger.LogWarning("Failed to " + (enabled ? "enable" : "disable") + " vanilla volume fog.");
+            }
         }
     }
 }

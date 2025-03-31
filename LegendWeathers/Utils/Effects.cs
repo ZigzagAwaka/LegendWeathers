@@ -218,7 +218,7 @@ namespace LegendWeathers.Utils
             Landmine.SpawnExplosion(position, false, 0, range, damage, physicsForce);
         }
 
-        public static IEnumerator FadeOutAudio(AudioSource source, float time, bool specialStop = false)
+        public static IEnumerator FadeOutAudio(AudioSource source, float time, bool specialStop = true)
         {
             yield return new WaitForEndOfFrame();
             var volume = source.volume;
@@ -231,6 +231,25 @@ namespace LegendWeathers.Utils
             }
             source.Stop();
             source.volume = volume;
+        }
+
+        public static void SetCameraEndOfRound(PlayerControllerB player)
+        {
+            StartOfRound.Instance.SetSpectateCameraToGameOverMode(true);
+            if (player.isPlayerDead)
+                player.SetSpectatedPlayerEffects(true);
+        }
+
+        public static bool IsLocalPlayerInsideFacilityAbsolute()
+        {
+            if (GameNetworkManager.Instance == null)
+                return false;
+            var player = GameNetworkManager.Instance.localPlayerController;
+            if (player == null)
+                return false;
+            if (!player.isPlayerDead)
+                return player.isInsideFactory;
+            return player.spectatedPlayerScript.isInsideFactory;
         }
 
         public static void ChangeWeather(LevelWeatherType weather)
@@ -290,6 +309,20 @@ namespace LegendWeathers.Utils
         public static void Message(string title, string bottom, bool warning = false)
         {
             HUDManager.Instance.DisplayTip(title, bottom, warning);
+        }
+
+        public static void MessageComputer(params string[] messages)
+        {
+            var dialogue = new DialogueSegment[messages.Length];
+            for (int i = 0; i < messages.Length; i++)
+            {
+                dialogue[i] = new DialogueSegment
+                {
+                    speakerText = "PILOT COMPUTER",
+                    bodyText = messages[i]
+                };
+            }
+            HUDManager.Instance.ReadDialogue(dialogue);
         }
 
         public static IEnumerator Status(string text)
