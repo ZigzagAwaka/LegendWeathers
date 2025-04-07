@@ -249,6 +249,8 @@ namespace LegendWeathers.Utils
                 return false;
             if (!player.isPlayerDead)
                 return player.isInsideFactory;
+            if (player.spectatedPlayerScript == null)
+                return false;
             return player.spectatedPlayerScript.isInsideFactory;
         }
 
@@ -368,19 +370,30 @@ namespace LegendWeathers.Utils
             return RoundManager.Instance.currentLevel.spawnableScrap.FirstOrDefault(i => i.spawnableItem.name.Equals(scrapName));
         }
 
-        public static ItemNetworkReference Spawn(SpawnableItemWithRarity scrap, Vector3 position)
+        public static ItemNetworkReference Spawn(SpawnableItemWithRarity scrap, Vector3 position, bool inFactory = false, bool inShip = false, bool inElevator = false)
         {
+            return Spawn(scrap.spawnableItem, position, inFactory, inShip, inElevator);
+        }
+
+        public static ItemNetworkReference Spawn(Item? item, Vector3 position, bool inFactory = false, bool inShip = false, bool inElevator = false)
+        {
+            if (item == null)
+            {
+                Plugin.logger.LogError("Spawning item error: Item is null.");
+                return new ItemNetworkReference(default, 0);
+            }
             var parent = RoundManager.Instance.spawnedScrapContainer ?? StartOfRound.Instance.elevatorTransform;
-            GameObject gameObject = Object.Instantiate(scrap.spawnableItem.spawnPrefab, position + Vector3.up * 0.25f, Quaternion.identity, parent);
+            GameObject gameObject = Object.Instantiate(item.spawnPrefab, position + Vector3.up * 0.25f, Quaternion.identity, parent);
             GrabbableObject component = gameObject.GetComponent<GrabbableObject>();
             component.transform.rotation = Quaternion.Euler(component.itemProperties.restingRotation);
             component.fallTime = 1f;
             component.hasHitGround = true;
             component.reachedFloorTarget = true;
-            component.isInElevator = true;
-            component.isInShipRoom = true;
+            component.isInFactory = inFactory;
+            component.isInElevator = inElevator;
+            component.isInShipRoom = inShip;
             if (component.itemProperties.isScrap)
-                component.scrapValue = (int)(Random.Range(scrap.spawnableItem.minValue, scrap.spawnableItem.maxValue) * RoundManager.Instance.scrapValueMultiplier);
+                component.scrapValue = (int)(Random.Range(item.minValue, item.maxValue) * RoundManager.Instance.scrapValueMultiplier);
             component.NetworkObject.Spawn();
             return new ItemNetworkReference(gameObject.GetComponent<NetworkObject>(), component.itemProperties.isScrap ? component.scrapValue : 0);
         }

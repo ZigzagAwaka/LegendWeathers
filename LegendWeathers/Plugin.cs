@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using LegendWeathers.BehaviourScripts;
 using LegendWeathers.Utils;
 using LegendWeathers.Weathers;
 using LethalLib.Modules;
@@ -27,6 +28,7 @@ namespace LegendWeathers
 
         public GameObject? majoraMoonObject;
         public GameObject? majoraSkyObject;
+        public Item? majoraMaskItem;
 
         void HarmonyPatchAll()
         {
@@ -84,12 +86,21 @@ namespace LegendWeathers
             {
                 majoraMoonObject = bundle.LoadAsset<GameObject>(directory + "MajoraMoon/MajoraMoon.prefab");
                 majoraSkyObject = bundle.LoadAsset<GameObject>(directory + "MajoraMoon/MajoraSky.prefab");
+                majoraMaskItem = bundle.LoadAsset<Item>(directory + "MajoraMoon/Items/MajoraMask/MajoraMaskItem.asset");
                 if (config.majoraMoonModel.Value == "N64")
                 {
                     majoraMoonObject.transform.Find("Model1").gameObject.SetActive(true);
                     majoraMoonObject.transform.Find("Model2").gameObject.SetActive(false);
+                    majoraMaskItem.spawnPrefab.transform.Find("Model/Model1").gameObject.SetActive(true);
+                    majoraMaskItem.spawnPrefab.transform.Find("Model/Model2").gameObject.SetActive(false);
+                    majoraMaskItem.spawnPrefab.GetComponent<MajoraMaskItem>().headMaskPrefab.transform.Find("Model/Model1").gameObject.SetActive(true);
+                    majoraMaskItem.spawnPrefab.GetComponent<MajoraMaskItem>().headMaskPrefab.transform.Find("Model/Model2").gameObject.SetActive(false);
                 }
                 NetworkPrefabs.RegisterNetworkPrefab(majoraMoonObject);
+                NetworkPrefabs.RegisterNetworkPrefab(majoraMaskItem.spawnPrefab);
+                Utilities.FixMixerGroups(majoraMaskItem.spawnPrefab);
+                if (config.majoraMaskItemRarity.Value >= 0)
+                    Items.RegisterScrap(majoraMaskItem, config.majoraMaskItemRarity.Value, Levels.LevelTypes.All);
                 RegisterWeather<MajoraMoonWeather, MajoraSkyEffect>(MajoraMoonWeather.weatherInfo);
             }
 

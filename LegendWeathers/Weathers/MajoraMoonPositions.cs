@@ -25,9 +25,9 @@ namespace LegendWeathers.Weathers
         {
             { "Experimentation", (new Vector3(-44, 300, 85), new Vector3(45, 180, 0), new Vector3(-46, 0, -14)) },
             { "Vow", (new Vector3(-186, 300, 100), new Vector3(45, 90, 0), new Vector3(-4, -1, 26)) },
-            { "March", (new Vector3(-320, 100, 0), new Vector3(20, 90, 0), new Vector3(-48, -3, -39)) },
+            { "March", (new Vector3(-120, 300, 0), new Vector3(45, 90, 0), new Vector3(-65, -10, -9)) },
             { "Offense", (new Vector3(150, 300, -100), new Vector3(45, 270, 0), new Vector3(46, 6, -103)) },
-            { "Adamance", (new Vector3(-50, 200, 150), new Vector3(45, 180, 0), new Vector3(-60, 2, -9)) },
+            { "Adamance", (new Vector3(-200, 250, 100), new Vector3(45, 120, 0), new Vector3(-119, 10, 33)) },
             { "Rend", (new Vector3(100, 290, -80), new Vector3(45, 315, 0), new Vector3(3, -10, -92)) },
             { "Dine", (new Vector3(-100, 290, -100), new Vector3(45, 0, 0), new Vector3(-96, -10, -20)) },
             { "Titan", (new Vector3(50, 330, -50), new Vector3(45, 290, 0), new Vector3(-17, 37, -6)) },

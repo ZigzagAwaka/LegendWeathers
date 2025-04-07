@@ -25,8 +25,6 @@ namespace LegendWeathers.Weathers
         }
 
         private readonly WeatherInfo weatherInfo;
-        private Transform? sunTextureTransform = null;
-        private VolumeProfile? vanillaVolumeProfile = null;
         private bool fogVolumeComponentExists = false;
 
         public LegendWeathers(WeatherInfo info)
@@ -50,15 +48,12 @@ namespace LegendWeathers.Weathers
         {
             try
             {
-                if (sunTextureTransform == null)
+                var sunAnim = FindObjectOfType<animatedSun>();
+                if (sunAnim != null)
                 {
-                    var sunAnim = FindObjectOfType<animatedSun>();
-                    if (sunAnim != null)
-                    {
-                        sunTextureTransform = sunAnim.transform.Find("SunTexture");
-                    }
+                    var sunTextureTransform = sunAnim.transform.Find("SunTexture");
+                    sunTextureTransform?.gameObject?.SetActive(enabled);
                 }
-                sunTextureTransform?.gameObject?.SetActive(enabled);
             }
             catch (System.Exception)
             {
@@ -72,27 +67,24 @@ namespace LegendWeathers.Weathers
             {
                 if (enabled && !fogVolumeComponentExists)
                     return;
-                if (vanillaVolumeProfile == null)
+                foreach (var volume in FindObjectsOfType<Volume>())
                 {
-                    foreach (var volume in FindObjectsOfType<Volume>())
+                    if (volume.name == "Sky and Fog Global Volume" || volume.priority == 1)
                     {
-                        if (volume.name == "Sky and Fog Global Volume" || volume.priority == 1)
+                        var vanillaVolumeProfile = volume.profile;
+                        if (vanillaVolumeProfile != null)
                         {
-                            vanillaVolumeProfile = volume.profile;
-                            break;
+                            foreach (var component in vanillaVolumeProfile.components)
+                            {
+                                if (component.active && component is Fog)
+                                {
+                                    component.active = enabled;
+                                    fogVolumeComponentExists = !enabled;
+                                    break;
+                                }
+                            }
                         }
-                    }
-                }
-                if (vanillaVolumeProfile != null)
-                {
-                    foreach (var component in vanillaVolumeProfile.components)
-                    {
-                        if (component.active && component is Fog)
-                        {
-                            component.active = enabled;
-                            fogVolumeComponentExists = !enabled;
-                            break;
-                        }
+                        break;
                     }
                 }
             }

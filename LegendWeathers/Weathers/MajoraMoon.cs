@@ -19,7 +19,7 @@ namespace LegendWeathers.Weathers
         public ParticleSystem crashParticles2 = null!;
         public GameObject impactObject = null!;
 
-        private readonly int moonRadiusApprox = 18;
+        private readonly int moonRadiusApprox = 19;
         private readonly float endSizeFactor = 7.3f;
         private Vector3 endPosition;
         private Vector3 endRotation;
@@ -183,6 +183,7 @@ namespace LegendWeathers.Weathers
             if (impact != null)
                 Destroy(impact);
             impact = Instantiate(impactObject, endPosition - Vector3.up * impactGroundPosOffset, Quaternion.identity);
+            HUDManager.Instance.ShakeCamera(ScreenShakeType.VeryStrong);
             impactStarted = true;
         }
 
@@ -213,10 +214,10 @@ namespace LegendWeathers.Weathers
                     {
                         if (!finalHoursPlayingParticles && Random.Range(0, 4) == 0)
                             eventID++;
-                        nextRandomEventTime = Random.Range(20 - (eventID * 15), 45 - (eventID * 35));
+                        nextRandomEventTime = Random.Range(20 - (eventID * 18), 40 - (eventID * 35));
                     }
                     else
-                        nextRandomEventTime = Random.Range(60, 100);
+                        nextRandomEventTime = Random.Range(50, 80);
                     PlayRandomEventsClientRpc(eventID);
                 }
             }
@@ -225,7 +226,7 @@ namespace LegendWeathers.Weathers
             if (finalHoursPlayingParticles)
             {
                 lastBellSfxEvent += Time.deltaTime;
-                if (lastBellSfxEvent >= 3.5f)
+                if (lastBellSfxEvent >= 3.2f)
                 {
                     lastBellSfxEvent = 0;
                     sfxAudio.PlayOneShot(sfx[2]);
@@ -239,9 +240,11 @@ namespace LegendWeathers.Weathers
             switch (eventID)
             {
                 case 0:
-                    int sfxId = Effects.IsLocalPlayerInsideFacilityAbsolute() ? 1 : 0;
+                    int sfxId = Effects.IsLocalPlayerInsideFacilityAbsolute() ? 0 : 1;
                     sfxAudio.PlayOneShot(sfx[sfxId]);
-                    HUDManager.Instance.ShakeCamera(finalHoursFinishing ? ScreenShakeType.Big : ScreenShakeType.Long);
+                    HUDManager.Instance.ShakeCamera(ScreenShakeType.Long);
+                    if (finalHoursPlayingParticles)
+                        HUDManager.Instance.ShakeCamera(ScreenShakeType.Long);
                     break;
                 case 1:
                     sfxAudio.PlayOneShot(sfx[2]);
