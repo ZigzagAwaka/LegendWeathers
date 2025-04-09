@@ -47,4 +47,6 @@ If you want to suggest new features or contact me please go to the mod release p
 
 - Thanks [Voxx](https://thunderstore.io/c/lethal-company/p/v0xx/) for providing help from time to time!
 
-- Some assets are ripped from various games and imported thanks to https://www.models-resource.com/, you can check the list [here](https://github.com/ZigzagAwaka/LegendWeathers/blob/main/models-resource-credits.txt)
+- Some model assets are ripped from various games and imported thanks to https://www.models-resource.com/, you can check the list [here](https://github.com/ZigzagAwaka/LegendWeathers/blob/main/models-resource-credits.txt)
+
+- Audio assets are ripped from their original game

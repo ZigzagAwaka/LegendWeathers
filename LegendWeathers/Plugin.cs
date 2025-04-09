@@ -99,8 +99,12 @@ namespace LegendWeathers
                 NetworkPrefabs.RegisterNetworkPrefab(majoraMoonObject);
                 NetworkPrefabs.RegisterNetworkPrefab(majoraMaskItem.spawnPrefab);
                 Utilities.FixMixerGroups(majoraMaskItem.spawnPrefab);
-                if (config.majoraMaskItemRarity.Value >= 0)
-                    Items.RegisterScrap(majoraMaskItem, config.majoraMaskItemRarity.Value, Levels.LevelTypes.All);
+                if (config.majoraMaskValueParsed.Item1 != -1)
+                {
+                    majoraMaskItem.minValue = (int)(config.majoraMaskValueParsed.Item1 * 2.5f);
+                    majoraMaskItem.maxValue = (int)(config.majoraMaskValueParsed.Item2 * 2.5f);
+                }
+                Items.RegisterScrap(majoraMaskItem, 0, Levels.LevelTypes.None);
                 RegisterWeather<MajoraMoonWeather, MajoraSkyEffect>(MajoraMoonWeather.weatherInfo);
             }
 

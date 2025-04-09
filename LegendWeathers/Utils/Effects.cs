@@ -7,6 +7,7 @@ using System.Reflection;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
+using WeatherRegistry;
 
 namespace LegendWeathers.Utils
 {
@@ -64,11 +65,6 @@ namespace LegendWeathers.Utils
             }
         }
 
-        public static int NbOfPlayers()
-        {
-            return StartOfRound.Instance.connectedPlayersAmount + 1;
-        }
-
         /*public static bool IsUnlucky(ulong playerId)
         {
             if (Plugin.config.unluckyPlayersID.Count == 0)
@@ -88,6 +84,38 @@ namespace LegendWeathers.Utils
                 }
             }
             return updatedList;
+        }
+
+        public static List<PlayerControllerB> GetRandomPlayers(int numberToGet, bool shouldIgnoreOnePlayer = false, ulong playerIdToIgnore = default)
+        {
+            var rawList = StartOfRound.Instance.allPlayerScripts.ToList();
+            rawList.RemoveAll(x => x == null || (shouldIgnoreOnePlayer && x.playerClientId == playerIdToIgnore));
+            var players = new List<PlayerControllerB>();
+            if (rawList.Count > numberToGet)
+            {
+                var rng = new System.Random();
+                int n = rawList.Count;
+                while (n > 1)
+                {
+                    n--;
+                    int k = rng.Next(n + 1);
+                    (rawList[n], rawList[k]) = (rawList[k], rawList[n]);
+                }
+            }
+            if (rawList.Count <= 1)
+            {
+                for (int i = 0; i < numberToGet; i++)
+                {
+                    players.Add(rawList.Count != 0 ? rawList[0] : StartOfRound.Instance.allPlayerScripts[0]);
+                }
+                return players;
+            }
+            for (int i = 0; i < numberToGet; i++)
+            {
+                var id = i < rawList.Count ? i : i - rawList.Count;
+                players.Add(rawList[id]);
+            }
+            return players;
         }
 
         public static List<EnemyAI> GetEnemies(bool includeDead = false, bool includeCanDie = false, bool excludeDaytime = false)
@@ -305,12 +333,34 @@ namespace LegendWeathers.Utils
         public static void ChangeWeatherWR(LevelWeatherType weather)
         {
             if (GameNetworkManager.Instance.localPlayerController.IsHost)
-                WeatherRegistry.WeatherController.SetWeatherEffects(weather);
+                WeatherController.SetWeatherEffects(weather);
+        }
+
+        public static bool IsWeatherEffectPresent(string weatherNameResolvable)
+        {
+            return IsWeatherEffectPresent(new WeatherNameResolvable(weatherNameResolvable).WeatherType);
+        }
+
+        public static bool IsWeatherEffectPresent(LevelWeatherType weatherType)
+        {
+            for (int i = 0; i < WeatherManager.CurrentEffectTypes.Count; i++)
+            {
+                if (WeatherManager.CurrentEffectTypes[i] == weatherType)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public static void Message(string title, string bottom, bool warning = false)
         {
             HUDManager.Instance.DisplayTip(title, bottom, warning);
+        }
+
+        public static void MessageOneTime(string title, string bottom, bool warning = false, string saveKey = "LC_Tip1")
+        {
+            HUDManager.Instance.DisplayTip(title, bottom, warning, true, saveKey);
         }
 
         public static void MessageComputer(params string[] messages)

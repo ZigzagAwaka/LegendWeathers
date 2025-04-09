@@ -1,28 +1,67 @@
-﻿namespace LegendWeathers.Utils
+﻿using HarmonyLib;
+using LegendWeathers.BehaviourScripts;
+using LegendWeathers.Weathers;
+using System.Linq;
+
+namespace LegendWeathers.Utils
 {
-    /*[HarmonyPatch(typeof(ItemCharger))]
-    internal class BombItemChargerPatch
+    [HarmonyPatch(typeof(StartOfRound))]
+    internal class WeatherAlertPatch
+    {
+        [HarmonyPostfix]
+        [HarmonyPatch("OnShipLandedMiscEvents")]
+        public static void OnShipLandedMiscEventsPatch()
+        {
+            if (Effects.IsWeatherEffectPresent("majoramoon"))
+            {
+                Effects.MessageOneTime("Weather alert!", MajoraMoonWeather.weatherAlert, true, "LW_MajoraTip");
+            }
+        }
+    }
+
+
+    [HarmonyPatch(typeof(MaskedPlayerEnemy))]
+    internal class MajoraMaskedPatch
     {
         [HarmonyPostfix]
         [HarmonyPatch("Update")]
-        public static void UpdatePatch(ref ItemCharger __instance)
+        public static void UpdatePatch(MaskedPlayerEnemy __instance)
         {
-            if ((float)Traverse.Create(__instance).Field("updateInterval").GetValue() == 0f)
+            if (MajoraMaskItem.Instance == null)
+                return;
+            if (MajoraMaskItem.Instance.spawnedMajoraEnemy != null && !MajoraMaskItem.Instance.spawnedMajoraEnemy.isEnemyDead
+                && MajoraMaskItem.Instance.spawnedMajoraEnemy.GetInstanceID() == __instance.GetInstanceID())
             {
-                if (GameNetworkManager.Instance != null && GameNetworkManager.Instance.localPlayerController != null)
-                {
-                    __instance.triggerScript.interactable = GameNetworkManager.Instance.localPlayerController.currentlyHeldObjectServer != null && (GameNetworkManager.Instance.localPlayerController.currentlyHeldObjectServer.itemProperties.requiresBattery ||
-                        (GameNetworkManager.Instance.localPlayerController.currentlyHeldObjectServer.itemProperties.name == "BombItem" && GameNetworkManager.Instance.localPlayerController.currentlyHeldObjectServer is CustomEffects.Bomb bomb && !bomb.activated));
-                    return;
-                }
+                UpgradeSpeed(__instance, true);
+            }
+            else if (MajoraMaskItem.Instance.spawnedMaskedEnemies != null && MajoraMaskItem.Instance.spawnedMaskedEnemies.Count >= 1
+                && MajoraMaskItem.Instance.spawnedMaskedEnemies.Any(x => x != null && !x.isEnemyDead && x.GetInstanceID() == __instance.GetInstanceID()))
+            {
+                UpgradeSpeed(__instance, false);
             }
         }
 
-        [HarmonyPrefix]
-        [HarmonyPatch("ChargeItem")]
-        public static bool ChargeItemPatch()
+        private static void UpgradeSpeed(MaskedPlayerEnemy enemy, bool veryFast = false)
         {
-            return CustomEffects.Bomb.ChargeItemUnstable();
+            if (enemy.isEnemyDead || !enemy.enemyEnabled || !enemy.ventAnimationFinished || enemy.inSpecialAnimation)
+                return;
+            switch (enemy.currentBehaviourStateIndex)
+            {
+                case 0:
+                    enemy.agent.speed += veryFast ? 2f : 1f;
+                    break;
+                case 1:
+                    if (enemy.IsOwner && enemy.stopAndStareTimer < 0f)
+                    {
+                        if (enemy.running || enemy.runningRandomly)
+                            enemy.agent.speed += veryFast ? 6f : 3f;
+                        else
+                            enemy.agent.speed += veryFast ? 1.2f : 0.6f;
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
-    }*/
+    }
 }

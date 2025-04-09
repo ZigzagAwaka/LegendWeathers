@@ -27,6 +27,7 @@ namespace LegendWeathers.Weathers
         private float endTime;
         private bool isInitialized = false;
 
+        private float endTimeFactor = 1.8f;
         private float smoothTime = 0;
         private Vector3 smoothPosVelocity;
         private Vector3 smoothRotVelocity;
@@ -58,6 +59,14 @@ namespace LegendWeathers.Weathers
         private float nextRandomEventTime = 40;
         private float lastBellSfxEvent = 0;
 
+        public bool AccelerateEndTimeFactor()
+        {
+            if (finalHoursPlayingParticles)
+                return false;
+            endTimeFactor = finalHoursPlayingMusic ? 2.1f : 2.4f;
+            return true;
+        }
+
         public void Update()
         {
             if (!isInitialized)
@@ -71,7 +80,7 @@ namespace LegendWeathers.Weathers
                     smoothRotVelocity = default;
                     smoothScaVelocity = default;
                 }
-                endTime = TimeOfDay.Instance.globalTimeAtEndOfDay / 1.8f;
+                endTime = TimeOfDay.Instance.globalTimeAtEndOfDay / endTimeFactor;
                 smoothTime = (endTime - TimeOfDay.Instance.currentDayTime) / TimeOfDay.Instance.globalTimeSpeedMultiplier;
                 finalHoursTime = endTime - 280;
             }
@@ -184,7 +193,17 @@ namespace LegendWeathers.Weathers
                 Destroy(impact);
             impact = Instantiate(impactObject, endPosition - Vector3.up * impactGroundPosOffset, Quaternion.identity);
             HUDManager.Instance.ShakeCamera(ScreenShakeType.VeryStrong);
+            DisableColliders();
             impactStarted = true;
+        }
+
+        private void DisableColliders(bool disable = true)
+        {
+            var model = transform.Find("Model1").gameObject.activeSelf ? transform.Find("Model1").gameObject : transform.Find("Model2").gameObject;
+            foreach (var collider in model.GetComponents<MeshCollider>())
+            {
+                collider.enabled = !disable;
+            }
         }
 
         private void UpdateImpact()
