@@ -43,6 +43,8 @@ namespace LegendWeathers.BehaviourScripts
         [ClientRpc]
         private void PlayRandomAudioClientRpc(int clipIndex)
         {
+            if (thisAudio == null)
+                return;
             AudioClip clip = randomClips[clipIndex];
             thisAudio.PlayOneShot(clip, 1f);
             WalkieTalkie.TransmitOneShotAudio(thisAudio, clip);

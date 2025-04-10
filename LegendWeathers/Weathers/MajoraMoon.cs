@@ -63,7 +63,7 @@ namespace LegendWeathers.Weathers
         {
             if (finalHoursPlayingParticles)
                 return false;
-            endTimeFactor = finalHoursPlayingMusic ? 2.1f : 2.4f;
+            endTimeFactor += finalHoursPlayingMusic ? 0.3f : 0.6f;
             return true;
         }
 
@@ -192,9 +192,9 @@ namespace LegendWeathers.Weathers
             if (impact != null)
                 Destroy(impact);
             impact = Instantiate(impactObject, endPosition - Vector3.up * impactGroundPosOffset, Quaternion.identity);
-            HUDManager.Instance.ShakeCamera(ScreenShakeType.VeryStrong);
             DisableColliders();
             impactStarted = true;
+            yield return Effects.ShakeCameraAdvanced(ScreenShakeType.VeryStrong, 2);
         }
 
         private void DisableColliders(bool disable = true)
@@ -261,9 +261,7 @@ namespace LegendWeathers.Weathers
                 case 0:
                     int sfxId = Effects.IsLocalPlayerInsideFacilityAbsolute() ? 0 : 1;
                     sfxAudio.PlayOneShot(sfx[sfxId]);
-                    HUDManager.Instance.ShakeCamera(ScreenShakeType.Long);
-                    if (finalHoursPlayingParticles)
-                        HUDManager.Instance.ShakeCamera(ScreenShakeType.Long);
+                    StartCoroutine(Effects.ShakeCameraAdvanced(ScreenShakeType.Long, finalHoursPlayingParticles ? 4 : 2));
                     break;
                 case 1:
                     sfxAudio.PlayOneShot(sfx[2]);

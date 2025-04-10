@@ -65,13 +65,6 @@ namespace LegendWeathers.Utils
             }
         }
 
-        /*public static bool IsUnlucky(ulong playerId)
-        {
-            if (Plugin.config.unluckyPlayersID.Count == 0)
-                return false;
-            return Plugin.config.unluckyPlayersID.Find(id => id == playerId) != default;
-        }*/
-
         public static List<PlayerControllerB> GetPlayers(bool includeDead = false, bool excludeOutsideFactory = false)
         {
             List<PlayerControllerB> rawList = StartOfRound.Instance.allPlayerScripts.ToList();
@@ -207,6 +200,21 @@ namespace LegendWeathers.Utils
         public static void ExplosionLight(Vector3 position, float range, int damage = 10, float physicsForce = 1)
         {
             Landmine.SpawnExplosion(position, true, 0, range, damage, physicsForce);
+        }
+
+        public static IEnumerator ShakeCameraAdvanced(ScreenShakeType shakeType, int repeat = 1, float inBetweenTimer = 0.5f)
+        {
+            if (shakeType == ScreenShakeType.Long || shakeType == ScreenShakeType.VeryStrong)
+            {
+                for (int i = 0; i < repeat; i++)
+                {
+                    HUDManager.Instance.playerScreenShakeAnimator.SetTrigger(shakeType == ScreenShakeType.Long ? "longShake" : "veryStrongShake");
+                    if (repeat > 1)
+                        yield return new WaitForSeconds(inBetweenTimer);
+                }
+            }
+            else
+                HUDManager.Instance.ShakeCamera(shakeType);
         }
 
         public static bool IsPlayerFacingObject<T>(PlayerControllerB player, out T obj, float distance)

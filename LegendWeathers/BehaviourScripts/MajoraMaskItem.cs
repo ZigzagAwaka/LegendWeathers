@@ -25,9 +25,10 @@ namespace LegendWeathers.BehaviourScripts
         private bool canCheckForSpawnedEnemies = false;
         private int currentInventorySlot = -1;
         private readonly int hauntedEventChance = 80;
-        private (float, float) hauntedPocketTimer = (0, 60);
+        private (float, float) hauntedPocketTimer = (0, 50);
         private (float, float) hauntedActivateTimer = (0, 10);
-        private bool hauntedActivateAttaching = false;
+
+        private readonly NetworkVariable<bool> hauntedActivateAttaching = new NetworkVariable<bool>(false);
 
         public override void Start()
         {
@@ -68,20 +69,20 @@ namespace LegendWeathers.BehaviourScripts
             base.DiscardItem();
             hauntedPocketTimer.Item1 = 0f;
             hauntedActivateTimer.Item1 = 0f;
-            hauntedActivateAttaching = false;
+            hauntedActivateAttaching.Value = false;
         }
 
         public override void PocketItem()
         {
             base.PocketItem();
-            hauntedActivateAttaching = false;
+            hauntedActivateAttaching.Value = false;
         }
 
         public override void ItemActivate(bool used, bool buttonDown = true)
         {
             base.ItemActivate(used, buttonDown);
             if (!attaching && !finishedAttaching && playerHeldBy != null && IsOwner && !buttonDown)
-                hauntedActivateAttaching = false;
+                hauntedActivateAttaching.Value = false;
         }
 
         private void RunOriginalUpdate()
@@ -108,7 +109,7 @@ namespace LegendWeathers.BehaviourScripts
                 if (!StartOfRound.Instance.shipIsLeaving && (!StartOfRound.Instance.inShipPhase || StartOfRound.Instance.testRoom != null) && Time.realtimeSinceStartup > lastIntervalCheck)
                 {
                     lastIntervalCheck = Time.realtimeSinceStartup + 5f;
-                    if (Random.Range(0, 100) < (hauntedActivateAttaching ? 15 : 65))
+                    if (Random.Range(0, 100) < (hauntedActivateAttaching.Value ? 20 : 65))
                     {
                         BeginAttachment();
                     }
@@ -120,13 +121,13 @@ namespace LegendWeathers.BehaviourScripts
                 if (previousPlayerHeldBy.isPlayerDead)
                 {
                     CancelAttachToPlayerOnLocalClient();
-                    hauntedActivateAttaching = false;
+                    hauntedActivateAttaching.Value = false;
                 }
                 else if (attachTimer <= 0f)
                 {
                     if (IsOwner && !finishedAttaching && !previousPlayerHeldBy.AllowPlayerDeath())
                     {
-                        hauntedActivateAttaching = false;
+                        hauntedActivateAttaching.Value = false;
                     }
                     FinishAttachingMajoraMask();
                 }
@@ -141,7 +142,7 @@ namespace LegendWeathers.BehaviourScripts
                 && !playerHeldBy.isGrabbingObjectAnimation && playerHeldBy.timeSinceSwitchingSlots >= 0.3f
                 && !playerHeldBy.inSpecialInteractAnimation && !playerHeldBy.throwingObject && !playerHeldBy.twoHanded
                 && !playerHeldBy.jetpackControls && !playerHeldBy.disablingJetpackControls && currentInventorySlot != -1
-                && !attaching && !finishedAttaching && !hauntedActivateAttaching)
+                && !attaching && !finishedAttaching && !hauntedActivateAttaching.Value)
             {
                 if (isPocketed)  // try to force equip the mask
                 {
@@ -169,7 +170,7 @@ namespace LegendWeathers.BehaviourScripts
                         hauntedActivateTimer.Item1 = 0f;
                         if (Random.Range(0, 100) < hauntedEventChance + 1)
                         {
-                            hauntedActivateAttaching = true;
+                            hauntedActivateAttaching.Value = true;
                             ItemActivate(true, true);
                         }
                     }
@@ -187,7 +188,7 @@ namespace LegendWeathers.BehaviourScripts
                 {
                     if (spawnedMajoraEnemy.isEnemyDead && Plugin.instance.majoraMaskItem != null)  // respawn mask item
                     {
-                        spawnedMajoraEnemy.maskTypes[0].transform.parent.Find("MajoraHead(Clone)").gameObject.SetActive(false);
+                        RemoveSpecialAttributesForMajoraEnemyClientRpc();
                         var spawnedMask = Instantiate(Plugin.instance.majoraMaskItem.spawnPrefab, spawnedMajoraEnemy.transform.position + Vector3.up * 0.25f, Quaternion.identity, RoundManager.Instance.spawnedScrapContainer);
                         var maskComponent = spawnedMask.GetComponent<MajoraMaskItem>();
                         maskComponent.transform.rotation = Quaternion.Euler(maskComponent.itemProperties.restingRotation);
@@ -257,7 +258,7 @@ namespace LegendWeathers.BehaviourScripts
             for (int i = 0; i < numberOfMaskedEnemies; i++)
             {
                 var player = players[i];
-                StartCoroutine(SpawnMaskedEnemy(inFactory, originalPosition, 40, player));
+                StartCoroutine(SpawnMaskedEnemy(inFactory, originalPosition, 30, player));
                 yield return new WaitForSeconds(1f);
             }
         }
@@ -327,12 +328,20 @@ namespace LegendWeathers.BehaviourScripts
             var maskPrefab = Instantiate(headMaskPrefab, component.maskTypes[0].transform.position, component.maskTypes[0].transform.rotation, component.maskTypes[0].transform.parent);
             maskPrefab.transform.localPosition = majoraOnMaskedPosOverride;
             maskPrefab.GetComponent<Animator>().enabled = false;
-            var voice = transform.GetComponents<PeriodicAudioPlayer>().ToList().Find(x => !x.enabled);
+            var voice = transform.GetComponents<PeriodicAudioPlayer>().ToList().Find(x => x != null && !x.enabled);
             voice.thisAudio = component.creatureVoice;
             voice.enabled = true;
             component.maskTypes[0].SetActive(false);
             component.maskTypes[1].SetActive(false);
             component.enemyHP *= 5;
+        }
+
+        [ClientRpc]
+        private void RemoveSpecialAttributesForMajoraEnemyClientRpc()
+        {
+            spawnedMajoraEnemy?.maskTypes[0].transform.parent.Find("MajoraHead(Clone)").gameObject.SetActive(false);
+            var voice = transform.GetComponents<PeriodicAudioPlayer>().ToList().Find(x => x != null && x.enabled && x.attachedGrabbableObject == null);
+            voice.enabled = false;
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -375,7 +384,7 @@ namespace LegendWeathers.BehaviourScripts
         [ClientRpc]
         private void ForceSwitchSlotClientRpc(int slot)
         {
-            if (!IsOwner && playerHeldBy != null)
+            if (playerHeldBy != null && !playerHeldBy.IsOwner)
             {
                 playerHeldBy.SwitchToItemSlot(slot);
                 playerHeldBy.currentlyHeldObjectServer?.gameObject.GetComponent<AudioSource>().PlayOneShot(playerHeldBy.currentlyHeldObjectServer.itemProperties.grabSFX, 0.6f);
