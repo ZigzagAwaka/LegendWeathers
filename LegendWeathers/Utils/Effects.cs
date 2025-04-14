@@ -192,16 +192,6 @@ namespace LegendWeathers.Utils
             }
         }
 
-        public static void Explosion(Vector3 position, float range, int damage = 50, float physicsForce = 1)
-        {
-            Landmine.SpawnExplosion(position, true, range, range * 2.5f, damage, physicsForce);
-        }
-
-        public static void ExplosionLight(Vector3 position, float range, int damage = 10, float physicsForce = 1)
-        {
-            Landmine.SpawnExplosion(position, true, 0, range, damage, physicsForce);
-        }
-
         public static IEnumerator ShakeCameraAdvanced(ScreenShakeType shakeType, int repeat = 1, float inBetweenTimer = 0.5f)
         {
             if (shakeType == ScreenShakeType.Long || shakeType == ScreenShakeType.VeryStrong)

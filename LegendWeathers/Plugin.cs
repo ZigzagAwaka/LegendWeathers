@@ -4,6 +4,7 @@ using HarmonyLib;
 using LegendWeathers.BehaviourScripts;
 using LegendWeathers.Utils;
 using LegendWeathers.Weathers;
+using LegendWeathers.WeatherSkyEffects;
 using LethalLib.Modules;
 using System.IO;
 using System.Reflection;
@@ -19,7 +20,7 @@ namespace LegendWeathers
     {
         const string GUID = "zigzag.legendweathers";
         const string NAME = "LegendWeathers";
-        const string VERSION = "0.1.0";
+        const string VERSION = "1.0.0";
 
         public static Plugin instance;
         public static ManualLogSource logger;
@@ -29,6 +30,7 @@ namespace LegendWeathers
         public GameObject? majoraMoonObject;
         public GameObject? majoraSkyObject;
         public Item? majoraMaskItem;
+        public Item? majoraMoonTearItem;
 
         void HarmonyPatchAll()
         {
@@ -44,19 +46,19 @@ namespace LegendWeathers
             return effect;
         }
 
-        private void RegisterWeather<T, T2>(Weathers.LegendWeathers.WeatherInfo info) where T : Component where T2 : Component
+        private void RegisterWeather<T, T2>(LegendWeather.WeatherInfo info) where T : LegendWeather where T2 : SkyEffect
         {
             var weatherEffect = new ImprovedWeatherEffect(GetEffect<T2>(), GetEffect<T>());
             RegisterWeather(info, weatherEffect);
         }
 
-        private void RegisterWeather<T>(Weathers.LegendWeathers.WeatherInfo info) where T : Component
+        private void RegisterWeather<T>(LegendWeather.WeatherInfo info) where T : LegendWeather
         {
             var weatherEffect = new ImprovedWeatherEffect(null, GetEffect<T>());
             RegisterWeather(info, weatherEffect);
         }
 
-        private void RegisterWeather(Weathers.LegendWeathers.WeatherInfo info, ImprovedWeatherEffect weatherEffect)
+        private void RegisterWeather(LegendWeather.WeatherInfo info, ImprovedWeatherEffect weatherEffect)
         {
             var weather = new Weather(info.name, weatherEffect);
             weather.Config.DefaultWeight.DefaultValue = info.weight;
@@ -87,6 +89,7 @@ namespace LegendWeathers
                 majoraMoonObject = bundle.LoadAsset<GameObject>(directory + "MajoraMoon/MajoraMoon.prefab");
                 majoraSkyObject = bundle.LoadAsset<GameObject>(directory + "MajoraMoon/MajoraSky.prefab");
                 majoraMaskItem = bundle.LoadAsset<Item>(directory + "MajoraMoon/Items/MajoraMask/MajoraMaskItem.asset");
+                majoraMoonTearItem = bundle.LoadAsset<Item>(directory + "MajoraMoon/Items/MoonTear/MoonTearItem.asset");
                 if (config.majoraMoonModel.Value == "N64")
                 {
                     majoraMoonObject.transform.Find("Model1").gameObject.SetActive(true);
@@ -98,13 +101,16 @@ namespace LegendWeathers
                 }
                 NetworkPrefabs.RegisterNetworkPrefab(majoraMoonObject);
                 NetworkPrefabs.RegisterNetworkPrefab(majoraMaskItem.spawnPrefab);
+                NetworkPrefabs.RegisterNetworkPrefab(majoraMoonTearItem.spawnPrefab);
                 Utilities.FixMixerGroups(majoraMaskItem.spawnPrefab);
+                Utilities.FixMixerGroups(majoraMoonTearItem.spawnPrefab);
                 if (config.majoraMaskValueParsed.Item1 != -1)
                 {
                     majoraMaskItem.minValue = (int)(config.majoraMaskValueParsed.Item1 * 2.5f);
                     majoraMaskItem.maxValue = (int)(config.majoraMaskValueParsed.Item2 * 2.5f);
                 }
                 Items.RegisterScrap(majoraMaskItem, 0, Levels.LevelTypes.None);
+                Items.RegisterScrap(majoraMoonTearItem, 0, Levels.LevelTypes.None);
                 RegisterWeather<MajoraMoonWeather, MajoraSkyEffect>(MajoraMoonWeather.weatherInfo);
             }
 

@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace LegendWeathers.Weathers
 {
-    public class MajoraMoonWeather : LegendWeathers
+    public class MajoraMoonWeather : LegendWeather
     {
-        public static WeatherInfo weatherInfo = new WeatherInfo("Majora Moon", 50, 1.8f, 1f, new Color(0.7f, 0f, 0.8f, 1f));
+        public static WeatherInfo weatherInfo = new WeatherInfo("Majora Moon", 60, 1.8f, 1f, new Color(0.7f, 0f, 0.8f, 1f));
         public static string weatherAlert = "The grimacing moon moves inexorably closer. Be quick!";
         private GameObject? spawnedMoon = null;
         private GameObject? spawnedMask = null;

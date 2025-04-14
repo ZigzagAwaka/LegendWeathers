@@ -1,4 +1,5 @@
-﻿using LegendWeathers.Utils;
+﻿using LegendWeathers.BehaviourScripts;
+using LegendWeathers.Utils;
 using System.Collections;
 using TMPro;
 using Unity.Netcode;
@@ -18,9 +19,11 @@ namespace LegendWeathers.Weathers
         public ParticleSystem crashParticles1 = null!;
         public ParticleSystem crashParticles2 = null!;
         public GameObject impactObject = null!;
+        public Transform tearPosition = null!;
 
         private readonly int moonRadiusApprox = 19;
         private readonly float endSizeFactor = 7.3f;
+        private Vector3 outsideNodeEndPosition;
         private Vector3 endPosition;
         private Vector3 endRotation;
         private Vector3 endScale;
@@ -55,9 +58,13 @@ namespace LegendWeathers.Weathers
         private bool impactStarted = false;
         private StartMatchLever? shipLever;
 
-        private float lastRandomEventTime = 0;
-        private float nextRandomEventTime = 40;
+        private float lastRumbleEventTime = 0;
+        private float nextRumbleEventTime = 35;
+        private float lastTearEventTime = 0;
+        private float nextTearEventTime = 50;
         private float lastBellSfxEvent = 0;
+        private bool isRareTearEventDay = false;
+        private int rareTearEventDayNB = 0;
 
         public bool AccelerateEndTimeFactor()
         {
@@ -212,7 +219,7 @@ namespace LegendWeathers.Weathers
             {
                 impact.transform.localScale += Vector3.one * Time.deltaTime * impactScaleFactor;
                 var player = GameNetworkManager.Instance.localPlayerController;
-                if (!player.isPlayerDead && !player.isInHangarShipRoom && !player.isInElevator && Vector3.Distance(endPosition, player.transform.position) <= impact.transform.localScale.x * moonRadiusApprox * 1.5f)
+                if (!player.isPlayerDead && !player.isInHangarShipRoom && !player.isInElevator && Vector3.Distance(outsideNodeEndPosition, player.transform.position) <= impact.transform.localScale.x * moonRadiusApprox * 0.9f)
                 {
                     Effects.Damage(player, 99999, CauseOfDeath.Burning, (int)Effects.DeathAnimation.Fire, false);
                     Effects.SetCameraEndOfRound(player);
@@ -224,20 +231,36 @@ namespace LegendWeathers.Weathers
         {
             if (IsServer)
             {
-                lastRandomEventTime += Time.deltaTime;
-                if (lastRandomEventTime >= nextRandomEventTime)
+                lastRumbleEventTime += Time.deltaTime;
+                lastTearEventTime += Time.deltaTime;
+                if (lastRumbleEventTime >= nextRumbleEventTime)
                 {
                     int eventID = 0;
-                    lastRandomEventTime = 0;
+                    lastRumbleEventTime = 0;
                     if (finalHoursDisplayingTimer)
                     {
-                        if (!finalHoursPlayingParticles && Random.Range(0, 4) == 0)
+                        if (!finalHoursPlayingParticles && Random.Range(0, 5) == 0)
                             eventID++;
-                        nextRandomEventTime = Random.Range(20 - (eventID * 18), 40 - (eventID * 35));
+                        nextRumbleEventTime = Random.Range(20 - (eventID * 14), 35 - (eventID * 30));
                     }
                     else
-                        nextRandomEventTime = Random.Range(50, 80);
+                        nextRumbleEventTime = Random.Range(35, 60);
                     PlayRandomEventsClientRpc(eventID);
+                }
+                if (lastTearEventTime >= nextTearEventTime && !finalHoursPlayingParticles)
+                {
+                    lastTearEventTime = 0;
+                    if (isRareTearEventDay)
+                    {
+                        nextTearEventTime = Random.Range(3, 6);
+                        rareTearEventDayNB++;
+                        if (rareTearEventDayNB >= 8)
+                            isRareTearEventDay = false;
+                    }
+                    else
+                        nextTearEventTime = Random.Range(50, 60);
+                    if (Random.Range(0, 10) <= (!isRareTearEventDay ? (finalHoursDisplayingTimer ? 1 : 3) : 7))
+                        PlayMoonTearEvent();
                 }
             }
             if (finalHoursPlayingMusic && SoundManager.Instance.musicSource.isPlaying)
@@ -245,7 +268,7 @@ namespace LegendWeathers.Weathers
             if (finalHoursPlayingParticles)
             {
                 lastBellSfxEvent += Time.deltaTime;
-                if (lastBellSfxEvent >= 3.2f)
+                if (lastBellSfxEvent >= 3f)
                 {
                     lastBellSfxEvent = 0;
                     sfxAudio.PlayOneShot(sfx[2]);
@@ -268,6 +291,30 @@ namespace LegendWeathers.Weathers
                     break;
                 default:
                     break;
+            }
+        }
+
+        private void PlayMoonTearEvent()
+        {
+            if (Plugin.instance.majoraMoonTearItem == null)
+                return;
+            var crashPosition = RoundManager.Instance.GetRandomNavMeshPositionInRadius(outsideNodeEndPosition, 20);
+            var moonTear = Instantiate(Plugin.instance.majoraMoonTearItem.spawnPrefab, tearPosition.position, Quaternion.identity, RoundManager.Instance.spawnedScrapContainer);
+            if (moonTear != null)
+            {
+                var maskComponent = moonTear.GetComponent<MoonTearItem>();
+                maskComponent.transform.rotation = Quaternion.Euler(maskComponent.itemProperties.restingRotation);
+                maskComponent.fallTime = 1f;
+                maskComponent.hasHitGround = true;
+                maskComponent.reachedFloorTarget = true;
+                maskComponent.isInFactory = true;
+                maskComponent.scrapValue = (int)(Random.Range(Plugin.instance.majoraMoonTearItem.minValue, Plugin.instance.majoraMoonTearItem.maxValue) * RoundManager.Instance.scrapValueMultiplier);
+                maskComponent.NetworkObject.Spawn();
+                maskComponent.StartFallingServerRpc(maskComponent.NetworkObject, maskComponent.scrapValue, crashPosition);
+            }
+            else
+            {
+                Plugin.logger.LogError("Failed to spawn the Moon Tear item on the server.");
             }
         }
 
@@ -297,7 +344,10 @@ namespace LegendWeathers.Weathers
                 yield break;
             }
             yield return new WaitForEndOfFrame();
+            if (IsServer)
+                isRareTearEventDay = Random.Range(0, 100) == 0;
             var moonRadiusOffset = moonRadiusApprox * endSizeFactor;
+            outsideNodeEndPosition = nodeEndPosition;
             endPosition = nodeEndPosition + Vector3.Normalize(transform.position - nodeEndPosition) * moonRadiusOffset;
             endRotation = new Vector3(90, transform.eulerAngles.y, transform.eulerAngles.z);
             endScale = transform.localScale * endSizeFactor;
