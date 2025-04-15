@@ -17,13 +17,14 @@ namespace LegendWeathers.Weathers
                     return positionInfo[moonName];
             }
             var position = RoundManager.Instance.outsideAINodes[RoundManager.Instance.outsideAINodes.Length / 2].transform.position;
-            return (position + Vector3.up * 300f, new Vector3(45, 0, 0), position);
+            return (position + Vector3.up * 300f, new Vector3(45, 90, 0), position);
         }
 
         // MoonName, (StartPosition, StartRotation, EndPosition)
         private static readonly Dictionary<string, (Vector3, Vector3, Vector3)> positionInfo = new Dictionary<string, (Vector3, Vector3, Vector3)>
         {
             { "Experimentation", (new Vector3(-44, 300, 85), new Vector3(45, 180, 0), new Vector3(-46, 0, -14)) },
+            { "Assurance", (new Vector3(25, 300, -50), new Vector3(45, 0, 0), new Vector3(32, 0, -40)) },
             { "Vow", (new Vector3(-186, 300, 100), new Vector3(45, 90, 0), new Vector3(-4, -1, 26)) },
             { "March", (new Vector3(-120, 300, 0), new Vector3(45, 90, 0), new Vector3(-65, -10, -9)) },
             { "Offense", (new Vector3(150, 300, -100), new Vector3(45, 270, 0), new Vector3(46, 6, -103)) },
@@ -32,7 +33,15 @@ namespace LegendWeathers.Weathers
             { "Dine", (new Vector3(-100, 290, -100), new Vector3(45, 0, 0), new Vector3(-96, -10, -20)) },
             { "Titan", (new Vector3(50, 330, -50), new Vector3(45, 290, 0), new Vector3(-17, 37, -6)) },
             { "Artifice", (new Vector3(-100, 300, -100), new Vector3(45, 90, 0), new Vector3(34, 3, -71)) },
-            { "Embrion", (new Vector3(-100, 250, -100), new Vector3(45, 0, 0), new Vector3(-87, -5, -21)) }
+            { "Embrion", (new Vector3(-100, 250, -100), new Vector3(45, 0, 0), new Vector3(-87, -5, -21)) },
+            { "Atlas Abyss", (new Vector3(-120, 150, -30), new Vector3(45, 90, 0), new Vector3(-80, 10, -24)) },
+            { "Bozoros", (new Vector3(-100, 300, -100), new Vector3(45, 50, 0), new Vector3(-66, 0, -14)) },
+            { "Desolation", (new Vector3(-77, 298, 75), new Vector3(45, 180, 0), new Vector3(-59, 0, 56)) },
+            { "Infernis", (new Vector3(-100, 297, -92), new Vector3(45, 90, 0), new Vector3(-48, 9, -72)) },
+            { "Solace", (new Vector3(0, 300, 150), new Vector3(45, 180, 0), new Vector3(-10, -4, 45)) },
+            { "StarlancerZero", (new Vector3(-50, 300, -150), new Vector3(45, 0, 0), new Vector3(-66, 0, -120)) },
+            { "Synthesis", (new Vector3(-100, 300, -10), new Vector3(45, 90, 0), new Vector3(-100, 0, -14)) },
+            { "Arcadia", (new Vector3(-200, 295, -50), new Vector3(45, 90, 0), new Vector3(-115, 0, -26)) }
         };
     }
 }

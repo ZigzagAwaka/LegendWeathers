@@ -69,7 +69,7 @@ namespace LegendWeathers.Weathers
                     return;
                 foreach (var volume in FindObjectsOfType<Volume>())
                 {
-                    if (volume.name == "Sky and Fog Global Volume" || volume.priority == 1)
+                    if (volume.name == "Sky and Fog Global Volume" /*|| volume.priority == 1*/)
                     {
                         var vanillaVolumeProfile = volume.profile;
                         if (vanillaVolumeProfile != null)
