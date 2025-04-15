@@ -48,11 +48,13 @@ namespace LegendWeathers.Weathers
         {
             try
             {
-                var sunAnim = FindObjectOfType<animatedSun>();
-                if (sunAnim != null)
+                foreach (var sunAnim in FindObjectsOfType<animatedSun>())
                 {
-                    var sunTextureTransform = sunAnim.transform.Find("SunTexture");
-                    sunTextureTransform?.gameObject?.SetActive(enabled);
+                    if (sunAnim != null)
+                    {
+                        var sunTextureTransform = sunAnim.transform.Find("SunTexture");
+                        sunTextureTransform?.gameObject?.SetActive(enabled);
+                    }
                 }
             }
             catch (System.Exception)
