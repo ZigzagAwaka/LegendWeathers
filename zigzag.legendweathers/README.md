@@ -1,6 +1,6 @@
 # Legend Weathers
 
-### This mod aims to add multiple special weather effects to the game. Still in development, there is currently **1 weather** effect that is completly playable and more are planned in future releases.
+### This mod aims to add multiple special weather effects to the game. Still in development, there is currently **1 weather** effect that is completely playable and more are planned in future releases.
 
 Weathers in this mod are designed to be rare and impactful. They **are NOT like vanilla weathers**, and are meant to be seen very rarely due to their *extreme* effects. You can customize the spawn chance in the WeatherRegistery config but by default it is pretty low.
 
@@ -16,13 +16,15 @@ Inspired by the iconic astral figure from *The Legend of Zelda: Majora's Mask*, 
 
 The **Majora Moon** is set to crash on the planet in a few hours, giving you less time to find scraps in the facility.
 
-Ocasional ground rumbles will make you remember that the Moon is coming closer... Don't waste any more time as with this weather active, you'll be able to find more scraps than usual. Giving you a chance to meet the profit quota!
+Ocasional ground rumbles will remind you of the Moon's impending collision... Don't waste any more time as with this weather active, you'll be able to find more scraps than usual, offering a chance to meet the profit quota!
 
 ![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/MajoraMoon-image2.PNG)
 
-After some moments, the sky will turn purple and a timer will appear on the botton of your screen... inviting you to leave the planet **at once**.
+After some moments, the sky will turn purple and a timer will appear on the bottom of the screen... inviting you to leave the planet **at once**.
 
-The time before the crash is a bit generous but the Company Ship has been programmed to leave automatically. Manage your time well to avoid being *oblirated from the surface of this world*.
+The time before the crash is a bit generous but the Company Ship has been programmed to leave automatically. Manage your time well to avoid being *obliterated from the surface of this world*.
+
+[Click here to download a preview video](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Videos/MajoraMoon-Preview.mp4)
 
 <details><summary>More info ? *SPOILER WARNING* (click to reveal)</summary>
 
@@ -36,13 +38,11 @@ The time before the crash is a bit generous but the Company Ship has been progra
 ![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/MajoraMoon-image4.PNG)
 When the Majora Moon Weather is active, an accursed and dangerous item will spawn inside the facility: the **Majora's Mask**.
 
-This item is worth a **LOT** of money, but taking it comes with its own *side effects...* Maybe it's not a good idea to touch it even once.
+While this mask is worth a **TON** amount of money, it comes with severe *side effects*... such as **a̷̤̖̾c̷͈̪̐͂c̴̯͐ȇ̷̜̹͗l̷̜͙̑̾e̷̢̙̓r̴̙̊a̵̤̍͐͜t̸̠͉͆͊ỉ̶̖̦͠n̶̤͂g̴͔͎̐̋ ̸̟̅̕t̶̳͍̓h̴̩̾e̵̫̲̒̒ ̶̼̀͝M̵̗͆å̸̙͗j̶̟̰̽ò̷̝̓r̸̃͝ͅả̵͎ ̸̠̋M̵̢̿̀o̷̰̅̍o̴͚̣͊͝n̸͕̙͝**.
 
 <details><summary>More spoilers about the Majora's Mask</summary>
 
 ###
-Touching the Mask will **a̶̟̥̋͊͂c̵̎̅͌ͅc̸̹͔̃̂͠e̸̻̭̞͚̿̽̿l̴̻͉̂e̷̟̝͕̤͌͛̉͑r̶̲̲͋́a̷̝͈͂͂t̴̰̒̇e̵̡̪̩̮̊͛͝ ̵̳̈́̈́̏t̶̲̄̑̋̿h̵͓̄͛e̶̢͔̦̊̌͘ ̵͖̅͠M̸͍͈̝̑͆̅͝ȃ̷͕̂͠j̷͚̘͑̈́́̈ǫ̸̗͗́̑͛r̶̢̄̽́ą̴͇͉̍̊̃̿͜ ̸̫̗̾M̵̩̈̀́o̴̤͊͝o̷̦̥͝n̸̟͙͝**
-
 It is said that an evil and wicked power is bestowed upon the one who wears that mask. Don't even try, the result is **far worse** than a classic Masked enemy.
 
 ![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/MajoraMoon-image5.PNG)
@@ -54,10 +54,10 @@ It is said that an evil and wicked power is bestowed upon the one who wears that
 ![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/MajoraMoon-image6.PNG)
 Moon's Tears are some kind of shiny stones. Rumored to fall from the Moon's eye, they can be picked up by employees as highly valuable scraps.
 
-<details><summary>Secret event about Moon's Tears</summary>
+<details><summary>Some secret about Moon's Tears</summary>
 
 ###
-According to legend... each apparition of the Majora Moon has *1% chance* of starting a Tears Showers event.
+According to legend... each apparition of the Majora Moon has *1% chance* of triggering a rare Tears Showers event.
 
 </details>
 

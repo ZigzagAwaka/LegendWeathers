@@ -48,13 +48,11 @@ namespace LegendWeathers.Weathers
         {
             try
             {
-                foreach (var sunAnim in FindObjectsOfType<animatedSun>())
+                var sunAnim = FindObjectOfType<animatedSun>();
+                if (sunAnim != null)
                 {
-                    if (sunAnim != null)
-                    {
-                        var sunTextureTransform = sunAnim.transform.Find("SunTexture");
-                        sunTextureTransform?.gameObject?.SetActive(enabled);
-                    }
+                    var sunTextureTransform = sunAnim.transform.Find("SunTexture");
+                    sunTextureTransform?.gameObject?.SetActive(enabled);
                 }
             }
             catch (System.Exception)
@@ -71,22 +69,15 @@ namespace LegendWeathers.Weathers
                     return;
                 foreach (var volume in FindObjectsOfType<Volume>())
                 {
-                    if (volume.name == "Sky and Fog Global Volume" /*|| volume.priority == 1*/)
+                    if (volume == null || volume.profile == null || volume.gameObject.scene.name != RoundManager.Instance.currentLevel.sceneName)
+                        continue;
+                    foreach (var component in volume.profile.components)
                     {
-                        var vanillaVolumeProfile = volume.profile;
-                        if (vanillaVolumeProfile != null)
+                        if (component.active && component is Fog)
                         {
-                            foreach (var component in vanillaVolumeProfile.components)
-                            {
-                                if (component.active && component is Fog)
-                                {
-                                    component.active = enabled;
-                                    fogVolumeComponentExists = !enabled;
-                                    break;
-                                }
-                            }
+                            component.active = enabled;
+                            fogVolumeComponentExists = !enabled;
                         }
-                        break;
                     }
                 }
             }

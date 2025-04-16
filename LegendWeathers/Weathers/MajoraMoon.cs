@@ -61,7 +61,7 @@ namespace LegendWeathers.Weathers
         private float lastRumbleEventTime = 0;
         private float nextRumbleEventTime = 35;
         private float lastTearEventTime = 0;
-        private float nextTearEventTime = 50;
+        private float nextTearEventTime = 60;
         private float lastBellSfxEvent = 0;
         private bool isRareTearEventDay = false;
         private int rareTearEventDayNB = 0;
