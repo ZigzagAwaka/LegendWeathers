@@ -38,12 +38,12 @@ The time before the crash is a bit generous but the Company Ship has been progra
 ![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/MajoraMoon-image4.PNG)
 When the Majora Moon Weather is active, an accursed and dangerous item will spawn inside the facility: the **Majora's Mask**.
 
-While this mask is worth a **TON** amount of money, it comes with severe *side effects*... such as **a̷̤̖̾c̷͈̪̐͂c̴̯͐ȇ̷̜̹͗l̷̜͙̑̾e̷̢̙̓r̴̙̊a̵̤̍͐͜t̸̠͉͆͊ỉ̶̖̦͠n̶̤͂g̴͔͎̐̋ ̸̟̅̕t̶̳͍̓h̴̩̾e̵̫̲̒̒ ̶̼̀͝M̵̗͆å̸̙͗j̶̟̰̽ò̷̝̓r̸̃͝ͅả̵͎ ̸̠̋M̵̢̿̀o̷̰̅̍o̴͚̣͊͝n̸͕̙͝**.
+While this mask is worth a **HUGE sum** of money, it comes with severe *side effects*... such as **a̷̤̖̾c̷͈̪̐͂c̴̯͐ȇ̷̜̹͗l̷̜͙̑̾e̷̢̙̓r̴̙̊a̵̤̍͐͜t̸̠͉͆͊ỉ̶̖̦͠n̶̤͂g̴͔͎̐̋ ̸̟̅̕t̶̳͍̓h̴̩̾e̵̫̲̒̒ ̶̼̀͝M̵̗͆å̸̙͗j̶̟̰̽ò̷̝̓r̸̃͝ͅả̵͎ ̸̠̋M̵̢̿̀o̷̰̅̍o̴͚̣͊͝n̸͕̙͝**.
 
 <details><summary>More spoilers about the Majora's Mask</summary>
 
 ###
-It is said that an evil and wicked power is bestowed upon the one who wears that mask. Don't even try, the result is **far worse** than a classic Masked enemy.
+It is said that an evil and wicked power is bestowed upon the one who wears that mask. Don't even try, the result is **far worse** than a typical Masked enemy.
 
 ![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/MajoraMoon-image5.PNG)
 
@@ -66,9 +66,9 @@ According to legend... each apparition of the Majora Moon has *1% chance* of tri
 ##
 
 ### Compatibility with other mods
-- The Majora Moon Weather only works on planets **that have time**.
+- The Majora Moon Weather only works on planets **that have time**. Also, it is not recommended to spawn it manually mid-game.
 - It comes with a **custom fog volume** that  dynamically changes the sky's color over time. Some *visual bugs* related to the sky and fogs can happen on some modded moons depending on how they were made.
-- The Majora Moon position in the sky is automatically determined but can be manually adjusted on specific planets for better placement. If you think the actual placement is not visually good, you can report the moon's name so I can improve the placement on this specific moon.
+- The Majora Moon position in the sky is automatically determined but can be manually adjusted on specific planets for better placement. If you think the actual placement is not visually good, you can report the moon's name so I can improve the position on this specific moon.
 
 ### Contact & Feedback
 If you want to suggest new features, report issues or simply contact me please go to the mod release page in the [modding discord](https://discord.gg/XeyYqRdRGC) or post a [github issue](https://github.com/ZigzagAwaka/LegendWeathers).
@@ -85,4 +85,4 @@ If you want to suggest new features, report issues or simply contact me please g
 
 - Some model assets are ripped from various games and imported thanks to https://www.models-resource.com/, you can check the list [here](https://github.com/ZigzagAwaka/LegendWeathers/blob/main/models-resource-credits.txt)
 
-- Audio assets are ripped from their original game
+- Features audio sfx and music from various Nintendo games
