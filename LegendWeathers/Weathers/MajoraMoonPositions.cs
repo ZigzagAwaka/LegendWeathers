@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using LegendWeathers.Utils;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -16,7 +18,17 @@ namespace LegendWeathers.Weathers
                 if (positionInfo.ContainsKey(moonName))
                     return positionInfo[moonName];
             }
-            var position = RoundManager.Instance.outsideAINodes[RoundManager.Instance.outsideAINodes.Length / 2].transform.position;
+            Vector3 position = default;
+            EntranceTeleport? mainEntrance = null;
+            var teleports = Object.FindObjectsOfType<EntranceTeleport>();
+            if (teleports != null && teleports.Length != 0)
+            {
+                mainEntrance = teleports.ToList().Find(e => e != null && e.enabled && e.isEntranceToBuilding && e.entranceId == 0);
+                if (mainEntrance != null)
+                    position = Effects.GetClosestAINodePosition(RoundManager.Instance.outsideAINodes, Vector3.Lerp(StartOfRound.Instance.middleOfShipNode.transform.position, mainEntrance.transform.position, 0.5f));
+            }
+            if (mainEntrance == null)
+                position = RoundManager.Instance.outsideAINodes[RoundManager.Instance.outsideAINodes.Length / 2].transform.position;
             return (position + Vector3.up * 300f, new Vector3(45, 90, 0), position);
         }
 
@@ -41,7 +53,26 @@ namespace LegendWeathers.Weathers
             { "Solace", (new Vector3(0, 300, 150), new Vector3(45, 180, 0), new Vector3(-10, -4, 45)) },
             { "StarlancerZero", (new Vector3(-50, 300, -150), new Vector3(45, 0, 0), new Vector3(-66, 0, -120)) },
             { "Synthesis", (new Vector3(-100, 300, -10), new Vector3(45, 90, 0), new Vector3(-100, 0, -14)) },
-            { "Arcadia", (new Vector3(-200, 295, -50), new Vector3(45, 90, 0), new Vector3(-115, 0, -26)) }
+            { "Arcadia", (new Vector3(-200, 295, -50), new Vector3(45, 90, 0), new Vector3(-115, 0, -26)) },
+            { "Acidir", (new Vector3(-60, 230, 60), new Vector3(45, 90, 0), new Vector3(-48, 0, 23)) },
+            { "Alcatras", (new Vector3(-150, 300, 100), new Vector3(45, 120, 0), new Vector3(-75, -3, 35)) },
+            { "Asteroid-13", (new Vector3(-150, 300, -50), new Vector3(45, 90, 0), new Vector3(-126, -5, -63)) },
+            { "Hyve", (new Vector3(-100, 300, 0), new Vector3(45, 90, 0), new Vector3(-77, 2, -10)) },
+            { "Atlantica", (new Vector3(-100, 298, 0), new Vector3(45, 90, 0), new Vector3(-73, 0, 7)) },
+            { "Calist", (new Vector3(66, 305, -80), new Vector3(45, 0, 0), new Vector3(37, 1, -52)) },
+            { "Demetrica", (new Vector3(-100, 298, -11), new Vector3(45, 90, 0), new Vector3(-58, 1, 10)) },
+            { "Empra", (new Vector3(-1300, 400, -17), new Vector3(45, 90, 0), new Vector3(-1298, 0, 0)) },
+            { "Etern", (new Vector3(-50, 300, -50), new Vector3(45, 90, 0), new Vector3(-66, 0, -52)) },
+            { "Filitrios", (new Vector3(43, 299, 53), new Vector3(45, 180, 0), new Vector3(11, 0, 21)) },
+            { "Fission-C", (new Vector3(-34, 298, -90), new Vector3(45, 0, 0), new Vector3(-67, 5, -82)) },
+            { "Gloom", (new Vector3(-100, 150, -10), new Vector3(45, 90, 0), new Vector3(-87, -5, -9)) },
+            { "Gratar", (new Vector3(70, 300, -90), new Vector3(45, 0, 0), new Vector3(62, 2, -85)) },
+            { "Junic", (new Vector3(131, 298, 0), new Vector3(45, 270, 0), new Vector3(99, 0, -7)) },
+            { "Lecaro", (new Vector3(-50, 300, -80), new Vector3(45, 90, 0), new Vector3(-47, 5, -90)) },
+            { "Motra", (new Vector3(51, 328, 13), new Vector3(45, 180, 0), new Vector3(48, 30, 33)) },
+            { "Oldred", (new Vector3(37, 305, 103), new Vector3(45, 180, 0), new Vector3(33, 4, 101)) },
+            { "Polarus", (new Vector3(-80, 298, -80), new Vector3(45, 45, 0), new Vector3(-79, -30, -74)) },
+            { "Utril", (new Vector3(30, 298, 41), new Vector3(45, 180, 0), new Vector3(11, 12, 15)) }
         };
     }
 }

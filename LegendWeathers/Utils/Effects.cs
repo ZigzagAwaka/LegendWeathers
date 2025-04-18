@@ -82,7 +82,7 @@ namespace LegendWeathers.Utils
         public static List<PlayerControllerB> GetRandomPlayers(int numberToGet, bool shouldIgnoreOnePlayer = false, ulong playerIdToIgnore = default)
         {
             var rawList = StartOfRound.Instance.allPlayerScripts.ToList();
-            rawList.RemoveAll(x => x == null || (shouldIgnoreOnePlayer && x.playerClientId == playerIdToIgnore));
+            rawList.RemoveAll(p => p == null || !p.IsSpawned || !p.isPlayerControlled || (shouldIgnoreOnePlayer && p.playerClientId == playerIdToIgnore));
             var players = new List<PlayerControllerB>();
             if (rawList.Count > numberToGet)
             {

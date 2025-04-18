@@ -1,6 +1,7 @@
 ﻿using LegendWeathers.BehaviourScripts;
 using LegendWeathers.Utils;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -43,9 +44,9 @@ namespace LegendWeathers.Weathers
         private bool finalHoursPlayingParticles = false;
         private bool finalHoursFinishing = false;
 
-        private VisualEnvironment? vanillaVisualEnvironment;
+        private readonly List<VisualEnvironment> visualEnvironments = new List<VisualEnvironment>();
+        private readonly List<float> originalWindSpeeds = new List<float>();
         private readonly int windSpeedFactor = 17;
-        private float originalWindSpeed;
 
         private GameObject? timerUI;
         private TMP_Text? timerText;
@@ -160,10 +161,10 @@ namespace LegendWeathers.Weathers
 
         private void StartIncreasingWindSpeed()
         {
-            if (vanillaVisualEnvironment != null)
+            for (int i = 0; i < visualEnvironments.Count; i++)
             {
-                originalWindSpeed = vanillaVisualEnvironment.windSpeed.value;
-                vanillaVisualEnvironment.windSpeed.value *= windSpeedFactor;
+                if (visualEnvironments[i] != null)
+                    visualEnvironments[i].windSpeed.value *= windSpeedFactor;
             }
         }
 
@@ -359,18 +360,15 @@ namespace LegendWeathers.Weathers
         {
             foreach (var volume in FindObjectsOfType<Volume>())
             {
-                if (volume.name == "Sky and Fog Global Volume" || volume.priority == 1)
+                if (volume == null || volume.profile == null || volume.gameObject.scene.name != RoundManager.Instance.currentLevel.sceneName)
+                    continue;
+                foreach (var component in volume.profile.components)
                 {
-                    foreach (var component in volume.profile.components)
+                    if (component.active && component is VisualEnvironment environment && environment.windSpeed.overrideState)
                     {
-                        if (component.active && component is VisualEnvironment environment && environment.windSpeed.overrideState)
-                        {
-                            vanillaVisualEnvironment = environment;
-                            break;
-                        }
+                        visualEnvironments.Add(environment);
+                        originalWindSpeeds.Add(environment.windSpeed.value);
                     }
-                    if (vanillaVisualEnvironment != null)
-                        break;
                 }
             }
             shipLever = FindObjectOfType<StartMatchLever>();
@@ -388,8 +386,13 @@ namespace LegendWeathers.Weathers
                     timerUI = null;
                     timerText = null;
                 }
-                if (vanillaVisualEnvironment != null)
-                    vanillaVisualEnvironment.windSpeed.value = originalWindSpeed;
+                for (int i = 0; i < visualEnvironments.Count; i++)
+                {
+                    if (visualEnvironments[i] != null)
+                        visualEnvironments[i].windSpeed.value = originalWindSpeeds[i];
+                }
+                visualEnvironments.Clear();
+                originalWindSpeeds.Clear();
             }
             if (finalHoursPlayingParticles)
             {

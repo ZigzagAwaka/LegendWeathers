@@ -20,7 +20,7 @@ namespace LegendWeathers
     {
         const string GUID = "zigzag.legendweathers";
         const string NAME = "LegendWeathers";
-        const string VERSION = "1.0.0";
+        const string VERSION = "1.0.1";
 
         public static Plugin instance;
         public static ManualLogSource logger;
@@ -65,9 +65,39 @@ namespace LegendWeathers
             weather.Config.ScrapAmountMultiplier.DefaultValue = info.scrapAmount;
             weather.Config.ScrapValueMultiplier.DefaultValue = info.scrapValue;
             weather.Config.FilteringOption.DefaultValue = false;
-            weather.Config.LevelFilters.DefaultValue = "Gordion;Galetry;";
+            weather.Config.LevelFilters.DefaultValue = "Gordion;Galetry;Cosmocos;";
             weather.Color = info.color;
             WeatherManager.RegisterWeather(weather);
+        }
+
+        private void RegisterMajora(AssetBundle bundle, string directory)
+        {
+            majoraMoonObject = bundle.LoadAsset<GameObject>(directory + "MajoraMoon/MajoraMoon.prefab");
+            majoraSkyObject = bundle.LoadAsset<GameObject>(directory + "MajoraMoon/MajoraSky.prefab");
+            majoraMaskItem = bundle.LoadAsset<Item>(directory + "MajoraMoon/Items/MajoraMask/MajoraMaskItem.asset");
+            majoraMoonTearItem = bundle.LoadAsset<Item>(directory + "MajoraMoon/Items/MoonTear/MoonTearItem.asset");
+            if (config.majoraMoonModel.Value == "N64")
+            {
+                majoraMoonObject.transform.Find("Model1").gameObject.SetActive(true);
+                majoraMoonObject.transform.Find("Model2").gameObject.SetActive(false);
+                majoraMaskItem.spawnPrefab.transform.Find("Model/Model1").gameObject.SetActive(true);
+                majoraMaskItem.spawnPrefab.transform.Find("Model/Model2").gameObject.SetActive(false);
+                majoraMaskItem.spawnPrefab.GetComponent<MajoraMaskItem>().headMaskPrefab.transform.Find("Model/Model1").gameObject.SetActive(true);
+                majoraMaskItem.spawnPrefab.GetComponent<MajoraMaskItem>().headMaskPrefab.transform.Find("Model/Model2").gameObject.SetActive(false);
+            }
+            NetworkPrefabs.RegisterNetworkPrefab(majoraMoonObject);
+            NetworkPrefabs.RegisterNetworkPrefab(majoraMaskItem.spawnPrefab);
+            NetworkPrefabs.RegisterNetworkPrefab(majoraMoonTearItem.spawnPrefab);
+            Utilities.FixMixerGroups(majoraMaskItem.spawnPrefab);
+            Utilities.FixMixerGroups(majoraMoonTearItem.spawnPrefab);
+            if (config.majoraMaskValueParsed.Item1 != -1)
+            {
+                majoraMaskItem.minValue = (int)(config.majoraMaskValueParsed.Item1 * 2.5f);
+                majoraMaskItem.maxValue = (int)(config.majoraMaskValueParsed.Item2 * 2.5f);
+            }
+            Items.RegisterScrap(majoraMaskItem, 0, Levels.LevelTypes.None);
+            Items.RegisterScrap(majoraMoonTearItem, 0, Levels.LevelTypes.None);
+            RegisterWeather<MajoraMoonWeather, MajoraSkyEffect>(MajoraMoonWeather.weatherInfo);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051")]
@@ -86,32 +116,7 @@ namespace LegendWeathers
 
             if (config.majoraWeather.Value)
             {
-                majoraMoonObject = bundle.LoadAsset<GameObject>(directory + "MajoraMoon/MajoraMoon.prefab");
-                majoraSkyObject = bundle.LoadAsset<GameObject>(directory + "MajoraMoon/MajoraSky.prefab");
-                majoraMaskItem = bundle.LoadAsset<Item>(directory + "MajoraMoon/Items/MajoraMask/MajoraMaskItem.asset");
-                majoraMoonTearItem = bundle.LoadAsset<Item>(directory + "MajoraMoon/Items/MoonTear/MoonTearItem.asset");
-                if (config.majoraMoonModel.Value == "N64")
-                {
-                    majoraMoonObject.transform.Find("Model1").gameObject.SetActive(true);
-                    majoraMoonObject.transform.Find("Model2").gameObject.SetActive(false);
-                    majoraMaskItem.spawnPrefab.transform.Find("Model/Model1").gameObject.SetActive(true);
-                    majoraMaskItem.spawnPrefab.transform.Find("Model/Model2").gameObject.SetActive(false);
-                    majoraMaskItem.spawnPrefab.GetComponent<MajoraMaskItem>().headMaskPrefab.transform.Find("Model/Model1").gameObject.SetActive(true);
-                    majoraMaskItem.spawnPrefab.GetComponent<MajoraMaskItem>().headMaskPrefab.transform.Find("Model/Model2").gameObject.SetActive(false);
-                }
-                NetworkPrefabs.RegisterNetworkPrefab(majoraMoonObject);
-                NetworkPrefabs.RegisterNetworkPrefab(majoraMaskItem.spawnPrefab);
-                NetworkPrefabs.RegisterNetworkPrefab(majoraMoonTearItem.spawnPrefab);
-                Utilities.FixMixerGroups(majoraMaskItem.spawnPrefab);
-                Utilities.FixMixerGroups(majoraMoonTearItem.spawnPrefab);
-                if (config.majoraMaskValueParsed.Item1 != -1)
-                {
-                    majoraMaskItem.minValue = (int)(config.majoraMaskValueParsed.Item1 * 2.5f);
-                    majoraMaskItem.maxValue = (int)(config.majoraMaskValueParsed.Item2 * 2.5f);
-                }
-                Items.RegisterScrap(majoraMaskItem, 0, Levels.LevelTypes.None);
-                Items.RegisterScrap(majoraMoonTearItem, 0, Levels.LevelTypes.None);
-                RegisterWeather<MajoraMoonWeather, MajoraSkyEffect>(MajoraMoonWeather.weatherInfo);
+                RegisterMajora(bundle, directory);
             }
 
             HarmonyPatchAll();
