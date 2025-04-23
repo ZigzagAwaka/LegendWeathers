@@ -72,7 +72,29 @@ namespace LegendWeathers.Weathers
             { "Motra", (new Vector3(51, 328, 13), new Vector3(45, 180, 0), new Vector3(48, 30, 33)) },
             { "Oldred", (new Vector3(37, 305, 103), new Vector3(45, 180, 0), new Vector3(33, 4, 101)) },
             { "Polarus", (new Vector3(-80, 298, -80), new Vector3(45, 45, 0), new Vector3(-79, -30, -74)) },
-            { "Utril", (new Vector3(30, 298, 41), new Vector3(45, 180, 0), new Vector3(11, 12, 15)) }
+            { "Utril", (new Vector3(30, 298, 41), new Vector3(45, 180, 0), new Vector3(11, 12, 15)) },
+            { "Baykal", (new Vector3(-35, 295, -100), new Vector3(45, 0, 0), new Vector3(-32, -3, -64)) },
+            { "Flicker", (new Vector3(11, 300, -170), new Vector3(45, 0, 0), new Vector3(4, -1, -147)) },
+            { "The Iris", (new Vector3(150, 300, 80), new Vector3(45, 250, 0), new Vector3(-25, 0, 58)) },
+            { "Halation", (new Vector3(31, 298, 30), new Vector3(45, 270, 0), new Vector3(33, -5, 2)) },
+            { "Lament", (new Vector3(-150, 300, 0), new Vector3(45, 90, 0), new Vector3(-113, -5, -14)) },
+            { "Lithium", (new Vector3(-37, 300, -132), new Vector3(45, 330, 0), new Vector3(-37, 0, -132)) },
+            { "Mazon", (new Vector3(-41, 300, 98), new Vector3(45, 90, 0), new Vector3(-41, 0, 98)) },
+            { "Kaleidos", (new Vector3(177, 300, 39), new Vector3(45, 220, 0), new Vector3(177, 0, 39)) },
+            { "Pandoramus", (new Vector3(-92, 300, 57), new Vector3(45, 150, 0), new Vector3(-92, 0, 57)) },
+            { "Pareidolia", (new Vector3(75, 300, -149), new Vector3(45, 270, 0), new Vector3(75, 0, -149)) },
+            { "Praetor", (new Vector3(-120, 150, -30), new Vector3(45, 90, 0), new Vector3(-58, 0, -25)) },
+            { "Rockwell", (new Vector3(290, 297, 110), new Vector3(45, 180, 0), new Vector3(302, 0, 103)) },
+            { "Ganimedes", (new Vector3(53, 300, 33), new Vector3(45, 180, 0), new Vector3(53, 11, 33)) },
+            { "Prominence", (new Vector3(-55, 300, 103), new Vector3(45, 100, 0), new Vector3(-55, -9, 103)) },
+            { "Sierra", (new Vector3(17, 300, -41), new Vector3(45, 0, 0), new Vector3(17, 18, -41)) },
+            { "Temper", (new Vector3(-162, 300, -76), new Vector3(45, 90, 0), new Vector3(-162, -8, -76)) },
+            { "Kast", (new Vector3(-39, 295, 30), new Vector3(45, 150, 0), new Vector3(-39, -1, 30)) },
+            { "Secret Labs", (new Vector3(100, 300, 0), new Vector3(45, 290, 0), new Vector3(60, 0, 7)) },
+            { "Sector-0", (new Vector3(60, 300, -60), new Vector3(45, 320, 0), new Vector3(20, -2, -64)) },
+            { "Aquatis", (new Vector3(-83, 300, -12), new Vector3(45, 60, 0), new Vector3(-83, -2, -12)) },
+            { "Orion", (new Vector3(-74, 299, 55), new Vector3(45, 180, 0), new Vector3(-74, 1, 55)) },
+            { "Wither", (new Vector3(-60, 330, -100), new Vector3(45, 0, 0), new Vector3(-39, 5, -110)) }
         };
     }
 }

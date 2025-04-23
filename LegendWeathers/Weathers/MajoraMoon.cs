@@ -207,7 +207,18 @@ namespace LegendWeathers.Weathers
 
         private void DisableColliders(bool disable = true)
         {
-            var model = transform.Find("Model1").gameObject.activeSelf ? transform.Find("Model1").gameObject : transform.Find("Model2").gameObject;
+            GameObject? model = null;
+            foreach (var modelName in new string[] { "Model1", "Model2", "Model3" })
+            {
+                var modelTransform = transform.Find(modelName);
+                if (modelTransform != null && modelTransform.gameObject.activeSelf)
+                {
+                    model = modelTransform.gameObject;
+                    break;
+                }
+            }
+            if (model == null)
+                return;
             foreach (var collider in model.GetComponents<MeshCollider>())
             {
                 collider.enabled = !disable;

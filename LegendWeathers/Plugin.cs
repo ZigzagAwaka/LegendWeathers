@@ -20,7 +20,7 @@ namespace LegendWeathers
     {
         const string GUID = "zigzag.legendweathers";
         const string NAME = "LegendWeathers";
-        const string VERSION = "1.0.1";
+        const string VERSION = "1.0.2";
 
         public static Plugin instance;
         public static ManualLogSource logger;
@@ -76,14 +76,18 @@ namespace LegendWeathers
             majoraSkyObject = bundle.LoadAsset<GameObject>(directory + "MajoraMoon/MajoraSky.prefab");
             majoraMaskItem = bundle.LoadAsset<Item>(directory + "MajoraMoon/Items/MajoraMask/MajoraMaskItem.asset");
             majoraMoonTearItem = bundle.LoadAsset<Item>(directory + "MajoraMoon/Items/MoonTear/MoonTearItem.asset");
-            if (config.majoraMoonModel.Value == "N64")
+            if (!config.majoraMoonModel.Value.Equals(config.majoraMoonModel.DefaultValue))
             {
-                majoraMoonObject.transform.Find("Model1").gameObject.SetActive(true);
+                bool faceless = config.majoraMoonModel.Value == "Faceless";
+                majoraMoonObject.transform.Find(!faceless ? "Model1" : "Model3").gameObject.SetActive(true);
                 majoraMoonObject.transform.Find("Model2").gameObject.SetActive(false);
-                majoraMaskItem.spawnPrefab.transform.Find("Model/Model1").gameObject.SetActive(true);
-                majoraMaskItem.spawnPrefab.transform.Find("Model/Model2").gameObject.SetActive(false);
-                majoraMaskItem.spawnPrefab.GetComponent<MajoraMaskItem>().headMaskPrefab.transform.Find("Model/Model1").gameObject.SetActive(true);
-                majoraMaskItem.spawnPrefab.GetComponent<MajoraMaskItem>().headMaskPrefab.transform.Find("Model/Model2").gameObject.SetActive(false);
+                if (!faceless)
+                {
+                    majoraMaskItem.spawnPrefab.transform.Find("Model/Model1").gameObject.SetActive(true);
+                    majoraMaskItem.spawnPrefab.transform.Find("Model/Model2").gameObject.SetActive(false);
+                    majoraMaskItem.spawnPrefab.GetComponent<MajoraMaskItem>().headMaskPrefab.transform.Find("Model/Model1").gameObject.SetActive(true);
+                    majoraMaskItem.spawnPrefab.GetComponent<MajoraMaskItem>().headMaskPrefab.transform.Find("Model/Model2").gameObject.SetActive(false);
+                }
             }
             NetworkPrefabs.RegisterNetworkPrefab(majoraMoonObject);
             NetworkPrefabs.RegisterNetworkPrefab(majoraMaskItem.spawnPrefab);
