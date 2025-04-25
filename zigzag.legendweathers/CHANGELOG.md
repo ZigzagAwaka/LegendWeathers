@@ -1,3 +1,7 @@
+## 1.0.3
+- Improved the Majora Timer UI position for different screen resolution (Thanks [Xyphire](https://thunderstore.io/c/lethal-company/p/Xyphire/)!)
+- Added a compatible effect for the Ocarina item in [ChillaxScraps](https://thunderstore.io/c/lethal-company/p/Zigzag/ChillaxScraps/), play Oath to Order during the final hours to discover the effect
+
 ## 1.0.2
 - Added the Faceless model version (can be activated in the config)
 - Improved the Majora Moon position in the sky for the following : Moons of Otherworldly Oddity, Nightmare Moons, Harvest Moons, Kast, Ganimedes, Sector-0, Secret Labs, Orion, Aquatis, Wither

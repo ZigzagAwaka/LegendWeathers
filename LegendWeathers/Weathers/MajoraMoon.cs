@@ -39,10 +39,11 @@ namespace LegendWeathers.Weathers
         private float previousSpeedMultiplier = 1f;
 
         private float finalHoursTime;
-        private bool finalHoursPlayingMusic = false;
-        private bool finalHoursDisplayingTimer = false;
-        private bool finalHoursPlayingParticles = false;
-        private bool finalHoursFinishing = false;
+        public bool finalHoursPlayingMusic = false;
+        public bool finalHoursDisplayingTimer = false;
+        public bool finalHoursPlayingParticles = false;
+        public bool finalHoursFinishing = false;
+        public bool oathToOrderStopingMoon = false;
 
         private readonly List<VisualEnvironment> visualEnvironments = new List<VisualEnvironment>();
         private readonly List<float> originalWindSpeeds = new List<float>();
@@ -69,15 +70,23 @@ namespace LegendWeathers.Weathers
 
         public bool AccelerateEndTimeFactor()
         {
-            if (finalHoursPlayingParticles)
+            if (finalHoursPlayingParticles || oathToOrderStopingMoon)
                 return false;
             endTimeFactor += finalHoursPlayingMusic ? 0.3f : 0.6f;
             return true;
         }
 
+        public void StopMoonCrash()
+        {
+            if (finalHoursFinishing)
+                return;
+            oathToOrderStopingMoon = true;
+            Plugin.logger.LogError("Moon crash stopped!");
+        }
+
         public void Update()
         {
-            if (!isInitialized)
+            if (!isInitialized || oathToOrderStopingMoon)
                 return;
             if (TimeOfDay.Instance.currentDayTimeStarted)
             {
