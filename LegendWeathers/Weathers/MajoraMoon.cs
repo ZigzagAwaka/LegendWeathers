@@ -1,5 +1,6 @@
 ﻿using LegendWeathers.BehaviourScripts;
 using LegendWeathers.Utils;
+using LegendWeathers.WeatherSkyEffects;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,6 +8,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
+using UnityEngine.VFX;
 
 namespace LegendWeathers.Weathers
 {
@@ -16,11 +18,17 @@ namespace LegendWeathers.Weathers
         public AudioSource sfxAudio = null!;
         public AudioSource crashAudio = null!;
         public AudioClip[] sfx = null!;
+        public AudioClip callOfTheGiantsMusic = null!;
+        public AudioClip stopMoonSfx = null!;
         public GameObject finalHoursTimer = null!;
         public ParticleSystem crashParticles1 = null!;
         public ParticleSystem crashParticles2 = null!;
         public GameObject impactObject = null!;
         public Transform tearPosition = null!;
+        public ParticleSystem burstParticles1 = null!;
+        public ParticleSystem burstParticles2 = null!;
+        public VisualEffect burstVFX = null!;
+        public Animator burstAnimator = null!;
 
         private readonly int moonRadiusApprox = 19;
         private readonly float endSizeFactor = 7.3f;
@@ -68,6 +76,8 @@ namespace LegendWeathers.Weathers
         private bool isRareTearEventDay = false;
         private int rareTearEventDayNB = 0;
 
+        private Coroutine? stopMoonCoroutine = null;
+
         public bool AccelerateEndTimeFactor()
         {
             if (finalHoursPlayingParticles || oathToOrderStopingMoon)
@@ -81,7 +91,9 @@ namespace LegendWeathers.Weathers
             if (finalHoursFinishing)
                 return;
             oathToOrderStopingMoon = true;
-            Plugin.logger.LogError("Moon crash stopped!");
+            if (stopMoonCoroutine != null)
+                StopCoroutine(stopMoonCoroutine);
+            stopMoonCoroutine = StartCoroutine(StopMoonAnimation());
         }
 
         public void Update()
@@ -339,6 +351,36 @@ namespace LegendWeathers.Weathers
             }
         }
 
+        private IEnumerator StopMoonAnimation()
+        {
+            yield return new WaitForEndOfFrame();
+            if (finalHoursPlayingMusic)
+                yield return Effects.FadeOutAudio(finalHoursAudio, 1f);
+            finalHoursAudio.PlayOneShot(callOfTheGiantsMusic);
+            if (finalHoursPlayingParticles)
+            {
+                crashParticles1.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                crashParticles2.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                crashAudio.Stop();
+            }
+            burstParticles2.Play();
+            yield return new WaitForSeconds(19f);
+            burstParticles1.Play();
+            yield return new WaitForSeconds(3f);
+            burstParticles2.Stop();
+            DisableColliders();
+            burstVFX.Play();
+            burstAnimator.SetTrigger("Burst");
+            yield return new WaitForSeconds(11f);
+            crashAudio.PlayOneShot(stopMoonSfx);
+            yield return new WaitForSeconds(12f);
+            burstParticles1.Stop();
+            var majoraEffect = Effects.GetWeatherEffect("majoramoon");
+            majoraEffect?.EffectObject?.GetComponent<MajoraSkyEffect>()?.ReverseEffect();
+            yield return new WaitForSeconds(6f);
+            Effects.RemoveWeather("majoramoon");
+        }
+
         [ServerRpc]
         public void InitializeMoonServerRpc(NetworkObjectReference moonRef, Vector3 nodeEndPosition)
         {
@@ -430,6 +472,14 @@ namespace LegendWeathers.Weathers
             }
             if (sfxAudio.isPlaying)
                 sfxAudio.Stop();
+            if (oathToOrderStopingMoon)
+            {
+                burstParticles1.Stop();
+                burstParticles2.Stop();
+                burstVFX.Stop();
+            }
+            if (stopMoonCoroutine != null)
+                StopCoroutine(stopMoonCoroutine);
             base.OnDestroy();
         }
     }

@@ -351,6 +351,33 @@ namespace LegendWeathers.Utils
             return false;
         }
 
+        public static void RemoveWeather(string weatherNameResolvable)
+        {
+            RemoveWeather(new WeatherNameResolvable(weatherNameResolvable).WeatherType);
+        }
+
+        public static void RemoveWeather(LevelWeatherType weatherType)
+        {
+            if (WeatherManager.CurrentWeathers.Contains(weatherType))
+            {
+                WeatherManager.GetWeather(weatherType).Effect.EffectEnabled = false;
+            }
+        }
+
+        public static ImprovedWeatherEffect? GetWeatherEffect(string weatherNameResolvable)
+        {
+            return GetWeatherEffect(new WeatherNameResolvable(weatherNameResolvable).WeatherType);
+        }
+
+        public static ImprovedWeatherEffect? GetWeatherEffect(LevelWeatherType weatherType)
+        {
+            var weather = WeatherManager.GetWeather(weatherType);
+            if (weather == null)
+                return null;
+            var weatherEffect = WeatherManager.GetWeather(weatherType).Effect;
+            return weatherEffect;
+        }
+
         public static void Message(string title, string bottom, bool warning = false)
         {
             HUDManager.Instance.DisplayTip(title, bottom, warning);

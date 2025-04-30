@@ -60,7 +60,6 @@ namespace LegendWeathers.Weathers
                 }
             }
             EnableVanillaSun(false);
-            EnableVanillaVolumeFog(false);
         }
 
         public override void OnDisable()
@@ -94,7 +93,6 @@ namespace LegendWeathers.Weathers
                 }
             }
             EnableVanillaSun(true);
-            EnableVanillaVolumeFog(true);
         }
     }
 }

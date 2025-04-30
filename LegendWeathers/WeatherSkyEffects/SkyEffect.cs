@@ -8,10 +8,13 @@ namespace LegendWeathers.WeatherSkyEffects
     {
         private readonly GameObject effectGameObject;
         private readonly string effectName;
+        private bool fogVolumeComponentExists = false;
 
         public GameObject? spawnedSky = null;
         public Volume? spawnedSkyVolume = null;
-        public bool isEffectReady = false;
+        public bool overrideFogVolume = false;
+        public bool IsEffectActive { get; private set; } = false;
+
 
         public SkyEffect(GameObject? gameObject)
         {
@@ -37,13 +40,15 @@ namespace LegendWeathers.WeatherSkyEffects
                     {
                         fog.enableVolumetricFog.value = false;
                         fog.enableVolumetricFog.overrideState = true;
-                        isEffectReady = true;
+                        IsEffectActive = true;
                         break;
                     }
                 }
             }
             else
                 Plugin.logger.LogError("Failed to instantiate " + effectName + " Sky Effect.");
+            if (overrideFogVolume)
+                EnableVanillaVolumeFog(false);
         }
 
         public virtual void OnDisable()
@@ -52,13 +57,41 @@ namespace LegendWeathers.WeatherSkyEffects
                 return;
             if (spawnedSky != null)
             {
-                isEffectReady = false;
+                IsEffectActive = false;
                 Destroy(spawnedSky);
                 spawnedSky = null;
                 spawnedSkyVolume = null;
             }
+            if (overrideFogVolume)
+                EnableVanillaVolumeFog(true);
         }
 
         public virtual void Update() { }
+
+        private void EnableVanillaVolumeFog(bool enabled)
+        {
+            try
+            {
+                if (enabled && !fogVolumeComponentExists)
+                    return;
+                foreach (var volume in FindObjectsOfType<Volume>())
+                {
+                    if (volume == null || volume.profile == null || volume.gameObject.scene.name != RoundManager.Instance.currentLevel.sceneName)
+                        continue;
+                    foreach (var component in volume.profile.components)
+                    {
+                        if (component.active && component is Fog)
+                        {
+                            component.active = enabled;
+                            fogVolumeComponentExists = !enabled;
+                        }
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                Plugin.logger.LogError("Failed to " + (enabled ? "enable" : "disable") + " vanilla volume fog.\n" + e.Message);
+            }
+        }
     }
 }

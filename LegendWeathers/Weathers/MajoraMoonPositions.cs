@@ -77,7 +77,7 @@ namespace LegendWeathers.Weathers
             { "Flicker", (new Vector3(11, 300, -170), new Vector3(45, 0, 0), new Vector3(4, -1, -147)) },
             { "The Iris", (new Vector3(150, 300, 80), new Vector3(45, 250, 0), new Vector3(-25, 0, 58)) },
             { "Halation", (new Vector3(31, 298, 30), new Vector3(45, 270, 0), new Vector3(33, -5, 2)) },
-            { "Lament", (new Vector3(-150, 300, 0), new Vector3(45, 90, 0), new Vector3(-113, -5, -14)) },
+            { "Lament", (new Vector3(-177, 300, 47), new Vector3(45, 90, 0), new Vector3(-177, -25, 47)) },
             { "Lithium", (new Vector3(-37, 300, -132), new Vector3(45, 330, 0), new Vector3(-37, 0, -132)) },
             { "Mazon", (new Vector3(-41, 300, 98), new Vector3(45, 90, 0), new Vector3(-41, 0, 98)) },
             { "Kaleidos", (new Vector3(177, 300, 39), new Vector3(45, 220, 0), new Vector3(177, 0, 39)) },
