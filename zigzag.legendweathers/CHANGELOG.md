@@ -8,6 +8,7 @@
 - Improved the Majora Timer UI position for different screen resolution
 - Added a bit of bloom in the Majora purple sky (probably not noticable unless there is a visible emissive object)
 - The moon surface material is no longer double-sided
+- Adjusted Moon's Tears audio a bit
 
 ## 1.0.2
 - Added the Faceless model version (can be activated in the config)
