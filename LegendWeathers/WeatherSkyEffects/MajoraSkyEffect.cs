@@ -25,6 +25,8 @@ namespace LegendWeathers.WeatherSkyEffects
         {
             if (WeatherRegistry.WeatherManager.IsSetupFinished)
             {
+                if (StartOfRound.Instance.shipIsLeaving || StartOfRound.Instance.inShipPhase)
+                    isReversed = false;
                 isCoroutineRunning = false;
                 base.OnDisable();
             }
@@ -63,11 +65,19 @@ namespace LegendWeathers.WeatherSkyEffects
                 var weight = spawnedSkyVolume.weight;
                 while (spawnedSkyVolume.weight > minWeight)
                 {
+                    if (isCoroutineRunning == false)
+                        yield break;
                     spawnedSkyVolume.weight -= weight * Time.deltaTime / 5f;  // 5 seconds
                     yield return null;
                 }
                 spawnedSkyVolume.weight = minWeight;
             }
+            isCoroutineRunning = false;
+        }
+
+        public void ResetState()
+        {
+            isReversed = false;
             isCoroutineRunning = false;
         }
     }

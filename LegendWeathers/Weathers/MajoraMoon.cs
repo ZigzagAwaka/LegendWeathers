@@ -88,7 +88,7 @@ namespace LegendWeathers.Weathers
 
         public void StopMoonCrash()
         {
-            if (finalHoursFinishing)
+            if (finalHoursFinishing || !Plugin.config.majoraOcarinaCompatible.Value)
                 return;
             oathToOrderStopingMoon = true;
             if (stopMoonCoroutine != null)
@@ -98,7 +98,11 @@ namespace LegendWeathers.Weathers
 
         public void Update()
         {
-            if (!isInitialized || oathToOrderStopingMoon)
+            if (!isInitialized)
+                return;
+            if (finalHoursPlayingMusic && SoundManager.Instance.musicSource.isPlaying)
+                SoundManager.Instance.musicSource.Stop();
+            if (oathToOrderStopingMoon)
                 return;
             if (TimeOfDay.Instance.currentDayTimeStarted)
             {
@@ -228,16 +232,7 @@ namespace LegendWeathers.Weathers
 
         private void DisableColliders(bool disable = true)
         {
-            GameObject? model = null;
-            foreach (var modelName in new string[] { "Model1", "Model2", "Model3" })
-            {
-                var modelTransform = transform.Find(modelName);
-                if (modelTransform != null && modelTransform.gameObject.activeSelf)
-                {
-                    model = modelTransform.gameObject;
-                    break;
-                }
-            }
+            GameObject? model = transform.Find(Plugin.instance.majoraModelName).gameObject;
             if (model == null)
                 return;
             foreach (var collider in model.GetComponents<MeshCollider>())
@@ -296,8 +291,6 @@ namespace LegendWeathers.Weathers
                         PlayMoonTearEvent();
                 }
             }
-            if (finalHoursPlayingMusic && SoundManager.Instance.musicSource.isPlaying)
-                SoundManager.Instance.musicSource.Stop();
             if (finalHoursPlayingParticles)
             {
                 lastBellSfxEvent += Time.deltaTime;
@@ -371,13 +364,14 @@ namespace LegendWeathers.Weathers
             DisableColliders();
             burstVFX.Play();
             burstAnimator.SetTrigger("Burst");
-            yield return new WaitForSeconds(11f);
+            yield return new WaitForSeconds(8f);
             crashAudio.PlayOneShot(stopMoonSfx);
-            yield return new WaitForSeconds(12f);
+            yield return new WaitForSeconds(15f);
             burstParticles1.Stop();
             var majoraEffect = Effects.GetWeatherEffect("majoramoon");
             majoraEffect?.EffectObject?.GetComponent<MajoraSkyEffect>()?.ReverseEffect();
             yield return new WaitForSeconds(6f);
+            majoraEffect?.EffectObject?.GetComponent<MajoraSkyEffect>()?.ResetState();
             Effects.RemoveWeather("majoramoon");
         }
 
@@ -434,6 +428,8 @@ namespace LegendWeathers.Weathers
                 }
             }
             shipLever = FindObjectOfType<StartMatchLever>();
+            //if (!Plugin.config.majoraMoonModel.Value.Equals(Plugin.config.majoraMoonModel.DefaultValue))
+            //burstVFX.SetMesh("Mesh", transform.Find(Plugin.instance.majoraModelName).gameObject.GetComponent<MeshFilter>().mesh);
         }
 
         public override void OnDestroy()

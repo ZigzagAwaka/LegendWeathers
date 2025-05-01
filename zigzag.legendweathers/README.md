@@ -69,6 +69,7 @@ According to legend... each apparition of the Majora Moon has *1% chance* of tri
 - The Majora Moon Weather only works on planets **that have time**. Also, it is not recommended to spawn it manually mid-game.
 - It comes with a **custom fog volume** that  dynamically changes the sky's color over time. Some *visual bugs* related to the sky and fogs can happen on some modded moons depending on how they were made.
 - The Majora Moon position in the sky is automatically determined but can be manually adjusted on specific planets for better placement. If you think the actual placement is not visually good, you can report the moon's name so I can improve the position on this specific moon.
+- A special compatible animation has been added when playing the Ocarina item from [ChillaxScraps](https://thunderstore.io/c/lethal-company/p/Zigzag/ChillaxScraps/) !
 
 ### Contact & Feedback
 If you want to suggest new features, report issues or simply contact me please go to the mod release page in the [modding discord](https://discord.gg/XeyYqRdRGC) or post a [github issue](https://github.com/ZigzagAwaka/LegendWeathers).
@@ -81,8 +82,10 @@ If you want to suggest new features, report issues or simply contact me please g
 
 - Thanks [Voxx](https://thunderstore.io/c/lethal-company/p/v0xx/) for providing help about weather volumes!
 
+- Thanks [Xyphire](https://thunderstore.io/c/lethal-company/p/Xyphire/) for providing help about UI and shaders!
+
 - Thanks [Zeldahu](https://thunderstore.io/c/lethal-company/p/Zeldahu/) for testing!
 
 - Some model assets are ripped from various games and imported thanks to https://www.models-resource.com/, you can check the list [here](https://github.com/ZigzagAwaka/LegendWeathers/blob/main/models-resource-credits.txt)
 
-- Features audio sfx and music from various Nintendo games
+- Features audio sfx and music from Nintendo games

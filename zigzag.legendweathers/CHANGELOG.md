@@ -5,7 +5,7 @@
 - Planet fog removal during the Majora weather is now handled by the Majora sky effect directly instead of the Moon
     - This change allows the planet fog to be reverted during specific events, such as when going into the facility
     - Inside fog should no longer be removed
-- Improved the Majora Timer UI position for different screen resolution (Thanks [Xyphire](https://thunderstore.io/c/lethal-company/p/Xyphire/)!)
+- Improved the Majora Timer UI position for different screen resolution
 - Added a bit of bloom in the Majora purple sky (probably not noticable unless there is a visible emissive object)
 
 ## 1.0.2
