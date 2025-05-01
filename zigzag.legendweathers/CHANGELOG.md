@@ -1,12 +1,13 @@
-## 1.0.3
+## 1.1.0
 - Added compatibility for the Ocarina item in [ChillaxScraps](https://thunderstore.io/c/lethal-company/p/Zigzag/ChillaxScraps/)
-    - Play `Oath to Order` in altitude during the final hours to discover the effect !
+    - Play `Oath to Order` in altitude during the final timer to play a special animation !
     - Sun's Song is now banned when the Majora Moon is active
 - Planet fog removal during the Majora weather is now handled by the Majora sky effect directly instead of the Moon
     - This change allows the planet fog to be reverted during specific events, such as when going into the facility
     - Inside fog should no longer be removed
 - Improved the Majora Timer UI position for different screen resolution
 - Added a bit of bloom in the Majora purple sky (probably not noticable unless there is a visible emissive object)
+- The moon surface material is no longer double-sided
 
 ## 1.0.2
 - Added the Faceless model version (can be activated in the config)
