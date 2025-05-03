@@ -261,9 +261,9 @@ namespace LegendWeathers.Utils
 
         public static void SetCameraEndOfRound(PlayerControllerB player)
         {
-            StartOfRound.Instance.SetSpectateCameraToGameOverMode(true);
-            if (player.isPlayerDead)
-                player.SetSpectatedPlayerEffects(true);
+            //StartOfRound.Instance.SetSpectateCameraToGameOverMode(true);
+            //if (player.isPlayerDead)
+            //player.SetSpectatedPlayerEffects(true);
         }
 
         public static bool IsLocalPlayerInsideFacilityAbsolute()

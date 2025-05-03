@@ -1,3 +1,6 @@
+## 1.1.1
+- Removed dead players end of round camera effects
+
 ## 1.1.0
 - Added compatibility for the Ocarina item in [ChillaxScraps](https://thunderstore.io/c/lethal-company/p/Zigzag/ChillaxScraps/)
     - Play `Oath to Order` in altitude during the final timer to play a special animation !
