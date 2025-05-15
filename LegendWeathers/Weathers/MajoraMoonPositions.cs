@@ -94,7 +94,12 @@ namespace LegendWeathers.Weathers
             { "Sector-0", (new Vector3(60, 300, -60), new Vector3(45, 320, 0), new Vector3(20, -2, -64)) },
             { "Aquatis", (new Vector3(-83, 300, -12), new Vector3(45, 60, 0), new Vector3(-83, -2, -12)) },
             { "Orion", (new Vector3(-74, 299, 55), new Vector3(45, 180, 0), new Vector3(-74, 1, 55)) },
-            { "Wither", (new Vector3(-60, 330, -100), new Vector3(45, 0, 0), new Vector3(-39, 5, -110)) }
+            { "Wither", (new Vector3(-60, 330, -100), new Vector3(45, 0, 0), new Vector3(-39, 5, -110)) },
+            { "Bilge", (new Vector3(-117, 297, -23), new Vector3(45, 130, 0), new Vector3(-117, -20, -23)) },
+            { "Chronos", (new Vector3(-37, 300, -78), new Vector3(45, 75, 0), new Vector3(-37, -3, -78)) },
+            { "Acheron", (new Vector3(-67, 295, 56), new Vector3(45, 160, 0), new Vector3(-67, -20, 56)) },
+            { "-Acheron", (new Vector3(-67, 295, 56), new Vector3(45, 160, 0), new Vector3(-67, -20, 56)) },
+            { "Kanie", (new Vector3(-220, 300, -16), new Vector3(45, 50, 0), new Vector3(-220, 1, -16)) }
         };
     }
 }

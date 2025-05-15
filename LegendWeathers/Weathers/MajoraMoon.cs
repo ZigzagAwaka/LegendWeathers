@@ -220,7 +220,7 @@ namespace LegendWeathers.Weathers
             }
             StartOfRound.Instance.ShipLeave();
             yield return new WaitForSeconds(1f);
-            Effects.SetCameraEndOfRound(GameNetworkManager.Instance.localPlayerController);
+            //Effects.SetCameraEndOfRound(GameNetworkManager.Instance.localPlayerController);
             yield return new WaitForSeconds(4f);
             if (impact != null)
                 Destroy(impact);
@@ -250,7 +250,7 @@ namespace LegendWeathers.Weathers
                 if (!player.isPlayerDead && !player.isInHangarShipRoom && !player.isInElevator && Vector3.Distance(outsideNodeEndPosition, player.transform.position) <= impact.transform.localScale.x * moonRadiusApprox * 0.9f)
                 {
                     Effects.Damage(player, 99999, CauseOfDeath.Burning, (int)Effects.DeathAnimation.Fire, false);
-                    Effects.SetCameraEndOfRound(player);
+                    //Effects.SetCameraEndOfRound(player);
                 }
             }
         }

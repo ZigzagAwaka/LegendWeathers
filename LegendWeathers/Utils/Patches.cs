@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using LegendWeathers.BehaviourScripts;
-using LegendWeathers.Weathers;
 using System.Linq;
 
 namespace LegendWeathers.Utils
@@ -12,10 +11,11 @@ namespace LegendWeathers.Utils
         [HarmonyPatch("OnShipLandedMiscEvents")]
         public static void OnShipLandedMiscEventsPatch()
         {
-            if (Effects.IsWeatherEffectPresent("majoramoon"))
+            // WILL CAUSE ISSUES UNTIL VANILLA IS FIXED
+            /*if (Effects.IsWeatherEffectPresent("majoramoon"))
             {
                 Effects.MessageOneTime("Weather alert!", MajoraMoonWeather.weatherAlert, true, "LW_MajoraTip");
-            }
+            }*/
         }
     }
 

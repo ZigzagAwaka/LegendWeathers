@@ -1,3 +1,8 @@
+## 1.1.2
+- Improved the Majora Moon position in the sky for Skelaah's Wild Moons
+- The weather is now blacklisted on Black Mesa
+- Removed the Majora weather warning message (that is displayed when you land on a planet for the first time with the Majora Moon active). Will be re-added if the vanilla 'save display tip code' is fixed in the future
+
 ## 1.1.1
 - Removed dead players end of round camera effects
 
@@ -9,7 +14,7 @@
     - This change allows the planet fog to be reverted during specific events, such as when going into the facility
     - Inside fog should no longer be removed
 - Improved the Majora Timer UI position for different screen resolution
-- Added a bit of bloom in the Majora purple sky (probably not noticable unless there is a visible emissive object)
+- Added a bit of bloom in the Majora purple sky
 - The moon surface material is no longer double-sided
 - Adjusted Moon's Tears audio a bit
 
