@@ -1,3 +1,8 @@
+## 1.1.3
+- Added Boomy, Owl and Abibabou model version (can be activated in the config)
+- Added `Automatic model selection` config, you can activate it to have the model be automatically selected based on your installed mods and some specific conditions
+- Re-added the Majora weather warning message, now fixed with a custom system that will not cause message display issues
+
 ## 1.1.2
 - Improved the Majora Moon position in the sky for Skelaah's Wild Moons
 - The weather is now blacklisted on Black Mesa

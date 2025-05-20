@@ -20,7 +20,7 @@ namespace LegendWeathers
     {
         const string GUID = "zigzag.legendweathers";
         const string NAME = "LegendWeathers";
-        const string VERSION = "1.1.2";
+        const string VERSION = "1.1.3";
 
         public static Plugin instance;
         public static ManualLogSource logger;
@@ -31,7 +31,6 @@ namespace LegendWeathers
         public GameObject? majoraSkyObject;
         public Item? majoraMaskItem;
         public Item? majoraMoonTearItem;
-        public string majoraModelName = "Model2";
 
         void HarmonyPatchAll()
         {
@@ -79,11 +78,8 @@ namespace LegendWeathers
             majoraMoonTearItem = bundle.LoadAsset<Item>(directory + "MajoraMoon/Items/MoonTear/MoonTearItem.asset");
             if (!config.majoraMoonModel.Value.Equals(config.majoraMoonModel.DefaultValue))
             {
-                bool faceless = config.majoraMoonModel.Value == "Faceless";
-                majoraMoonObject.transform.Find(!faceless ? "Model1" : "Model3").gameObject.SetActive(true);
-                majoraMoonObject.transform.Find("Model2").gameObject.SetActive(false);
-                majoraModelName = !faceless ? "Model1" : "Model3";
-                if (!faceless)
+                MajoraMoon.CheckAndReplaceModel();
+                if (config.majoraMoonModel.Value == "N64")
                 {
                     majoraMaskItem.spawnPrefab.transform.Find("Model/Model1").gameObject.SetActive(true);
                     majoraMaskItem.spawnPrefab.transform.Find("Model/Model2").gameObject.SetActive(false);

@@ -385,7 +385,23 @@ namespace LegendWeathers.Utils
 
         public static void MessageOneTime(string title, string bottom, bool warning = false, string saveKey = "LC_Tip1")
         {
-            HUDManager.Instance.DisplayTip(title, bottom, warning, true, saveKey);
+            if (ES3.Load(saveKey, "LCGeneralSaveData", false))
+            {
+                return;
+            }
+            HUDManager.Instance.tipsPanelHeader.text = title;
+            HUDManager.Instance.tipsPanelBody.text = bottom;
+            if (warning)
+            {
+                HUDManager.Instance.tipsPanelAnimator.SetTrigger("TriggerWarning");
+                RoundManager.PlayRandomClip(HUDManager.Instance.UIAudio, HUDManager.Instance.warningSFX, randomize: false);
+            }
+            else
+            {
+                HUDManager.Instance.tipsPanelAnimator.SetTrigger("TriggerHint");
+                RoundManager.PlayRandomClip(HUDManager.Instance.UIAudio, HUDManager.Instance.tipsSFX, randomize: false);
+            }
+            ES3.Save(saveKey, true, "LCGeneralSaveData");
         }
 
         public static void MessageComputer(params string[] messages)

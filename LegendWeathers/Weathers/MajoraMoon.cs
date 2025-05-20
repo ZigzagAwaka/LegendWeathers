@@ -29,6 +29,7 @@ namespace LegendWeathers.Weathers
         public ParticleSystem burstParticles2 = null!;
         public VisualEffect burstVFX = null!;
         public Animator burstAnimator = null!;
+        public static string modelName = "3DS";
 
         private readonly int moonRadiusApprox = 19;
         private readonly float endSizeFactor = 7.3f;
@@ -232,7 +233,7 @@ namespace LegendWeathers.Weathers
 
         private void DisableColliders(bool disable = true)
         {
-            GameObject? model = transform.Find(Plugin.instance.majoraModelName).gameObject;
+            GameObject? model = transform.Find("Models/" + modelName).gameObject;
             if (model == null)
                 return;
             foreach (var collider in model.GetComponents<MeshCollider>())
@@ -375,6 +376,24 @@ namespace LegendWeathers.Weathers
             Effects.RemoveWeather("majoramoon");
         }
 
+        public static void CheckAndReplaceModel(GameObject? moonInstanceObject = null)
+        {
+            var newModelName = Plugin.config.majoraMoonModel.Value;
+            var moonObject = moonInstanceObject ?? Plugin.instance.majoraMoonObject;
+            if (moonObject == null)
+            {
+                Plugin.logger.LogError("Failed to replace the Majora Moon model, moon object is null.");
+                return;
+            }
+            if (moonInstanceObject != null)
+            {
+
+            }
+            moonObject.transform.Find("Models/" + newModelName).gameObject.SetActive(true);
+            moonObject.transform.Find("Models/" + modelName).gameObject.SetActive(false);
+            modelName = newModelName;
+        }
+
         [ServerRpc]
         public void InitializeMoonServerRpc(NetworkObjectReference moonRef, Vector3 nodeEndPosition)
         {
@@ -408,6 +427,8 @@ namespace LegendWeathers.Weathers
             endPosition = nodeEndPosition + Vector3.Normalize(transform.position - nodeEndPosition) * moonRadiusOffset;
             endRotation = new Vector3(90, transform.eulerAngles.y, transform.eulerAngles.z);
             endScale = transform.localScale * endSizeFactor;
+            if (Plugin.config.majoraMoonModelAutomatic.Value)
+                CheckAndReplaceModel(gameObject);
             SetupComponents();
             isInitialized = true;
         }
@@ -476,6 +497,7 @@ namespace LegendWeathers.Weathers
             }
             if (stopMoonCoroutine != null)
                 StopCoroutine(stopMoonCoroutine);
+            modelName = Plugin.config.majoraMoonModel.Value;
             base.OnDestroy();
         }
     }
