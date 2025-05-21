@@ -5,7 +5,10 @@ namespace LegendWeathers
 {
     class Config
     {
-        public bool WeatherRegistery = false;
+        public bool WeatherRegisteryInstalled = false;
+        public bool BiodiversityInstalled = false;
+        public bool SurfacedInstalled = false;
+        public bool PremiumScrapsInstalled = false;
         public readonly ConfigEntry<bool> majoraWeather;
         public readonly ConfigEntry<string> majoraMoonModel;
         public readonly ConfigEntry<bool> majoraMoonModelAutomatic;
@@ -29,11 +32,11 @@ namespace LegendWeathers
 
         public void SetupCustomConfigs()
         {
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("mrov.WeatherRegistry"))
-            {
-                WeatherRegistery = true;
-            }
-            if (!WeatherRegistery)
+            WeatherRegisteryInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("mrov.WeatherRegistry");
+            BiodiversityInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.github.biodiversitylc.Biodiversity");
+            SurfacedInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Surfaced");
+            PremiumScrapsInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("zigzag.premiumscraps");
+            if (!WeatherRegisteryInstalled)
                 Plugin.logger.LogError("WeatherRegistery is not installed! Please install WeatherRegistery before using this mod.");
             ParseValues();
         }

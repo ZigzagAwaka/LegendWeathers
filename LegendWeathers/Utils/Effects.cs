@@ -1,9 +1,11 @@
 ﻿using DigitalRuby.ThunderAndLightning;
 using GameNetcodeStuff;
+using LethalLib.Modules;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
@@ -284,7 +286,7 @@ namespace LegendWeathers.Utils
         {
             var original = StartOfRound.Instance.currentLevel.currentWeather;
             StartOfRound.Instance.currentLevel.currentWeather = weather;
-            if (Plugin.config.WeatherRegistery)
+            if (Plugin.config.WeatherRegisteryInstalled)
             {
                 ChangeWeatherWR(weather);
                 return;
@@ -376,6 +378,53 @@ namespace LegendWeathers.Utils
                 return null;
             var weatherEffect = WeatherManager.GetWeather(weatherType).Effect;
             return weatherEffect;
+        }
+
+        public static bool IsMajoraBiodiversityCompatible()
+        {
+            if (!Plugin.config.BiodiversityInstalled || Biodiversity.Creatures.MicBird.MicBirdHandler.Instance == null || RoundManager.Instance == null)
+            {
+                return false;
+            }
+            var (levelRarities, customLevelRarities) = Biodiversity.Creatures.BiodiverseAIHandler<Biodiversity.Creatures.MicBird.MicBirdHandler>.ConfigParsing(Biodiversity.Creatures.MicBird.MicBirdHandler.Instance.Config.BoomBirdRarity);
+            var moonName = Regex.Replace(RoundManager.Instance.currentLevel.PlanetName, "^[0-9]+", string.Empty);
+            if (moonName[0] == ' ')
+                moonName = moonName[1..];
+            if ((System.Enum.TryParse(moonName, true, out Levels.LevelTypes levelType) && levelRarities.ContainsKey(levelType) && Random.Range(0, 100) <= levelRarities[levelType])
+                || (System.Enum.TryParse(moonName + "Level", true, out Levels.LevelTypes modifLevelType) && levelRarities.ContainsKey(modifLevelType) && Random.Range(0, 100) <= levelRarities[modifLevelType])
+                || (customLevelRarities.ContainsKey(moonName) && Random.Range(0, 100) <= customLevelRarities[moonName]))
+                return true;
+            return false;
+        }
+
+        public static bool IsMajoraSurfacedCompatible()
+        {
+            if (!Plugin.config.SurfacedInstalled || RoundManager.Instance == null)
+            {
+                return false;
+            }
+            foreach (var scrap in Object.FindObjectsOfType<GrabbableObject>())
+            {
+                if (scrap.itemProperties.itemName == "Rodriguez")
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool IsMajoraPremiumScrapsCompatible()
+        {
+            if (!Plugin.config.PremiumScrapsInstalled || RoundManager.Instance == null)
+            {
+                return false;
+            }
+            if (GetPlayers(includeDead: true).Find(p => p.playerSteamId == 76561198198881967) != default)
+                return true;
+            foreach (var scrap in Object.FindObjectsOfType<GrabbableObject>())
+            {
+                if (scrap.itemProperties.itemName == "The talking orb")
+                    return true;
+            }
+            return false;
         }
 
         public static void Message(string title, string bottom, bool warning = false)

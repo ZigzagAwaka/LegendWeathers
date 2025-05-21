@@ -88,4 +88,6 @@ If you want to suggest new features, report issues or simply contact me please g
 
 - Some model assets are ripped from various games and imported thanks to https://www.models-resource.com/, you can check the list [here](https://github.com/ZigzagAwaka/LegendWeathers/blob/main/models-resource-credits.txt)
 
+- Compatiple model replacement are imported from [Biodiversity](https://thunderstore.io/c/lethal-company/p/super_fucking_cool_and_badass_team/Biodiversity/), [Surfaced](https://thunderstore.io/c/lethal-company/p/SurfacedTeam/Surfaced/) and [PremiumScraps](https://thunderstore.io/c/lethal-company/p/Zigzag/PremiumScraps/)
+
 - Features audio sfx and music from Nintendo games

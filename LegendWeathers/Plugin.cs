@@ -16,6 +16,9 @@ namespace LegendWeathers
     [BepInPlugin(GUID, NAME, VERSION)]
     [BepInDependency(LethalLib.Plugin.ModGUID, BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("mrov.WeatherRegistry", BepInDependency.DependencyFlags.HardDependency)]
+    [BepInDependency("com.github.biodiversitylc.Biodiversity", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("Surfaced", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("zigzag.premiumscraps", BepInDependency.DependencyFlags.SoftDependency)]
     public class Plugin : BaseUnityPlugin
     {
         const string GUID = "zigzag.legendweathers";
