@@ -390,9 +390,9 @@ namespace LegendWeathers.Utils
             var moonName = Regex.Replace(RoundManager.Instance.currentLevel.PlanetName, "^[0-9]+", string.Empty);
             if (moonName[0] == ' ')
                 moonName = moonName[1..];
-            if ((System.Enum.TryParse(moonName, true, out Levels.LevelTypes levelType) && levelRarities.ContainsKey(levelType) && Random.Range(0, 100) <= levelRarities[levelType])
-                || (System.Enum.TryParse(moonName + "Level", true, out Levels.LevelTypes modifLevelType) && levelRarities.ContainsKey(modifLevelType) && Random.Range(0, 100) <= levelRarities[modifLevelType])
-                || (customLevelRarities.ContainsKey(moonName) && Random.Range(0, 100) <= customLevelRarities[moonName]))
+            if ((System.Enum.TryParse(moonName, true, out Levels.LevelTypes levelType) && levelRarities.ContainsKey(levelType) && levelRarities[levelType] >= 30)
+                || (System.Enum.TryParse(moonName + "Level", true, out Levels.LevelTypes modifLevelType) && levelRarities.ContainsKey(modifLevelType) && levelRarities[modifLevelType] >= 30)
+                || (customLevelRarities.ContainsKey(moonName) && customLevelRarities[moonName] >= 30))
                 return true;
             return false;
         }
@@ -405,7 +405,7 @@ namespace LegendWeathers.Utils
             }
             foreach (var scrap in Object.FindObjectsOfType<GrabbableObject>())
             {
-                if (scrap.itemProperties.itemName == "Rodriguez")
+                if (scrap.itemProperties.itemName == "Rodriguez" && scrap.isInFactory)
                     return true;
             }
             return false;
@@ -421,7 +421,7 @@ namespace LegendWeathers.Utils
                 return true;
             foreach (var scrap in Object.FindObjectsOfType<GrabbableObject>())
             {
-                if (scrap.itemProperties.itemName == "The talking orb")
+                if (scrap.itemProperties.itemName == "The talking orb" && scrap.isInFactory)
                     return true;
             }
             return false;

@@ -1,3 +1,6 @@
+## 1.1.4
+- Fixed `Automatic model selection` with new conditions so it should now be synced between players
+
 ## 1.1.3
 - Added Boomy, Owl and Abibabou model version (can be activated in the config)
 - Added `Automatic model selection` config, you can activate it to have the model be automatically selected based on your installed mods and some specific conditions
