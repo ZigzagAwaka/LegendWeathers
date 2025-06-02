@@ -1,3 +1,6 @@
+## 1.1.5
+- Recompiled for v70
+
 ## 1.1.4
 - Fixed `Automatic model selection` with new conditions so it should now be synced between players
 
