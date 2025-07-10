@@ -1,3 +1,6 @@
+## 1.1.6
+- Improved the Majora Moon position in the sky for the following moons : EGypt, Noctis and Luigis Mansion
+
 ## 1.1.5
 - Recompiled for v70
 

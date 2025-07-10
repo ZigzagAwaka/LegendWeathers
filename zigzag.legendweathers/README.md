@@ -4,7 +4,7 @@
 
 Weathers in this mod are designed to be rare and impactful. They **are NOT like vanilla weathers**, and are meant to be seen very rarely due to their *extreme* effects. You can customize the spawn chance in the WeatherRegistery config but by default it is pretty low.
 
-Compatible with v69/v70 of Lethal Company.
+Compatible with v69/v70/v72 of Lethal Company.
 
 ##
 
@@ -82,7 +82,7 @@ If you want to suggest new features, report issues or simply contact me please g
 
 - Thanks [Voxx](https://thunderstore.io/c/lethal-company/p/v0xx/) for providing help about weather volumes!
 
-- Thanks [Xyphire](https://thunderstore.io/c/lethal-company/p/Xyphire/) for providing help about UI and shaders!
+- Thanks [Xyphire](https://linktr.ee/Xyphire) for providing help about UI and shaders!
 
 - Thanks [Zeldahu](https://thunderstore.io/c/lethal-company/p/Zeldahu/) for testing!
 

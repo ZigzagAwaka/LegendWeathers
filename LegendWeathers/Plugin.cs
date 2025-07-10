@@ -23,7 +23,7 @@ namespace LegendWeathers
     {
         const string GUID = "zigzag.legendweathers";
         const string NAME = "LegendWeathers";
-        const string VERSION = "1.1.5";
+        const string VERSION = "1.1.6";
 
         public static Plugin instance;
         public static ManualLogSource logger;

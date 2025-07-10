@@ -99,7 +99,10 @@ namespace LegendWeathers.Weathers
             { "Chronos", (new Vector3(-37, 300, -78), new Vector3(45, 75, 0), new Vector3(-37, -3, -78)) },
             { "Acheron", (new Vector3(-67, 295, 56), new Vector3(45, 160, 0), new Vector3(-67, -20, 56)) },
             { "-Acheron", (new Vector3(-67, 295, 56), new Vector3(45, 160, 0), new Vector3(-67, -20, 56)) },
-            { "Kanie", (new Vector3(-220, 300, -16), new Vector3(45, 50, 0), new Vector3(-220, 1, -16)) }
+            { "Kanie", (new Vector3(-220, 300, -16), new Vector3(45, 50, 0), new Vector3(-220, 1, -16)) },
+            { "EGypt", (new Vector3(-115, 300, -30), new Vector3(45, 45, 0), new Vector3(-119, 0, -33)) },
+            { "Noctis", (new Vector3(-54, 300, 40), new Vector3(45, 150, 0), new Vector3(-54, -2, 40)) },
+            { "Luigis Mansion", (new Vector3(-99, 303, 17), new Vector3(45, 50, 0), new Vector3(-99, 0, 17)) }
         };
     }
 }
