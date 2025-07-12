@@ -102,6 +102,7 @@ namespace LegendWeathers.Weathers
             { "Kanie", (new Vector3(-220, 300, -16), new Vector3(45, 50, 0), new Vector3(-220, 1, -16)) },
             { "EGypt", (new Vector3(-115, 300, -30), new Vector3(45, 45, 0), new Vector3(-119, 0, -33)) },
             { "Noctis", (new Vector3(-54, 300, 40), new Vector3(45, 150, 0), new Vector3(-54, -2, 40)) },
+            { "Terra", (new Vector3(-21, 350, 201), new Vector3(45, 220, 0), new Vector3(-21, -1, 201)) },
             { "Luigis Mansion", (new Vector3(-99, 303, 17), new Vector3(45, 50, 0), new Vector3(-99, 0, 17)) }
         };
     }
