@@ -53,6 +53,8 @@ namespace LegendWeathers.Weathers
                 {
                     var sunTextureTransform = sunAnim.transform.Find("SunTexture");
                     sunTextureTransform?.gameObject?.SetActive(enabled);
+                    var eclipseObjectTransform = sunAnim.transform.Find("EclipseObject");
+                    eclipseObjectTransform?.gameObject?.SetActive(enabled);
                 }
             }
             catch (System.Exception)

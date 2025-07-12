@@ -1,5 +1,8 @@
 ## 1.1.6
+- Added [WeatherTweaks](https://thunderstore.io/c/lethal-company/p/mrov/WeatherTweaks/) integration : 4 combined weathers effects, and 5 more if you have [LethalElementsBeta](https://thunderstore.io/c/lethal-company/p/v0xx/LethalElementsBeta/) installed
+- Added todo model version (can be activated in the config)
 - Improved the Majora Moon position in the sky for the following moons : EGypt, Noctis, Terra and Luigis Mansion
+- Fixed the eclipsed sun texture not being detected during a combined weather effect between Eclipsed and Majora Moon
 
 ## 1.1.5
 - Recompiled for v70

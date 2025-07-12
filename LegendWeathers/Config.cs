@@ -1,4 +1,5 @@
-﻿using BepInEx.Configuration;
+﻿using BepInEx.Bootstrap;
+using BepInEx.Configuration;
 using System.Linq;
 
 namespace LegendWeathers
@@ -6,9 +7,12 @@ namespace LegendWeathers
     class Config
     {
         public bool WeatherRegisteryInstalled = false;
+        public bool WeatherTweaksInstalled = false;
+        public bool LethalElementsInstalled = false;
         public bool BiodiversityInstalled = false;
         public bool SurfacedInstalled = false;
         public bool PremiumScrapsInstalled = false;
+
         public readonly ConfigEntry<bool> majoraWeather;
         public readonly ConfigEntry<string> majoraMoonModel;
         public readonly ConfigEntry<bool> majoraMoonModelAutomatic;
@@ -32,10 +36,16 @@ namespace LegendWeathers
 
         public void SetupCustomConfigs()
         {
-            WeatherRegisteryInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("mrov.WeatherRegistry");
-            BiodiversityInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.github.biodiversitylc.Biodiversity");
-            SurfacedInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Surfaced");
-            PremiumScrapsInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("zigzag.premiumscraps");
+            /*for (int i = 0; i < Chainloader.PluginInfos.Keys.Count; i++)
+            {
+                Plugin.logger.LogError(Chainloader.PluginInfos.Keys.ElementAt(i) + " is installed.");
+            }*/
+            WeatherRegisteryInstalled = IsPluginInstalled("mrov.WeatherRegistry");
+            WeatherTweaksInstalled = IsPluginInstalled("WeatherTweaks");
+            LethalElementsInstalled = IsPluginInstalled("voxx.LethalElementsPlugin", "1.3.0");
+            BiodiversityInstalled = IsPluginInstalled("com.github.biodiversitylc.Biodiversity");
+            SurfacedInstalled = IsPluginInstalled("Surfaced");
+            PremiumScrapsInstalled = IsPluginInstalled("zigzag.premiumscraps");
             if (!WeatherRegisteryInstalled)
                 Plugin.logger.LogError("WeatherRegistery is not installed! Please install WeatherRegistery before using this mod.");
             ParseValues();
@@ -53,6 +63,12 @@ namespace LegendWeathers
             if (minV > maxV)
             { majoraMaskValueParsed = (-1, -1); return; }
             majoraMaskValueParsed = (minV, maxV);
+        }
+
+        private bool IsPluginInstalled(string pluginGUID, string? pluginVersion = null)
+        {
+            return Chainloader.PluginInfos.ContainsKey(pluginGUID) &&
+                (pluginVersion == null || new System.Version(pluginVersion).CompareTo(Chainloader.PluginInfos[pluginGUID].Metadata.Version) <= 0);
         }
     }
 }

@@ -16,6 +16,8 @@ namespace LegendWeathers
     [BepInPlugin(GUID, NAME, VERSION)]
     [BepInDependency(LethalLib.Plugin.ModGUID, BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("mrov.WeatherRegistry", BepInDependency.DependencyFlags.HardDependency)]
+    [BepInDependency("WeatherTweaks", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("voxx.LethalElementsPlugin", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.github.biodiversitylc.Biodiversity", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("Surfaced", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("zigzag.premiumscraps", BepInDependency.DependencyFlags.SoftDependency)]
@@ -122,6 +124,11 @@ namespace LegendWeathers
             if (config.majoraWeather.Value)
             {
                 RegisterMajora(bundle, directory);
+            }
+
+            if (config.WeatherTweaksInstalled)
+            {
+                TweaksIntegration.Setup();
             }
 
             HarmonyPatchAll();
