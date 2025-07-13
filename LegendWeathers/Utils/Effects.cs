@@ -427,6 +427,31 @@ namespace LegendWeathers.Utils
             return false;
         }
 
+        public static bool IsMajoraEmergencyDiceCompatible()
+        {
+            if (!Plugin.config.EmergencyDiceInstalled || RoundManager.Instance == null)
+            {
+                return false;
+            }
+            foreach (var scrap in Object.FindObjectsOfType<GrabbableObject>())
+            {
+                if (scrap.itemProperties.itemName == "Rusty" && scrap.isInFactory)
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool IsMajoraCodeRebirthCompatible()
+        {
+            if (!Plugin.config.CodeRebirthInstalled || RoundManager.Instance == null)
+            {
+                return false;
+            }
+            if (GetPlayers(includeDead: true).Find(p => p.playerSteamId == 76561198984467725) != default)
+                return true;
+            return false;
+        }
+
         public static void Message(string title, string bottom, bool warning = false)
         {
             HUDManager.Instance.DisplayTip(title, bottom, warning);
