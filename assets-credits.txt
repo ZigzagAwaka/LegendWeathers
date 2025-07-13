@@ -1,4 +1,4 @@
-Some assets are ripped from various games and imported thanks to https://www.models-resource.com/
+The following assets are ripped from various games and imported thanks to https://www.models-resource.com/.
 
 - Moon : https://www.models-resource.com/nintendo_64/thelegendofzeldamajorasmask/model/28863/
 - Moon : https://www.models-resource.com/3ds/thelegendofzeldamajorasmask3d/model/12394/
@@ -6,3 +6,8 @@ Some assets are ripped from various games and imported thanks to https://www.mod
 - Majora's Mask (Boss) : https://www.models-resource.com/3ds/thelegendofzeldamajorasmask3d/model/68964/
 - Moon's Tear : https://www.models-resource.com/3ds/thelegendofzeldamajorasmask3d/model/12398/
 - Melty Molten Dino Piranha Planet : https://www.models-resource.com/wii/supermariogalaxy/model/71326/
+
+
+Used 3D models are free and licensed under Creative Commons Attribution.
+
+- Tear Of Joy by maregajavier : https://sketchfab.com/3d-models/tear-of-joy-0a8de338f14b4903a0d90a8781732a3f
