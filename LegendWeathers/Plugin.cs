@@ -39,6 +39,7 @@ namespace LegendWeathers
         public GameObject? majoraSkyObject;
         public Item? majoraMaskItem;
         public Item? majoraMoonTearItem;
+        public Sprite? vanillaItemIcon;
 
         void HarmonyPatchAll()
         {
@@ -84,16 +85,11 @@ namespace LegendWeathers
             majoraSkyObject = bundle.LoadAsset<GameObject>(directory + "MajoraMoon/MajoraSky.prefab");
             majoraMaskItem = bundle.LoadAsset<Item>(directory + "MajoraMoon/Items/MajoraMask/MajoraMaskItem.asset");
             majoraMoonTearItem = bundle.LoadAsset<Item>(directory + "MajoraMoon/Items/MoonTear/MoonTearItem.asset");
+            vanillaItemIcon = bundle.LoadAsset<Sprite>(directory + "MajoraMoon/Items/MajoraMask/ScrapItemIcon2.png");
             if (!config.majoraMoonModel.Value.Equals(config.majoraMoonModel.DefaultValue))
             {
                 MajoraMoon.CheckAndReplaceModel();
-                if (config.majoraMoonModel.Value == "N64")
-                {
-                    majoraMaskItem.spawnPrefab.transform.Find("Model/Model1").gameObject.SetActive(true);
-                    majoraMaskItem.spawnPrefab.transform.Find("Model/Model2").gameObject.SetActive(false);
-                    majoraMaskItem.spawnPrefab.GetComponent<MajoraMaskItem>().headMaskPrefab.transform.Find("Model/Model1").gameObject.SetActive(true);
-                    majoraMaskItem.spawnPrefab.GetComponent<MajoraMaskItem>().headMaskPrefab.transform.Find("Model/Model2").gameObject.SetActive(false);
-                }
+                MajoraMaskItem.CheckAndReplaceModel();
             }
             NetworkPrefabs.RegisterNetworkPrefab(majoraMoonObject);
             NetworkPrefabs.RegisterNetworkPrefab(majoraMaskItem.spawnPrefab);

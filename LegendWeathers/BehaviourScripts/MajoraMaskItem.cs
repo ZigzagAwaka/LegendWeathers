@@ -391,6 +391,42 @@ namespace LegendWeathers.BehaviourScripts
             }
         }
 
+        public static void CheckAndReplaceModel()
+        {
+            var moonModelName = Plugin.config.majoraMoonModel.Value;
+            if (moonModelName == "N64" || moonModelName == "Faceless")
+            {
+                var maskItem = Plugin.instance.majoraMaskItem;
+                if (maskItem == null)
+                {
+                    Plugin.logger.LogError("Failed to replace the Majora Mask model, mask item is null.");
+                    return;
+                }
+                string maskModelName = moonModelName == "N64" ? "Model1" : "Model3";
+                SetModelActive(maskItem, "Model2", false);
+                SetModelActive(maskItem, maskModelName, true);
+                if (maskModelName == "Model3")
+                {
+                    TweakMaskDataModel(maskItem);
+                }
+            }
+        }
+
+        private static void SetModelActive(Item maskItem, string modelName, bool active)
+        {
+            maskItem.spawnPrefab.transform.Find("Model/" + modelName).gameObject.SetActive(active);
+            maskItem.spawnPrefab.GetComponent<MajoraMaskItem>().headMaskPrefab.transform.Find("Model/" + modelName).gameObject.SetActive(active);
+        }
+
+        private static void TweakMaskDataModel(Item maskItem)
+        {
+            maskItem.spawnPrefab.transform.Find("ScanNode").GetComponent<ScanNodeProperties>().headerText = "Unknown Mask";
+            var itemProperties = maskItem.spawnPrefab.GetComponent<MajoraMaskItem>().itemProperties;
+            itemProperties.itemName = "Unknown Mask";
+            if (Plugin.instance.vanillaItemIcon != null)
+                itemProperties.itemIcon = Plugin.instance.vanillaItemIcon;
+        }
+
         [ServerRpc]
         public void SyncMaskServerRpc(NetworkObjectReference maskRef, int value, int save = 0)
         {

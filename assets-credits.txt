@@ -6,6 +6,7 @@ The following assets are ripped from various games and imported thanks to https:
 - Majora's Mask (Boss) : https://www.models-resource.com/3ds/thelegendofzeldamajorasmask3d/model/68964/
 - Moon's Tear : https://www.models-resource.com/3ds/thelegendofzeldamajorasmask3d/model/12398/
 - Melty Molten Dino Piranha Planet : https://www.models-resource.com/wii/supermariogalaxy/model/71326/
+- SCP-035 : https://www.models-resource.com/pc_computer/scpcontainmentbreach/model/52439/
 
 
 Used 3D models are free and licensed under Creative Commons Attribution.
