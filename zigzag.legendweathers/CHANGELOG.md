@@ -1,6 +1,10 @@
 ## 1.1.7
+- When the Faceless model version is activated in the config, the Majora's Mask will now be reskined to match the vanilla look of the moon
+- Fixed `Automatic model selection` config being broken since last update
 - Added new combined weathers effects when [CodeRebirth](https://thunderstore.io/c/lethal-company/p/XuXiaolan/CodeRebirth/) or [MrovWeathers](https://thunderstore.io/c/lethal-company/p/mrov/MrovWeathers/) are installed
-- Fixed `Automatic model selection` being broken since last update
+- Improved the Majora Moon position in the sky for the following moons : Triskelion, March and Adamance
+- The Majora Timer UI is now more accurate by 1 second
+- The weather will now work on Company moons when activating `Company Moon compatibility` config (false by default). You may also need to remove the company moons names in the blacklist section of WeatherRegistery
 
 ## 1.1.6
 - Added [WeatherTweaks](https://thunderstore.io/c/lethal-company/p/mrov/WeatherTweaks/) integration : 4 combined weathers effects, and 5 more if you have [LethalElementsBeta](https://thunderstore.io/c/lethal-company/p/v0xx/LethalElementsBeta/) installed
@@ -13,7 +17,7 @@
 - Recompiled for v70
 
 ## 1.1.4
-- Fixed `Automatic model selection` with new conditions so it should now be synced between players
+- Fixed `Automatic model selection` config with new conditions so it should now be synced between players
 
 ## 1.1.3
 - Added Boomy, Owl and Abibabou model version (can be activated in the config)

@@ -105,7 +105,9 @@ namespace LegendWeathers.Weathers
                 SoundManager.Instance.musicSource.Stop();
             if (oathToOrderStopingMoon)
                 return;
-            if (TimeOfDay.Instance.currentDayTimeStarted)
+            if (Compatibility.IsMajoraActiveOnCompany)
+                smoothTime = Compatibility.GetCompanySmoothTime(Time.deltaTime);
+            else if (TimeOfDay.Instance.currentDayTimeStarted)
             {
                 if (previousSpeedMultiplier != TimeOfDay.Instance.globalTimeSpeedMultiplier)
                 {
@@ -130,29 +132,32 @@ namespace LegendWeathers.Weathers
 
         private void FinalHours()
         {
-            if (!finalHoursPlayingMusic && TimeOfDay.Instance.currentDayTime >= finalHoursTime + 30)
+            if (!finalHoursPlayingMusic && (Compatibility.IsMajoraActiveOnCompany || TimeOfDay.Instance.currentDayTime >= finalHoursTime + 30))
             {
                 StartMusic();
                 finalHoursPlayingMusic = true;
             }
-            if (!finalHoursDisplayingTimer && TimeOfDay.Instance.currentDayTime >= finalHoursTime + 50)
+            if (!finalHoursDisplayingTimer && ((!Compatibility.IsMajoraActiveOnCompany && TimeOfDay.Instance.currentDayTime >= finalHoursTime + 50)
+                                                || (Compatibility.IsMajoraActiveOnCompany && Compatibility.MajoraCompanyTimer <= 91)))
             {
                 StartTimer();
                 StartIncreasingWindSpeed();
                 finalHoursDisplayingTimer = true;
             }
-            if (!finalHoursPlayingParticles && TimeOfDay.Instance.currentDayTime >= finalHoursTime + 205)
+            if (!finalHoursPlayingParticles && ((!Compatibility.IsMajoraActiveOnCompany && TimeOfDay.Instance.currentDayTime >= finalHoursTime + 205)
+                                                || (Compatibility.IsMajoraActiveOnCompany && Compatibility.MajoraCompanyTimer <= 33)))
             {
                 StartParticles();
                 StartCrashAudio();
                 finalHoursPlayingParticles = true;
             }
-            if (!finalHoursFinishing && TimeOfDay.Instance.currentDayTime >= finalHoursTime + 235)
+            if (!finalHoursFinishing && ((!Compatibility.IsMajoraActiveOnCompany && TimeOfDay.Instance.currentDayTime >= finalHoursTime + 235)
+                                            || (Compatibility.IsMajoraActiveOnCompany && Compatibility.MajoraCompanyTimer <= 18)))
             {
                 StartCoroutine(StartFinishing());
                 finalHoursFinishing = true;
             }
-            UpdateTimer(smoothTime - 20);
+            UpdateTimer(smoothTime + (!Compatibility.IsMajoraActiveOnCompany ? -21 : -8));
             UpdateImpact();
         }
 
@@ -276,7 +281,7 @@ namespace LegendWeathers.Weathers
                         nextRumbleEventTime = Random.Range(35, 60);
                     PlayRandomEventsClientRpc(eventID);
                 }
-                if (lastTearEventTime >= nextTearEventTime && !finalHoursPlayingParticles)
+                if (!Compatibility.IsMajoraActiveOnCompany && lastTearEventTime >= nextTearEventTime && !finalHoursPlayingParticles)
                 {
                     lastTearEventTime = 0;
                     if (isRareTearEventDay)
@@ -387,15 +392,15 @@ namespace LegendWeathers.Weathers
             }
             if (moonInstanceObject != null)
             {
-                if (Plugin.config.CodeRebirthInstalled && Effects.IsMajoraCodeRebirthCompatible())
+                if (Compatibility.CodeRebirthInstalled && Compatibility.IsMajoraCodeRebirthCompatible())
                     newModelName = "Baldy";
-                else if (Plugin.config.PremiumScrapsInstalled && Effects.IsMajoraPremiumScrapsCompatible())
+                else if (Compatibility.PremiumScrapsInstalled && Compatibility.IsMajoraPremiumScrapsCompatible())
                     newModelName = "Abibabou";
-                else if (Plugin.config.SurfacedInstalled && Effects.IsMajoraSurfacedCompatible())
+                else if (Compatibility.SurfacedInstalled && Compatibility.IsMajoraSurfacedCompatible())
                     newModelName = "Owl";
-                else if (Plugin.config.EmergencyDiceInstalled && Effects.IsMajoraEmergencyDiceCompatible())
+                else if (Compatibility.EmergencyDiceInstalled && Compatibility.IsMajoraEmergencyDiceCompatible())
                     newModelName = "Dice";
-                else if (Plugin.config.BiodiversityInstalled && Effects.IsMajoraBiodiversityCompatible())
+                else if (Compatibility.BiodiversityInstalled && Compatibility.IsMajoraBiodiversityCompatible())
                     newModelName = "Boomy";
             }
             if (modelName.Equals(newModelName))

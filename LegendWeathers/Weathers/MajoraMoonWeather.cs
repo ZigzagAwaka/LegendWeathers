@@ -1,4 +1,5 @@
 ﻿using LegendWeathers.BehaviourScripts;
+using LegendWeathers.Utils;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -20,8 +21,13 @@ namespace LegendWeathers.Weathers
                 return;
             if (!RoundManager.Instance.currentLevel.planetHasTime)
             {
-                Plugin.logger.LogError(weatherInfo.name + " requires a planet with time.");
-                return;
+                if (Compatibility.IsMoonCompanyCompatible(RoundManager.Instance.currentLevel.PlanetName))
+                    Compatibility.SetMajoraCompanyCompatible(true);
+                else
+                {
+                    Plugin.logger.LogError(weatherInfo.name + " requires a planet with time.");
+                    return;
+                }
             }
             if (NetworkManager.Singleton.IsServer)
             {
@@ -37,7 +43,7 @@ namespace LegendWeathers.Weathers
                 {
                     Plugin.logger.LogError("Failed to spawn " + weatherInfo.name + " on the server.");
                 }
-                if (Plugin.instance.majoraMaskItem != null)
+                if (Plugin.instance.majoraMaskItem != null && !Compatibility.IsMajoraActiveOnCompany)
                 {
                     var maskPosition = RoundManager.Instance.insideAINodes[Random.Range(0, RoundManager.Instance.insideAINodes.Length - 1)].transform.position;
                     spawnedMask = Instantiate(Plugin.instance.majoraMaskItem.spawnPrefab, maskPosition + Vector3.up * 0.25f, Quaternion.identity, RoundManager.Instance.spawnedScrapContainer);
@@ -67,6 +73,7 @@ namespace LegendWeathers.Weathers
             base.OnDisable();
             if (!WeatherRegistry.WeatherManager.IsSetupFinished)
                 return;
+            Compatibility.SetMajoraCompanyCompatible(false);
             if (NetworkManager.Singleton.IsServer)
             {
                 if (spawnedMoon != null)

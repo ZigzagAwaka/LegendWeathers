@@ -125,7 +125,7 @@ namespace LegendWeathers
                 RegisterMajora(bundle, directory);
             }
 
-            if (config.WeatherTweaksInstalled)
+            if (Compatibility.WeatherTweaksInstalled)
             {
                 TweaksIntegration.Setup();
             }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using LegendWeathers.Utils;
+using System.Collections;
 using UnityEngine;
 
 namespace LegendWeathers.WeatherSkyEffects
@@ -9,6 +10,7 @@ namespace LegendWeathers.WeatherSkyEffects
         private readonly float maxWeight = 0.9f;
         private bool isReversed = false;
         private bool isCoroutineRunning = false;
+        private bool isInstant = false;
 
         public MajoraSkyEffect() : base(Plugin.instance.majoraSkyObject)
         {
@@ -17,8 +19,16 @@ namespace LegendWeathers.WeatherSkyEffects
 
         public override void OnEnable()
         {
-            if (WeatherRegistry.WeatherManager.IsSetupFinished && RoundManager.Instance.currentLevel.planetHasTime)
-                base.OnEnable();
+            if (WeatherRegistry.WeatherManager.IsSetupFinished)
+            {
+                if (RoundManager.Instance.currentLevel.planetHasTime)
+                    base.OnEnable();
+                else if (Compatibility.IsMoonCompanyCompatible(RoundManager.Instance.currentLevel.PlanetName))
+                {
+                    isInstant = true;
+                    base.OnEnable();
+                }
+            }
         }
 
         public override void OnDisable()
@@ -28,29 +38,44 @@ namespace LegendWeathers.WeatherSkyEffects
                 if (StartOfRound.Instance.shipIsLeaving || StartOfRound.Instance.inShipPhase)
                     isReversed = false;
                 isCoroutineRunning = false;
+                isInstant = false;
                 base.OnDisable();
             }
         }
 
         public override void Update()
         {
-            if (IsEffectActive && spawnedSkyVolume != null && TimeOfDay.Instance.currentDayTimeStarted)
+            if (IsEffectActive && spawnedSkyVolume != null)
             {
-                if (!isReversed && spawnedSkyVolume.weight < maxWeight)
+                if (isInstant)
                 {
-                    var endTime = TimeOfDay.Instance.globalTimeAtEndOfDay / 2.1f;
-                    spawnedSkyVolume.weight = TimeOfDay.Instance.currentDayTime * maxWeight / endTime;
+                    if (!isReversed && spawnedSkyVolume.weight < maxWeight)
+                    {
+                        spawnedSkyVolume.weight = maxWeight;
+                    }
+                    else if (isReversed && !isCoroutineRunning)
+                    {
+                        spawnedSkyVolume.weight = minWeight;
+                    }
                 }
-                else if (isReversed && !isCoroutineRunning)
+                else if (TimeOfDay.Instance.currentDayTimeStarted)
                 {
-                    spawnedSkyVolume.weight = minWeight;
+                    if (!isReversed && spawnedSkyVolume.weight < maxWeight)
+                    {
+                        var endTime = TimeOfDay.Instance.globalTimeAtEndOfDay / 2.1f;
+                        spawnedSkyVolume.weight = TimeOfDay.Instance.currentDayTime * maxWeight / endTime;
+                    }
+                    else if (isReversed && !isCoroutineRunning)
+                    {
+                        spawnedSkyVolume.weight = minWeight;
+                    }
                 }
             }
         }
 
         public void ReverseEffect()
         {
-            if (IsEffectActive && spawnedSkyVolume != null && TimeOfDay.Instance.currentDayTimeStarted)
+            if (IsEffectActive && spawnedSkyVolume != null && (isInstant || TimeOfDay.Instance.currentDayTimeStarted))
             {
                 isCoroutineRunning = true;
                 StartCoroutine(ReverseEffectCoroutine());

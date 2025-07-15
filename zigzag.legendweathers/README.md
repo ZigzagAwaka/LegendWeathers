@@ -66,8 +66,8 @@ According to legend... each apparition of the Majora Moon has *1% chance* of tri
 ##
 
 ### Compatibility with other mods
-- The Majora Moon Weather only works on planets **that have time**. Also, it is not recommended to spawn it manually mid-game.
-- It comes with a **custom fog volume** that  dynamically changes the sky's color over time. Some *visual bugs* related to the sky and fogs can happen on some modded moons depending on how they were made.
+- It is not recommended to spawn the Majora Moon Weather manually mid-game.
+- The weather comes with a **custom fog volume** that  dynamically changes the sky's color over time. Some *visual bugs* related to the sky and fogs can happen on some modded moons depending on how they were made.
 - The Majora Moon position in the sky is automatically determined but can be manually adjusted on specific planets for better placement. If you think the actual placement is not visually good, you can report the moon's name so I can improve the position on this specific moon.
 - A special compatible animation has been added when playing the Ocarina item from [ChillaxScraps](https://thunderstore.io/c/lethal-company/p/Zigzag/ChillaxScraps/) !
 - This mod adds some combined weathers effects when [WeatherTweaks](https://thunderstore.io/c/lethal-company/p/mrov/WeatherTweaks/) is installed.
