@@ -387,15 +387,15 @@ namespace LegendWeathers.Weathers
             }
             if (moonInstanceObject != null)
             {
-                if (Effects.IsMajoraCodeRebirthCompatible())
+                if (Plugin.config.CodeRebirthInstalled && Effects.IsMajoraCodeRebirthCompatible())
                     newModelName = "Baldy";
-                else if (Effects.IsMajoraPremiumScrapsCompatible())
+                else if (Plugin.config.PremiumScrapsInstalled && Effects.IsMajoraPremiumScrapsCompatible())
                     newModelName = "Abibabou";
-                else if (Effects.IsMajoraSurfacedCompatible())
+                else if (Plugin.config.SurfacedInstalled && Effects.IsMajoraSurfacedCompatible())
                     newModelName = "Owl";
-                else if (Effects.IsMajoraEmergencyDiceCompatible())
+                else if (Plugin.config.EmergencyDiceInstalled && Effects.IsMajoraEmergencyDiceCompatible())
                     newModelName = "Dice";
-                else if (Effects.IsMajoraBiodiversityCompatible())
+                else if (Plugin.config.BiodiversityInstalled && Effects.IsMajoraBiodiversityCompatible())
                     newModelName = "Boomy";
             }
             if (modelName.Equals(newModelName))

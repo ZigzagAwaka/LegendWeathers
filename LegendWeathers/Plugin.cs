@@ -23,11 +23,12 @@ namespace LegendWeathers
     [BepInDependency("zigzag.premiumscraps", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("Theronguard.EmergencyDice", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("CodeRebirth", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("MrovWeathers", BepInDependency.DependencyFlags.SoftDependency)]
     public class Plugin : BaseUnityPlugin
     {
         const string GUID = "zigzag.legendweathers";
         const string NAME = "LegendWeathers";
-        const string VERSION = "1.1.6";
+        const string VERSION = "1.1.7";
 
         public static Plugin instance;
         public static ManualLogSource logger;

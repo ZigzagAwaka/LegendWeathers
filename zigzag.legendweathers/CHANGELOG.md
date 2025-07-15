@@ -1,3 +1,7 @@
+## 1.1.7
+- Added new combined weathers effects when [CodeRebirth](https://thunderstore.io/c/lethal-company/p/XuXiaolan/CodeRebirth/) or [MrovWeathers](https://thunderstore.io/c/lethal-company/p/mrov/MrovWeathers/) are installed
+- Fixed `Automatic model selection` being broken since last update
+
 ## 1.1.6
 - Added [WeatherTweaks](https://thunderstore.io/c/lethal-company/p/mrov/WeatherTweaks/) integration : 4 combined weathers effects, and 5 more if you have [LethalElementsBeta](https://thunderstore.io/c/lethal-company/p/v0xx/LethalElementsBeta/) installed
 - Added Joy, Dice and Baldy model version (can be activated in the config)

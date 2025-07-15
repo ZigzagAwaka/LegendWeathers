@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using WeatherRegistry;
 using WeatherTweaks.Definitions;
 
@@ -13,58 +13,57 @@ namespace LegendWeathers.Utils
             //var foggy = new WeatherTypeResolvable(LevelWeatherType.Foggy);
             //var flooded = new WeatherTypeResolvable(LevelWeatherType.Flooded);
             var eclipsed = new WeatherTypeResolvable(LevelWeatherType.Eclipsed);
+            var heatwave = new WeatherNameResolvable("heatwave");
+            var solarflare = new WeatherNameResolvable("solarflare");
+            var snowfall = new WeatherNameResolvable("snowfall");
+            var blizzard = new WeatherNameResolvable("blizzard");
+            //var toxicsmog = new WeatherNameResolvable("toxicsmog");
+            var tornado = new WeatherNameResolvable("tornado");
+            //var meteorshower = new WeatherNameResolvable("meteorshower");
+            var blackout = new WeatherNameResolvable("blackout");
+            var majoramoon = new WeatherNameResolvable("majoramoon");
 
             if (Plugin.config.majoraWeather.Value)
             {
-                var majoramoon = new WeatherNameResolvable("majoramoon");
-
-                new CombinedWeatherType(
-                    "Rainy + Majora Moon",
-                    new List<WeatherResolvable>() { rainy, majoramoon }
-                );
-                new CombinedWeatherType(
-                    "Stormy + Majora Moon",
-                    new List<WeatherResolvable>() { stormy, majoramoon }
-                );
-                new CombinedWeatherType(
-                    "Eclipsed + Majora Moon",
-                    new List<WeatherResolvable>() { eclipsed, majoramoon }
-                );
-                new CombinedWeatherType(
-                    "Majora Chaos",
-                    new List<WeatherResolvable>() { rainy, stormy, eclipsed, majoramoon }
-                );
+                RegisterCombinedWeather("Rainy + Majora Moon", rainy, majoramoon);
+                RegisterCombinedWeather("Stormy + Majora Moon", stormy, majoramoon);
+                RegisterCombinedWeather("Eclipsed + Majora Moon", eclipsed, majoramoon);
+                RegisterCombinedWeather("Majora Chaos", rainy, stormy, eclipsed, majoramoon);
 
                 if (Plugin.config.LethalElementsInstalled)
                 {
-                    var heatwave = new WeatherNameResolvable("heatwave");
-                    //var solarflare = new WeatherNameResolvable("solarflare");
-                    var snowfall = new WeatherNameResolvable("snowfall");
-                    var blizzard = new WeatherNameResolvable("blizzard");
-                    //var toxicsmog = new WeatherNameResolvable("toxicsmog");
+                    RegisterCombinedWeather("Heatwave + Majora Moon", heatwave, majoramoon);
+                    RegisterCombinedWeather("Snowfall + Majora Moon", snowfall, majoramoon);
+                    RegisterCombinedWeather("Blizzard + Majora Moon", blizzard, majoramoon);
+                    RegisterCombinedWeather("Majora Climate Anomaly", heatwave, solarflare, snowfall, majoramoon);
 
-                    new CombinedWeatherType(
-                        "Heatwave + Majora Moon",
-                        new List<WeatherResolvable>() { heatwave, majoramoon }
-                    );
-                    new CombinedWeatherType(
-                        "Snowfall + Majora Moon",
-                        new List<WeatherResolvable>() { snowfall, majoramoon }
-                    );
-                    new CombinedWeatherType(
-                        "Blizzard + Majora Moon",
-                        new List<WeatherResolvable>() { blizzard, majoramoon }
-                    );
-                    new CombinedWeatherType(
-                        "Majora Climate Anomaly",
-                        new List<WeatherResolvable>() { heatwave, snowfall, majoramoon }
-                    );
-                    new CombinedWeatherType(
-                        "The End of the World",
-                        new List<WeatherResolvable>() { rainy, stormy, eclipsed, heatwave, snowfall, majoramoon }
-                    );
+                    string eowName = "The End of the World";
+                    if (Plugin.config.CodeRebirthInstalled && Plugin.config.MrovWeathersInstalled)
+                        RegisterCombinedWeather(eowName, rainy, stormy, eclipsed, heatwave, solarflare, snowfall, tornado, blackout, majoramoon);
+                    else if (Plugin.config.CodeRebirthInstalled && !Plugin.config.MrovWeathersInstalled)
+                        RegisterCombinedWeather(eowName, rainy, stormy, eclipsed, heatwave, solarflare, snowfall, tornado, majoramoon);
+                    else if (!Plugin.config.CodeRebirthInstalled && Plugin.config.MrovWeathersInstalled)
+                        RegisterCombinedWeather(eowName, rainy, stormy, eclipsed, heatwave, solarflare, snowfall, blackout, majoramoon);
+                    else
+                        RegisterCombinedWeather(eowName, rainy, stormy, eclipsed, heatwave, solarflare, snowfall, majoramoon);
+                }
+
+                if (Plugin.config.CodeRebirthInstalled)
+                {
+                    RegisterCombinedWeather("Tornado + Majora Moon", tornado, majoramoon);
+                    RegisterCombinedWeather("Majora Superstorm", rainy, stormy, tornado, majoramoon);
+                }
+
+                if (Plugin.config.MrovWeathersInstalled)
+                {
+                    RegisterCombinedWeather("Blackout + Majora Moon", blackout, majoramoon);
                 }
             }
+        }
+
+        private static void RegisterCombinedWeather(string name, params WeatherResolvable[] weathers)
+        {
+            new CombinedWeatherType(name, weathers.ToList());
         }
     }
 }

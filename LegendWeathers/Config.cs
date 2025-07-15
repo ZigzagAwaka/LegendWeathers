@@ -14,6 +14,7 @@ namespace LegendWeathers
         public bool PremiumScrapsInstalled = false;
         public bool EmergencyDiceInstalled = false;
         public bool CodeRebirthInstalled = false;
+        public bool MrovWeathersInstalled = false;
 
         public readonly ConfigEntry<bool> majoraWeather;
         public readonly ConfigEntry<string> majoraMoonModel;
@@ -46,6 +47,7 @@ namespace LegendWeathers
             PremiumScrapsInstalled = IsPluginInstalled("zigzag.premiumscraps");
             EmergencyDiceInstalled = IsPluginInstalled("Theronguard.EmergencyDice");
             CodeRebirthInstalled = IsPluginInstalled("CodeRebirth");
+            MrovWeathersInstalled = IsPluginInstalled("MrovWeathers");
             if (!WeatherRegisteryInstalled)
                 Plugin.logger.LogError("WeatherRegistery is not installed! Please install WeatherRegistery before using this mod.");
             ParseValues();
