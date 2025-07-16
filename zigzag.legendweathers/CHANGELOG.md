@@ -1,3 +1,6 @@
+## 1.1.8
+- Hotfix for Company moons
+
 ## 1.1.7
 - When the Faceless model version is activated in the config, the Majora's Mask will now be reskined to match the vanilla look of the moon
 - Fixed `Automatic model selection` config being broken since last update

@@ -62,7 +62,7 @@ namespace LegendWeathers.Utils
             var moonName = Regex.Replace(planetName, "^[0-9]+", string.Empty);
             if (moonName[0] == ' ')
                 moonName = moonName[1..];
-            if (moonName == "Gordion" || moonName == "Galetry" || moonName == "Oxyde")
+            if (moonName == "Gordion" || moonName == "Galetry" || moonName == "-Oxyde")
                 return true;
             return false;
         }

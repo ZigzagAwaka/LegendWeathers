@@ -28,7 +28,7 @@ namespace LegendWeathers
     {
         const string GUID = "zigzag.legendweathers";
         const string NAME = "LegendWeathers";
-        const string VERSION = "1.1.7";
+        const string VERSION = "1.1.8";
 
         public static Plugin instance;
         public static ManualLogSource logger;
@@ -74,7 +74,7 @@ namespace LegendWeathers
             weather.Config.ScrapAmountMultiplier.DefaultValue = info.scrapAmount;
             weather.Config.ScrapValueMultiplier.DefaultValue = info.scrapValue;
             weather.Config.FilteringOption.DefaultValue = false;
-            weather.Config.LevelFilters.DefaultValue = "Gordion;Galetry;Cosmocos;Black Mesa;";
+            weather.Config.LevelFilters.DefaultValue = "Gordion;Galetry;Cosmocos;Black Mesa;Oxyde;";
             weather.Color = info.color;
             WeatherManager.RegisterWeather(weather);
         }
