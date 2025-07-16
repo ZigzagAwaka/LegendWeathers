@@ -1,3 +1,6 @@
+## 1.1.9
+- Updated combined weathers integration
+
 ## 1.1.8
 - Hotfix for Company moons
 

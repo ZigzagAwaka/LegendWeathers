@@ -19,7 +19,7 @@ namespace LegendWeathers.Utils
             var blizzard = new WeatherNameResolvable("blizzard");
             //var toxicsmog = new WeatherNameResolvable("toxicsmog");
             var tornado = new WeatherNameResolvable("tornado");
-            //var meteorshower = new WeatherNameResolvable("meteorshower");
+            var meteorshower = new WeatherNameResolvable("meteorshower");
             var blackout = new WeatherNameResolvable("blackout");
             var majoramoon = new WeatherNameResolvable("majoramoon");
 
@@ -39,9 +39,9 @@ namespace LegendWeathers.Utils
 
                     string eowName = "The End of the World";
                     if (Compatibility.CodeRebirthInstalled && Compatibility.MrovWeathersInstalled)
-                        RegisterCombinedWeather(eowName, rainy, stormy, eclipsed, heatwave, solarflare, snowfall, tornado, blackout, majoramoon);
+                        RegisterCombinedWeather(eowName, rainy, stormy, eclipsed, heatwave, solarflare, snowfall, tornado, meteorshower, blackout, majoramoon);
                     else if (Compatibility.CodeRebirthInstalled && !Compatibility.MrovWeathersInstalled)
-                        RegisterCombinedWeather(eowName, rainy, stormy, eclipsed, heatwave, solarflare, snowfall, tornado, majoramoon);
+                        RegisterCombinedWeather(eowName, rainy, stormy, eclipsed, heatwave, solarflare, snowfall, tornado, meteorshower, majoramoon);
                     else if (!Compatibility.CodeRebirthInstalled && Compatibility.MrovWeathersInstalled)
                         RegisterCombinedWeather(eowName, rainy, stormy, eclipsed, heatwave, solarflare, snowfall, blackout, majoramoon);
                     else
@@ -52,6 +52,7 @@ namespace LegendWeathers.Utils
                 {
                     RegisterCombinedWeather("Tornado + Majora Moon", tornado, majoramoon);
                     RegisterCombinedWeather("Majora Superstorm", rainy, stormy, tornado, majoramoon);
+                    RegisterCombinedWeather("Meteor Shower + Majora Moon", meteorshower, majoramoon);
                 }
 
                 if (Compatibility.MrovWeathersInstalled)
