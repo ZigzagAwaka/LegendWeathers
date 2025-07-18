@@ -21,7 +21,7 @@ namespace LegendWeathers.Weathers
                 return;
             if (!RoundManager.Instance.currentLevel.planetHasTime)
             {
-                if (Compatibility.IsMoonCompanyCompatible(RoundManager.Instance.currentLevel.PlanetName))
+                if (Compatibility.IsMoonCompanyCompatible(RoundManager.Instance.currentLevel))
                     Compatibility.SetMajoraCompanyCompatible(true);
                 else
                 {

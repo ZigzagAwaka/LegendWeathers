@@ -23,7 +23,7 @@ namespace LegendWeathers.WeatherSkyEffects
             {
                 if (RoundManager.Instance.currentLevel.planetHasTime)
                     base.OnEnable();
-                else if (Compatibility.IsMoonCompanyCompatible(RoundManager.Instance.currentLevel.PlanetName))
+                else if (Compatibility.IsMoonCompanyCompatible(RoundManager.Instance.currentLevel))
                 {
                     isInstant = true;
                     base.OnEnable();

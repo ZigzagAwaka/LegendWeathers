@@ -55,14 +55,11 @@ namespace LegendWeathers.Utils
             return MajoraCompanyTimer;
         }
 
-        public static bool IsMoonCompanyCompatible(string planetName)
+        public static bool IsMoonCompanyCompatible(SelectableLevel level)
         {
             if (!Plugin.config.majoraCompanyCompatible.Value)
                 return false;
-            var moonName = Regex.Replace(planetName, "^[0-9]+", string.Empty);
-            if (moonName[0] == ' ')
-                moonName = moonName[1..];
-            if (moonName == "Gordion" || moonName == "Galetry" || moonName == "-Oxyde")
+            if (!level.planetHasTime && !level.spawnEnemiesAndScrap)
                 return true;
             return false;
         }
