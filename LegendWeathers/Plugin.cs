@@ -10,6 +10,7 @@ using System.IO;
 using System.Reflection;
 using UnityEngine;
 using WeatherRegistry;
+using WeatherRegistry.Editor;
 
 namespace LegendWeathers
 {
@@ -28,13 +29,14 @@ namespace LegendWeathers
     {
         const string GUID = "zigzag.legendweathers";
         const string NAME = "LegendWeathers";
-        const string VERSION = "1.1.10";
+        const string VERSION = "1.1.11";
 
         public static Plugin instance;
         public static ManualLogSource logger;
         private readonly Harmony harmony = new Harmony(GUID);
         internal static Config config { get; private set; } = null!;
 
+        public WeatherDefinition? majoraMoonDefinition;
         public GameObject? majoraMoonObject;
         public GameObject? majoraSkyObject;
         public Item? majoraMaskItem;
@@ -55,32 +57,31 @@ namespace LegendWeathers
             return effect;
         }
 
-        private void RegisterWeather<T, T2>(LegendWeather.WeatherInfo info) where T : LegendWeather where T2 : SkyEffect
+        private void RegisterWeather<T, T2>(WeatherDefinition definition) where T : LegendWeather where T2 : SkyEffect
         {
             var weatherEffect = new ImprovedWeatherEffect(GetEffect<T2>(), GetEffect<T>());
-            RegisterWeather(info, weatherEffect);
+            RegisterWeather(definition, weatherEffect);
         }
 
-        private void RegisterWeather<T>(LegendWeather.WeatherInfo info) where T : LegendWeather
+        private void RegisterWeather<T>(WeatherDefinition definition) where T : LegendWeather
         {
             var weatherEffect = new ImprovedWeatherEffect(null, GetEffect<T>());
-            RegisterWeather(info, weatherEffect);
+            RegisterWeather(definition, weatherEffect);
         }
 
-        private void RegisterWeather(LegendWeather.WeatherInfo info, ImprovedWeatherEffect weatherEffect)
+        private void RegisterWeather(WeatherDefinition definition, ImprovedWeatherEffect weatherEffect)
         {
-            var weather = new Weather(info.name, weatherEffect);
-            weather.Config.DefaultWeight.DefaultValue = info.weight;
-            weather.Config.ScrapAmountMultiplier.DefaultValue = info.scrapAmount;
-            weather.Config.ScrapValueMultiplier.DefaultValue = info.scrapValue;
-            weather.Config.FilteringOption.DefaultValue = false;
-            weather.Config.LevelFilters.DefaultValue = "Gordion;Galetry;Cosmocos;Black Mesa;Oxyde;";
-            weather.Color = info.color;
+            var weather = new Weather(definition.Name, weatherEffect)
+            {
+                Config = definition.Config.CreateFullConfig(),
+                Color = definition.Color
+            };
             WeatherManager.RegisterWeather(weather);
         }
 
         private void RegisterMajora(AssetBundle bundle, string directory)
         {
+            majoraMoonDefinition = bundle.LoadAsset<WeatherDefinition>(directory + "MajoraMoon/MajoraMoonDefinition.asset");
             majoraMoonObject = bundle.LoadAsset<GameObject>(directory + "MajoraMoon/MajoraMoon.prefab");
             majoraSkyObject = bundle.LoadAsset<GameObject>(directory + "MajoraMoon/MajoraSky.prefab");
             majoraMaskItem = bundle.LoadAsset<Item>(directory + "MajoraMoon/Items/MajoraMask/MajoraMaskItem.asset");
@@ -103,7 +104,7 @@ namespace LegendWeathers
             }
             Items.RegisterScrap(majoraMaskItem, 0, Levels.LevelTypes.None);
             Items.RegisterScrap(majoraMoonTearItem, 0, Levels.LevelTypes.None);
-            RegisterWeather<MajoraMoonWeather, MajoraSkyEffect>(MajoraMoonWeather.weatherInfo);
+            RegisterWeather<MajoraMoonWeather, MajoraSkyEffect>(majoraMoonDefinition);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051")]

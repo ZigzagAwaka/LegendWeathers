@@ -1,47 +1,32 @@
 ﻿using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.HighDefinition;
+using WeatherRegistry.Editor;
 
 namespace LegendWeathers.Weathers
 {
     public class LegendWeather : MonoBehaviour
     {
-        public class WeatherInfo
-        {
-            public string name;
-            public int weight;
-            public float scrapAmount;
-            public float scrapValue;
-            public Color color;
+        public readonly WeatherDefinition weatherDefinition;
+        //private bool fogVolumeComponentExists = false;
 
-            public WeatherInfo(string name, int weight, float scrapAmount, float scrapValue, Color color)
+        public LegendWeather(WeatherDefinition? definition)
+        {
+            if (definition == null)
             {
-                this.name = name;
-                this.weight = weight;
-                this.scrapAmount = scrapAmount;
-                this.scrapValue = scrapValue;
-                this.color = color;
+                throw new System.NullReferenceException("WeatherDefinition is null.");
             }
-        }
-
-        private readonly WeatherInfo weatherInfo;
-        private bool fogVolumeComponentExists = false;
-
-        public LegendWeather(WeatherInfo info)
-        {
-            weatherInfo = info;
+            weatherDefinition = definition;
         }
 
         public virtual void OnEnable()
         {
             if (WeatherRegistry.WeatherManager.IsSetupFinished)
-                Plugin.logger.LogInfo(weatherInfo.name + " Weather is enabled !");
+                Plugin.logger.LogInfo(weatherDefinition.Name + " Weather is enabled !");
         }
 
         public virtual void OnDisable()
         {
             if (WeatherRegistry.WeatherManager.IsSetupFinished)
-                Plugin.logger.LogInfo(weatherInfo.name + " Weather is destroyed.");
+                Plugin.logger.LogInfo(weatherDefinition.Name + " Weather is destroyed.");
         }
 
         public void EnableVanillaSun(bool enabled)
@@ -63,6 +48,7 @@ namespace LegendWeathers.Weathers
             }
         }
 
+        /*
         public void EnableVanillaVolumeFog(bool enabled)
         {
             try
@@ -88,5 +74,6 @@ namespace LegendWeathers.Weathers
                 Plugin.logger.LogWarning("Failed to " + (enabled ? "enable" : "disable") + " vanilla volume fog.");
             }
         }
+        */
     }
 }

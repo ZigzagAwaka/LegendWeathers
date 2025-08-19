@@ -13,7 +13,7 @@ namespace LegendWeathers.Utils
         public static void OnShipLandedMiscEventsPatch()
         {
             string title = "Weather alert!";
-            if (Effects.IsWeatherEffectPresent("majoramoon"))
+            if (Plugin.config.majoraWeather.Value && Effects.IsWeatherEffectPresent("majoramoon"))
             {
                 Effects.MessageOneTime(title, MajoraMoonWeather.weatherAlert, true, "LW_MajoraTip");
             }
@@ -28,7 +28,7 @@ namespace LegendWeathers.Utils
         [HarmonyPatch("Update")]
         public static void UpdatePatch(MaskedPlayerEnemy __instance)
         {
-            if (MajoraMaskItem.Instance == null)
+            if (!Plugin.config.majoraWeather.Value || MajoraMaskItem.Instance == null)
                 return;
             if (MajoraMaskItem.Instance.spawnedMajoraEnemy != null && !MajoraMaskItem.Instance.spawnedMajoraEnemy.isEnemyDead
                 && MajoraMaskItem.Instance.spawnedMajoraEnemy.GetInstanceID() == __instance.GetInstanceID())

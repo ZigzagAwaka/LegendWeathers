@@ -7,12 +7,11 @@ namespace LegendWeathers.Weathers
 {
     public class MajoraMoonWeather : LegendWeather
     {
-        public static WeatherInfo weatherInfo = new WeatherInfo("Majora Moon", 50, 1.7f, 1f, new Color(0.7f, 0f, 0.8f, 1f));
         public static string weatherAlert = "The grimacing moon moves inexorably closer. Be quick!";
         private GameObject? spawnedMoon = null;
         private GameObject? spawnedMask = null;
 
-        public MajoraMoonWeather() : base(weatherInfo) { }
+        public MajoraMoonWeather() : base(Plugin.instance.majoraMoonDefinition) { }
 
         public override void OnEnable()
         {
@@ -25,7 +24,7 @@ namespace LegendWeathers.Weathers
                     Compatibility.SetMajoraCompanyCompatible(true);
                 else
                 {
-                    Plugin.logger.LogError(weatherInfo.name + " requires a planet with time.");
+                    Plugin.logger.LogError(weatherDefinition.Name + " requires a planet with time.");
                     return;
                 }
             }
@@ -41,7 +40,7 @@ namespace LegendWeathers.Weathers
                 }
                 else
                 {
-                    Plugin.logger.LogError("Failed to spawn " + weatherInfo.name + " on the server.");
+                    Plugin.logger.LogError("Failed to spawn " + weatherDefinition.Name + " on the server.");
                 }
                 if (Plugin.instance.majoraMaskItem != null && !Compatibility.IsMajoraActiveOnCompany)
                 {
