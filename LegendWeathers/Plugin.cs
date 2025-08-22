@@ -43,6 +43,12 @@ namespace LegendWeathers
         public Item? majoraMoonTearItem;
         public Sprite? vanillaItemIcon;
 
+        public WeatherDefinition? bloodMoonDefinition;
+        public GameObject? bloodMoonManagerObject;
+        public GameObject? bloodSkyObject;
+        public GameObject? bloodSunObject;
+        public GameObject? bloodParticlesObject;
+
         void HarmonyPatchAll()
         {
             harmony.PatchAll();
@@ -107,6 +113,16 @@ namespace LegendWeathers
             RegisterWeather<MajoraMoonWeather, MajoraSkyEffect>(majoraMoonDefinition);
         }
 
+        private void RegisterBloodMoon(AssetBundle bundle, string directory)
+        {
+            bloodMoonDefinition = bundle.LoadAsset<WeatherDefinition>(directory + "BloodMoon/BloodMoonDefinition.asset");
+            //bloodMoonManagerObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/BloodMoonManager.prefab");
+            bloodSkyObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/BloodSky.prefab");
+            bloodSunObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/SunBloodTexture.prefab");
+            //NetworkPrefabs.RegisterNetworkPrefab(bloodMoonManagerObject);
+            RegisterWeather<BloodMoonWeather, BloodSkyEffect>(bloodMoonDefinition);
+        }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051")]
         void Awake()
         {
@@ -124,6 +140,11 @@ namespace LegendWeathers
             if (config.majoraWeather.Value)
             {
                 RegisterMajora(bundle, directory);
+            }
+
+            if (config.bloodMoonWeather.Value)
+            {
+                RegisterBloodMoon(bundle, directory);
             }
 
             if (Compatibility.WeatherTweaksInstalled)

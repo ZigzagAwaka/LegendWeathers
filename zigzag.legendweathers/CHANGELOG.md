@@ -1,5 +1,5 @@
 ## 1.1.11
-- Added custom colors for some combined weathers effects
+- Added custom colors for some combined weathers names
 - Updated `LegendWeather.WeatherInfo` to now be replaced with `WeatherDefinition` provided by [WeatherRegistry](https://thunderstore.io/c/lethal-company/p/mrov/WeatherRegistry/) 0.7.0+
 - All patches related to the Majora Moon will now do nothing if the Majora Moon weather is disabled in the config
 
