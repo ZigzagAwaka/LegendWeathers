@@ -2,6 +2,7 @@
 using LegendWeathers.BehaviourScripts;
 using LegendWeathers.Weathers;
 using System.Linq;
+using UnityEngine;
 
 namespace LegendWeathers.Utils
 {
@@ -16,6 +17,24 @@ namespace LegendWeathers.Utils
             if (Plugin.config.majoraWeather.Value && Effects.IsWeatherEffectPresent("majoramoon"))
             {
                 Effects.MessageOneTime(title, MajoraMoonWeather.weatherAlert, true, "LW_MajoraTip");
+            }
+        }
+    }
+
+
+    [HarmonyPatch(typeof(TimeOfDay))]
+    internal class BloodMoonTimePatch
+    {
+        [HarmonyPostfix]
+        [HarmonyPatch("MoveTimeOfDay")]
+        public static void MoveTimeOfDayPatch(TimeOfDay __instance)
+        {
+            if (Plugin.config.bloodMoonWeather.Value && __instance.sunAnimator != null &&
+                BloodMoonWeather.BloodMoonEffectReference != null && BloodMoonWeather.BloodMoonEffectReference.EffectActive)
+            {
+                __instance.normalizedTimeOfDay = __instance.currentDayTime / __instance.totalTime;
+                var originalTime = Mathf.Clamp(__instance.normalizedTimeOfDay, 0f, 0.99f);
+                __instance.sunAnimator.SetFloat("timeOfDay", originalTime * 0.3f / 0.99f);
             }
         }
     }

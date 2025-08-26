@@ -1,5 +1,4 @@
-﻿using GameNetcodeStuff;
-using LegendWeathers.Utils;
+﻿using LegendWeathers.Utils;
 using LegendWeathers.Weathers;
 using System.Collections;
 using System.Collections.Generic;
@@ -209,7 +208,7 @@ namespace LegendWeathers.BehaviourScripts
                             if (masked != null && masked.isEnemyDead)
                             {
                                 spawnedMaskedEnemies.RemoveAt(i);
-                                StartCoroutine(SpawnMaskedEnemy(masked.transform.position.y < -80f, masked.transform.position, 5, masked.mimickingPlayer));
+                                StartCoroutine(SpawnMaskedEnemy(masked.transform.position.y < -80f, masked.transform.position, 5));
                             }
                         }
                     }
@@ -254,16 +253,14 @@ namespace LegendWeathers.BehaviourScripts
 
         private IEnumerator SpawnMaskedEnemies(bool inFactory, Vector3 originalPosition, ulong originalPlayerId)
         {
-            var players = Effects.GetRandomPlayers(numberOfMaskedEnemies, true, originalPlayerId);
             for (int i = 0; i < numberOfMaskedEnemies; i++)
             {
-                var player = players[i];
-                StartCoroutine(SpawnMaskedEnemy(inFactory, originalPosition, 30, player));
+                StartCoroutine(SpawnMaskedEnemy(inFactory, originalPosition, 30));
                 yield return new WaitForSeconds(1f);
             }
         }
 
-        private IEnumerator SpawnMaskedEnemy(bool inFactory, Vector3 originalPosition, int spawnRadius, PlayerControllerB player)
+        private IEnumerator SpawnMaskedEnemy(bool inFactory, Vector3 originalPosition, int spawnRadius)
         {
             var spawnPosition = RoundManager.Instance.GetRandomNavMeshPositionInRadius(originalPosition, spawnRadius);
             CreateInvocationObjectClientRpc(spawnPosition);
@@ -271,7 +268,7 @@ namespace LegendWeathers.BehaviourScripts
             if (!StartOfRound.Instance.inShipPhase)
             {
                 var netObjectRef = RoundManager.Instance.SpawnEnemyGameObject(spawnPosition, Random.Range(-90f, 90f), -1, mimicEnemy);
-                CreateEnemyClientRpc(netObjectRef, inFactory, playerId: (int)player.playerClientId);
+                CreateEnemyClientRpc(netObjectRef, inFactory);
             }
         }
 
@@ -283,14 +280,14 @@ namespace LegendWeathers.BehaviourScripts
         }
 
         [ClientRpc]
-        private void CreateEnemyClientRpc(NetworkObjectReference netObjectRef, bool inFactory, int playerId = -1, bool isSpecialMajoraEnemy = false)
+        private void CreateEnemyClientRpc(NetworkObjectReference netObjectRef, bool inFactory, bool isSpecialMajoraEnemy = false)
         {
-            StartCoroutine(WaitForEnemyToSpawnThenSync(netObjectRef, inFactory, playerId, isSpecialMajoraEnemy));
+            StartCoroutine(WaitForEnemyToSpawnThenSync(netObjectRef, inFactory, isSpecialMajoraEnemy));
         }
 
-        private IEnumerator WaitForEnemyToSpawnThenSync(NetworkObjectReference netObjectRef, bool inFactory, int playerId, bool isSpecialMajoraEnemy)
+        private IEnumerator WaitForEnemyToSpawnThenSync(NetworkObjectReference netObjectRef, bool inFactory, bool isSpecialMajoraEnemy)
         {
-            var playerToMimic = isSpecialMajoraEnemy ? previousPlayerHeldBy : StartOfRound.Instance.allPlayerScripts[playerId];
+            var playerToMimic = previousPlayerHeldBy;
             NetworkObject? netObject = null;
             float startTime = Time.realtimeSinceStartup;
             yield return new WaitUntil(() => Time.realtimeSinceStartup - startTime > 20f || netObjectRef.TryGet(out netObject));

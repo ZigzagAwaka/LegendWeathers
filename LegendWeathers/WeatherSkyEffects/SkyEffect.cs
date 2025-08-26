@@ -10,6 +10,9 @@ namespace LegendWeathers.WeatherSkyEffects
         private readonly string effectName;
         private bool fogVolumeComponentExists = false;
 
+        private bool renderingSafeCheck = false;
+        private float renderingSafeCheckTimer = 0f;
+
         public GameObject? spawnedSky = null;
         public Volume? spawnedSkyVolume = null;
         public bool overrideFogVolume = false;
@@ -33,17 +36,8 @@ namespace LegendWeathers.WeatherSkyEffects
             spawnedSky = Instantiate(effectGameObject);
             if (spawnedSky != null)
             {
-                spawnedSkyVolume ??= spawnedSky.GetComponent<Volume>();
-                foreach (var component in spawnedSkyVolume.profile.components)
-                {
-                    if (component.active && component is Fog fog)
-                    {
-                        fog.enableVolumetricFog.value = false;
-                        fog.enableVolumetricFog.overrideState = true;
-                        IsEffectActive = true;
-                        break;
-                    }
-                }
+                if (!SetupSkyVolume())
+                    Plugin.logger.LogError("Failed to setup fog component in " + effectName + " Sky Effect Volume. The effect will be rendered incorrectly.");
             }
             else
                 Plugin.logger.LogError("Failed to instantiate " + effectName + " Sky Effect.");
@@ -66,7 +60,43 @@ namespace LegendWeathers.WeatherSkyEffects
                 EnableVanillaVolumeFog(true);
         }
 
-        public virtual void Update() { }
+        private bool SetupSkyVolume()
+        {
+            if (spawnedSky == null)
+                return false;
+            spawnedSkyVolume = spawnedSky.GetComponent<Volume>();
+            foreach (var component in spawnedSkyVolume.profile.components)
+            {
+                if (component.active && component is Fog fog)
+                {
+                    fog.enableVolumetricFog.value = false;
+                    fog.enableVolumetricFog.overrideState = true;
+                    IsEffectActive = true;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        public virtual void Update()
+        {
+            PerformRenderingSafeCheck();
+        }
+
+        // Perform a safety check to ensure the effect is correctly rendered
+        private void PerformRenderingSafeCheck()
+        {
+            if (IsEffectActive && spawnedSky != null && !renderingSafeCheck)
+            {
+                renderingSafeCheckTimer += Time.deltaTime;
+                if (renderingSafeCheckTimer > 1f && SetupSkyVolume())
+                {
+                    renderingSafeCheck = true;
+                    renderingSafeCheckTimer = 0f;
+                }
+            }
+        }
 
         private void EnableVanillaVolumeFog(bool enabled)
         {

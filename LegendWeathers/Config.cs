@@ -16,6 +16,7 @@ namespace LegendWeathers
         public (int, int) majoraMaskValueParsed;
 
         public readonly ConfigEntry<bool> bloodMoonWeather;
+        public readonly ConfigEntry<string> bloodMoonTexture;
 
         public Config(ConfigFile cfg)
         {
@@ -30,6 +31,7 @@ namespace LegendWeathers
             majoraMaskValue = cfg.Bind("Majora Moon", "Majora Mask Item value", "200,400", "The min,max scrap value of the Majora's Mask item, supposed to be very high.\nThe final value will be randomized between these 2 numbers, but not divided by any external factors.");
 
             bloodMoonWeather = cfg.Bind("Blood Moon", "Enabled", true, "Enable the Blood Moon weather.");
+            bloodMoonTexture = cfg.Bind("Blood Moon", "Moon texture", "Classic", new ConfigDescription("Choose the texture used for the Blood Moon material.", new AcceptableValueList<string>("Classic", "Bright")));
 
             cfg.Save();
             cfg.SaveOnConfigSet = true;

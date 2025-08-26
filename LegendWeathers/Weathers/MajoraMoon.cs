@@ -33,11 +33,16 @@ namespace LegendWeathers.Weathers
 
         private readonly int moonRadiusApprox = 19;
         private readonly float endSizeFactor = 7.3f;
-        private Vector3 outsideNodeEndPosition;
+        private Vector3 startPosition;
+        private Vector3 startRotation;
+        private Vector3 startScale;
         private Vector3 endPosition;
+        private Vector3 outsideNodeEndPosition;
         private Vector3 endRotation;
         private Vector3 endScale;
+        private float startTime;
         private float endTime;
+        private readonly float moonFallTimerOffset = 45;
         private bool isInitialized = false;
 
         private float endTimeFactor = 1.8f;
@@ -78,6 +83,7 @@ namespace LegendWeathers.Weathers
         private int rareTearEventDayNB = 0;
 
         private Coroutine? stopMoonCoroutine = null;
+        private bool collidersDisabled = false;
 
         public bool AccelerateEndTimeFactor()
         {
@@ -85,6 +91,16 @@ namespace LegendWeathers.Weathers
                 return false;
             endTimeFactor += finalHoursPlayingMusic ? 0.3f : 0.6f;
             return true;
+        }
+
+        public float GetMoonFallAccelerateFactor(float timeFactor)
+        {
+            return endTimeFactor switch
+            {
+                2.1f => 0.05f,
+                2.4f => 0.09f,
+                _ => 0
+            } + timeFactor;
         }
 
         public void StopMoonCrash()
@@ -103,6 +119,8 @@ namespace LegendWeathers.Weathers
                 return;
             if (finalHoursPlayingMusic && SoundManager.Instance.musicSource.isPlaying)
                 SoundManager.Instance.musicSource.Stop();
+            if (finalHoursPlayingMusic && TimeOfDay.Instance.TimeOfDayMusic.isPlaying)
+                TimeOfDay.Instance.TimeOfDayMusic.Stop();
             if (oathToOrderStopingMoon)
                 return;
             if (Compatibility.IsMajoraActiveOnCompany)
@@ -116,15 +134,27 @@ namespace LegendWeathers.Weathers
                     smoothRotVelocity = default;
                     smoothScaVelocity = default;
                 }
+                if (startTime == default)
+                    startTime = TimeOfDay.Instance.currentDayTime - moonFallTimerOffset;
                 endTime = TimeOfDay.Instance.globalTimeAtEndOfDay / endTimeFactor;
                 smoothTime = (endTime - TimeOfDay.Instance.currentDayTime) / TimeOfDay.Instance.globalTimeSpeedMultiplier;
                 finalHoursTime = endTime - 280;
             }
             if (smoothTime != 0)
             {
-                transform.position = Vector3.SmoothDamp(transform.position, endPosition, ref smoothPosVelocity, smoothTime);
-                transform.eulerAngles = Vector3.SmoothDamp(transform.eulerAngles, endRotation, ref smoothRotVelocity, smoothTime);
-                transform.localScale = Vector3.SmoothDamp(transform.localScale, endScale, ref smoothScaVelocity, smoothTime);
+                if (Compatibility.IsMajoraActiveOnCompany)
+                {
+                    transform.position = Vector3.SmoothDamp(transform.position, endPosition, ref smoothPosVelocity, smoothTime);
+                    transform.eulerAngles = Vector3.SmoothDamp(transform.eulerAngles, endRotation, ref smoothRotVelocity, smoothTime);
+                    transform.localScale = Vector3.SmoothDamp(transform.localScale, endScale, ref smoothScaVelocity, smoothTime);
+                }
+                else
+                {
+                    var timeFactor = (TimeOfDay.Instance.currentDayTime - moonFallTimerOffset - startTime) / (endTime - startTime);
+                    transform.position = Vector3.Lerp(startPosition, endPosition, GetMoonFallAccelerateFactor(timeFactor));
+                    transform.eulerAngles = Vector3.Lerp(startRotation, endRotation, GetMoonFallAccelerateFactor(timeFactor));
+                    transform.localScale = Vector3.Lerp(startScale, endScale, GetMoonFallAccelerateFactor(timeFactor));
+                }
             }
             PlayRandomEvents();
             FinalHours();
@@ -157,6 +187,8 @@ namespace LegendWeathers.Weathers
                 StartCoroutine(StartFinishing());
                 finalHoursFinishing = true;
             }
+            if (!finalHoursFinishing && StartOfRound.Instance.shipIsLeaving)
+                DisableColliders(false);
             UpdateTimer(smoothTime + (!Compatibility.IsMajoraActiveOnCompany ? -21 : -8));
             UpdateImpact();
         }
@@ -212,6 +244,8 @@ namespace LegendWeathers.Weathers
 
         private IEnumerator StartFinishing()
         {
+            if (StartOfRound.Instance.shipIsLeaving || StartOfRound.Instance.inShipPhase)
+                yield break;
             StartOfRound.Instance.shipLeftAutomatically = false;
             StartOfRound.Instance.shipIsLeaving = true;
             Effects.MessageComputer("The autopilot emergency code has been activated.", "You've met with a terrible fate, haven't you?");
@@ -238,6 +272,8 @@ namespace LegendWeathers.Weathers
 
         private void DisableColliders(bool disable = true)
         {
+            if (collidersDisabled == disable)
+                return;
             GameObject? model = transform.Find("Models/" + modelName).gameObject;
             if (model == null)
                 return;
@@ -245,6 +281,7 @@ namespace LegendWeathers.Weathers
             {
                 collider.enabled = !disable;
             }
+            collidersDisabled = disable;
         }
 
         private void UpdateImpact()
@@ -438,6 +475,9 @@ namespace LegendWeathers.Weathers
             yield return new WaitForEndOfFrame();
             if (IsServer)
                 isRareTearEventDay = Random.Range(0, 100) == 0;
+            startPosition = transform.position;
+            startRotation = transform.eulerAngles;
+            startScale = transform.localScale;
             var moonRadiusOffset = moonRadiusApprox * endSizeFactor;
             outsideNodeEndPosition = nodeEndPosition;
             endPosition = nodeEndPosition + Vector3.Normalize(transform.position - nodeEndPosition) * moonRadiusOffset;

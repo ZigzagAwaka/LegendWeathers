@@ -119,6 +119,10 @@ namespace LegendWeathers
             //bloodMoonManagerObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/BloodMoonManager.prefab");
             bloodSkyObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/BloodSky.prefab");
             bloodSunObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/SunBloodTexture.prefab");
+            if (!config.bloodMoonTexture.Value.Equals(config.bloodMoonTexture.DefaultValue))
+            {
+                BloodSkyEffect.CheckAndReplaceTexture();
+            }
             //NetworkPrefabs.RegisterNetworkPrefab(bloodMoonManagerObject);
             RegisterWeather<BloodMoonWeather, BloodSkyEffect>(bloodMoonDefinition);
         }

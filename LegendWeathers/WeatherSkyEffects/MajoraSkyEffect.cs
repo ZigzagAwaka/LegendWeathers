@@ -45,6 +45,7 @@ namespace LegendWeathers.WeatherSkyEffects
 
         public override void Update()
         {
+            base.Update();
             if (IsEffectActive && spawnedSkyVolume != null)
             {
                 if (isInstant)

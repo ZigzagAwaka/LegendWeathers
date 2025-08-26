@@ -7,11 +7,11 @@ namespace LegendWeathers.WeatherSkyEffects
     {
         public GameObject? spawnedBloodSun = null;
 
-        private readonly float bloodSunSizeFactor = 5.5f;
+        private readonly float bloodSunSizeFactor = 5f;
 
         private readonly List<Light> originalSunlights = new List<Light>();
         private readonly List<Color> originalSunlightColors = new List<Color>();
-        private readonly Color bloodSunlightColor = new Color(1, 0.58f, 1f);
+        private readonly Color bloodSunlightColor = new Color(1, 0.36f, 0.7f);
 
         public BloodSkyEffect() : base(Plugin.instance.bloodSkyObject)
         {
@@ -60,7 +60,8 @@ namespace LegendWeathers.WeatherSkyEffects
                     Destroy(spawnedBloodSun);
                 for (var i = 0; i < originalSunlights.Count; i++)
                 {
-                    originalSunlights[i].color = originalSunlightColors[i];
+                    if (originalSunlights[i] != null)
+                        originalSunlights[i].color = originalSunlightColors[i];
                 }
                 originalSunlights.Clear();
                 originalSunlightColors.Clear();
@@ -69,7 +70,20 @@ namespace LegendWeathers.WeatherSkyEffects
 
         public override void Update()
         {
+            base.Update();
+        }
 
+
+        public static void CheckAndReplaceTexture()
+        {
+            var bloodSun = Plugin.instance.bloodSunObject;
+            if (bloodSun == null)
+            {
+                Plugin.logger.LogError("Failed to replace the Blood Moon texture, blood sun is null.");
+                return;
+            }
+            bloodSun.transform.Find("Classic").gameObject.SetActive(false);
+            bloodSun.transform.Find("Bright").gameObject.SetActive(true);
         }
     }
 }

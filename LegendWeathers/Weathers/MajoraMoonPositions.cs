@@ -39,7 +39,7 @@ namespace LegendWeathers.Weathers
             { "Assurance", (new Vector3(25, 300, -50), new Vector3(45, 0, 0), new Vector3(32, 0, -40)) },
             { "Vow", (new Vector3(-186, 300, 100), new Vector3(45, 90, 0), new Vector3(-4, -1, 26)) },
             { "March", (new Vector3(-25, 300, 67), new Vector3(45, 230, 0), new Vector3(-25, 4, 67)) },
-            { "Offense", (new Vector3(150, 300, -100), new Vector3(45, 270, 0), new Vector3(46, 6, -103)) },
+            { "Offense", (new Vector3(117, 320, -170), new Vector3(45, 310, 0), new Vector3(117, 4, -150)) },
             { "Adamance", (new Vector3(-30, 350, -90), new Vector3(45, 320, 0), new Vector3(-22, 7, -78)) },
             { "Rend", (new Vector3(100, 290, -80), new Vector3(45, 315, 0), new Vector3(3, -10, -92)) },
             { "Dine", (new Vector3(-100, 290, -100), new Vector3(45, 0, 0), new Vector3(-96, -10, -20)) },

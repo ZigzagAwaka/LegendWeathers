@@ -1,3 +1,13 @@
+## next release
+- Blood moon beta release
+- Moon tear light intensity reduced
+- Better Majora placement on Offense
+- Majora solid collision disabled when ship leaving before the final explosion
+- Better Majora moon falling formula
+- Better Majora slow time compatibility
+- Majora Mask invocation now all the same player
+- Possible fix for Majora fog not being enabled at start of moon
+
 ## 1.1.11
 - Added custom colors for some combined weathers names
 - Updated `LegendWeather.WeatherInfo` to now be replaced with `WeatherDefinition` provided by [WeatherRegistry](https://thunderstore.io/c/lethal-company/p/mrov/WeatherRegistry/) 0.7.0+
