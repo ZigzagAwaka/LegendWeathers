@@ -18,6 +18,7 @@ namespace LegendWeathers.Utils
         public static bool EmergencyDiceInstalled = false;
         public static bool CodeRebirthInstalled = false;
         public static bool MrovWeathersInstalled = false;
+        public static bool ImperiumInstalled = false;
 
         public static void CheckInstalledPlugins()
         {
@@ -30,6 +31,7 @@ namespace LegendWeathers.Utils
             EmergencyDiceInstalled = IsPluginInstalled("Theronguard.EmergencyDice");
             CodeRebirthInstalled = IsPluginInstalled("CodeRebirth");
             MrovWeathersInstalled = IsPluginInstalled("MrovWeathers");
+            ImperiumInstalled = IsPluginInstalled("giosuel.Imperium");
         }
 
         private static bool IsPluginInstalled(string pluginGUID, string? pluginVersion = null)
@@ -134,6 +136,15 @@ namespace LegendWeathers.Utils
             if (Effects.GetPlayers(includeDead: true).Find(p => p.playerSteamId == 76561198984467725) != default)
                 return true;
             return false;
+        }
+
+        public static bool IsMajoraImperiumPausedTime()
+        {
+            if (!ImperiumInstalled || RoundManager.Instance == null || Imperium.Imperium.MoonManager == null)
+            {
+                return false;
+            }
+            return Imperium.Imperium.MoonManager.TimeIsPaused.Value;
         }
     }
 }

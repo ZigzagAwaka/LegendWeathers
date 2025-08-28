@@ -1,7 +1,7 @@
 ## next release
 - Blood moon beta release
 - Moon tear light intensity reduced
-- Better Majora placement on Offense
+- Better Majora placement on Offense, Berunah, Repress, Roart, Faith, Core and Dreck
 - Majora solid collision disabled when ship leaving before the final explosion
 - Better Majora moon falling formula
 - Better Majora slow time compatibility

@@ -140,7 +140,7 @@ namespace LegendWeathers.Weathers
                 smoothTime = (endTime - TimeOfDay.Instance.currentDayTime) / TimeOfDay.Instance.globalTimeSpeedMultiplier;
                 finalHoursTime = endTime - 280;
             }
-            if (smoothTime != 0)
+            if (smoothTime != 0 && !Effects.IsTimePaused())
             {
                 if (Compatibility.IsMajoraActiveOnCompany)
                 {

@@ -36,8 +36,9 @@ namespace LegendWeathers.WeatherSkyEffects
             spawnedSky = Instantiate(effectGameObject);
             if (spawnedSky != null)
             {
-                if (!SetupSkyVolume())
-                    Plugin.logger.LogError("Failed to setup fog component in " + effectName + " Sky Effect Volume. The effect will be rendered incorrectly.");
+                SetupSkyVolume();
+                if (!IsEffectActive)
+                    Plugin.logger.LogWarning("Failed to setup fog component in " + effectName + " Sky Effect Volume. The effect could be rendered incorrectly.");
             }
             else
                 Plugin.logger.LogError("Failed to instantiate " + effectName + " Sky Effect.");
@@ -60,10 +61,10 @@ namespace LegendWeathers.WeatherSkyEffects
                 EnableVanillaVolumeFog(true);
         }
 
-        private bool SetupSkyVolume()
+        private void SetupSkyVolume()
         {
             if (spawnedSky == null)
-                return false;
+                return;
             spawnedSkyVolume = spawnedSky.GetComponent<Volume>();
             foreach (var component in spawnedSkyVolume.profile.components)
             {
@@ -72,10 +73,9 @@ namespace LegendWeathers.WeatherSkyEffects
                     fog.enableVolumetricFog.value = false;
                     fog.enableVolumetricFog.overrideState = true;
                     IsEffectActive = true;
-                    return true;
+                    return;
                 }
             }
-            return false;
         }
 
 
@@ -87,13 +87,19 @@ namespace LegendWeathers.WeatherSkyEffects
         // Perform a safety check to ensure the effect is correctly rendered
         private void PerformRenderingSafeCheck()
         {
-            if (IsEffectActive && spawnedSky != null && !renderingSafeCheck)
+            if (!IsEffectActive && spawnedSky != null && !renderingSafeCheck)
             {
                 renderingSafeCheckTimer += Time.deltaTime;
-                if (renderingSafeCheckTimer > 1f && SetupSkyVolume())
+                if (renderingSafeCheckTimer > 1f)
                 {
-                    renderingSafeCheck = true;
-                    renderingSafeCheckTimer = 0f;
+                    SetupSkyVolume();
+                    if (IsEffectActive)
+                    {
+                        renderingSafeCheck = true;
+                        renderingSafeCheckTimer = 0f;
+                    }
+                    else
+                        Plugin.logger.LogError("Failed to perform the rendering safe check in " + effectName + " Sky Effect Volume.");
                 }
             }
         }

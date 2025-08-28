@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using LegendWeathers.Utils;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace LegendWeathers.WeatherSkyEffects
@@ -6,8 +7,10 @@ namespace LegendWeathers.WeatherSkyEffects
     public class BloodSkyEffect : SkyEffect
     {
         public GameObject? spawnedBloodSun = null;
+        public GameObject? spawnedBloodParticles = null;
 
         private readonly float bloodSunSizeFactor = 5f;
+        private readonly Vector3 bloodParticleOffset = Vector3.up * 11f;
 
         private readonly List<Light> originalSunlights = new List<Light>();
         private readonly List<Color> originalSunlightColors = new List<Color>();
@@ -47,7 +50,16 @@ namespace LegendWeathers.WeatherSkyEffects
                         Plugin.logger.LogError("Failed to find SunTexture transform in the actual moon scene.");
                 }
                 else
+                {
                     Plugin.logger.LogError("Failed to find AnimatedSun component in the actual moon scene.");
+                }
+                var player = Effects.GetLocalPlayerAbsolute();
+                if (player != null)
+                {
+                    spawnedBloodParticles = Instantiate(Plugin.instance.bloodParticlesObject, player.transform.position + bloodParticleOffset, Quaternion.identity);
+                    if (spawnedBloodParticles == null)
+                        Plugin.logger.LogError("Failed to instantiate BloodParticles for player " + player.playerUsername + ".");
+                }
             }
         }
 
@@ -56,6 +68,8 @@ namespace LegendWeathers.WeatherSkyEffects
             if (WeatherRegistry.WeatherManager.IsSetupFinished)
             {
                 base.OnDisable();
+                if (spawnedBloodParticles != null)
+                    Destroy(spawnedBloodParticles);
                 if (spawnedBloodSun != null)
                     Destroy(spawnedBloodSun);
                 for (var i = 0; i < originalSunlights.Count; i++)
@@ -71,8 +85,15 @@ namespace LegendWeathers.WeatherSkyEffects
         public override void Update()
         {
             base.Update();
+            if (spawnedBloodParticles != null)
+            {
+                var player = Effects.GetLocalPlayerAbsolute();
+                if (player != null)
+                {
+                    spawnedBloodParticles.transform.position = player.transform.position + bloodParticleOffset;
+                }
+            }
         }
-
 
         public static void CheckAndReplaceTexture()
         {

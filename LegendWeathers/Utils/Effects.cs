@@ -266,6 +266,20 @@ namespace LegendWeathers.Utils
                 player.SetSpectatedPlayerEffects(true);
         }
 
+        public static PlayerControllerB? GetLocalPlayerAbsolute()
+        {
+            if (GameNetworkManager.Instance == null)
+                return null;
+            var player = GameNetworkManager.Instance.localPlayerController;
+            if (player == null)
+                return null;
+            if (!player.isPlayerDead)
+                return player;
+            if (player.spectatedPlayerScript == null)
+                return null;
+            return player.spectatedPlayerScript;
+        }
+
         public static bool IsLocalPlayerInsideFacilityAbsolute()
         {
             if (GameNetworkManager.Instance == null)
@@ -278,6 +292,11 @@ namespace LegendWeathers.Utils
             if (player.spectatedPlayerScript == null)
                 return false;
             return player.spectatedPlayerScript.isInsideFactory;
+        }
+
+        public static bool IsTimePaused()
+        {
+            return Compatibility.ImperiumInstalled && Compatibility.IsMajoraImperiumPausedTime();
         }
 
         public static void ChangeWeather(LevelWeatherType weather)

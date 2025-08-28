@@ -25,6 +25,7 @@ namespace LegendWeathers
     [BepInDependency("Theronguard.EmergencyDice", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("CodeRebirth", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("MrovWeathers", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("giosuel.Imperium", BepInDependency.DependencyFlags.SoftDependency)]
     public class Plugin : BaseUnityPlugin
     {
         const string GUID = "zigzag.legendweathers";
@@ -119,6 +120,7 @@ namespace LegendWeathers
             //bloodMoonManagerObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/BloodMoonManager.prefab");
             bloodSkyObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/BloodSky.prefab");
             bloodSunObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/SunBloodTexture.prefab");
+            bloodParticlesObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/BloodRainParticles.prefab");
             if (!config.bloodMoonTexture.Value.Equals(config.bloodMoonTexture.DefaultValue))
             {
                 BloodSkyEffect.CheckAndReplaceTexture();
