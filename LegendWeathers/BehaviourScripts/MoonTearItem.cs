@@ -85,7 +85,7 @@ namespace LegendWeathers.BehaviourScripts
                 fallingAudio.Stop();
                 if (!isHeld)
                 {
-                    fallingAudio.PlayOneShot(fallingSfx[1], 1f);
+                    fallingAudio.PlayOneShot(fallingSfx[1], 0.8f);
                     Instantiate(blastEffect, targetFloorPosition, Quaternion.Euler(-90f, 0f, 0f), RoundManager.Instance.mapPropsContainer.transform);
                     Landmine.SpawnExplosion(targetFloorPosition, false, 4, 7, 30, 25);
                 }
