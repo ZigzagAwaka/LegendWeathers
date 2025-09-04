@@ -234,6 +234,29 @@ namespace LegendWeathers.Utils
             return false;
         }
 
+        public static Vector3 GetArbitraryMoonPosition(int actualIndex, int maxIndex, bool insidePosition = false, int randomizePositionRadius = 20)
+        {
+            var nodes = insidePosition ? RoundManager.Instance.insideAINodes : RoundManager.Instance.outsideAINodes;
+            var indexFactor = nodes.Length / maxIndex;
+            var result = nodes[actualIndex * indexFactor].transform.position;
+            if (randomizePositionRadius > 0)
+            {
+                result = RoundManager.Instance.GetRandomNavMeshPositionInRadius(result, randomizePositionRadius);
+            }
+            return result;
+        }
+
+        public static Vector3 GetRandomMoonPosition(bool insidePosition = false, int randomizePositionRadius = 20)
+        {
+            var nodes = insidePosition ? RoundManager.Instance.insideAINodes : RoundManager.Instance.outsideAINodes;
+            var result = nodes[Random.Range(0, nodes.Length - 1)].transform.position;
+            if (randomizePositionRadius > 0)
+            {
+                result = RoundManager.Instance.GetRandomNavMeshPositionInRadius(result, randomizePositionRadius);
+            }
+            return result;
+        }
+
         public static Vector3 GetClosestAINodePosition(GameObject[] nodes, Vector3 position)
         {
             return nodes.OrderBy((GameObject x) => Vector3.Distance(position, x.transform.position)).ToArray()[0].transform.position;

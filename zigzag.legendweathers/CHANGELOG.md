@@ -5,8 +5,10 @@
 - Majora solid collision disabled when ship leaving before the final explosion
 - Better Majora moon falling formula
 - Better Majora slow time compatibility
+- Better Majora time modification effects compatibility
 - Majora Mask invocation now all the same player
 - Possible fix for Majora fog not being enabled at start of moon
+- Majora compatible with Imperium time manipulation
 
 ## 1.1.11
 - Added custom colors for some combined weathers names

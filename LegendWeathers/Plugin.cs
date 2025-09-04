@@ -49,6 +49,7 @@ namespace LegendWeathers
         public GameObject? bloodSkyObject;
         public GameObject? bloodSunObject;
         public GameObject? bloodParticlesObject;
+        public GameObject? bloodTerrainEffectObject;
 
         void HarmonyPatchAll()
         {
@@ -121,6 +122,7 @@ namespace LegendWeathers
             bloodSkyObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/BloodSky.prefab");
             bloodSunObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/SunBloodTexture.prefab");
             bloodParticlesObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/BloodRainParticles.prefab");
+            bloodTerrainEffectObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/BloodTerrainEffect.prefab");
             if (!config.bloodMoonTexture.Value.Equals(config.bloodMoonTexture.DefaultValue))
             {
                 BloodSkyEffect.CheckAndReplaceTexture();

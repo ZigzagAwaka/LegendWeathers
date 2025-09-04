@@ -1,4 +1,5 @@
-﻿using WeatherRegistry;
+﻿using LegendWeathers.WeatherSkyEffects;
+using WeatherRegistry;
 
 namespace LegendWeathers.Weathers
 {
@@ -24,6 +25,7 @@ namespace LegendWeathers.Weathers
             base.OnDisable();
             if (!WeatherManager.IsSetupFinished)
                 return;
+            BloodMoonEffectReference?.EffectObject?.GetComponent<BloodSkyEffect>()?.ResetState();
             BloodMoonEffectReference = null;
             EnableVanillaSun(true);
         }

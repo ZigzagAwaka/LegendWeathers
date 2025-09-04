@@ -1,8 +1,8 @@
 ﻿using HarmonyLib;
 using LegendWeathers.BehaviourScripts;
 using LegendWeathers.Weathers;
+using LegendWeathers.WeatherSkyEffects;
 using System.Linq;
-using UnityEngine;
 
 namespace LegendWeathers.Utils
 {
@@ -32,9 +32,7 @@ namespace LegendWeathers.Utils
             if (Plugin.config.bloodMoonWeather.Value && __instance.sunAnimator != null &&
                 BloodMoonWeather.BloodMoonEffectReference != null && BloodMoonWeather.BloodMoonEffectReference.EffectActive)
             {
-                __instance.normalizedTimeOfDay = __instance.currentDayTime / __instance.totalTime;
-                var originalTime = Mathf.Clamp(__instance.normalizedTimeOfDay, 0f, 0.99f);
-                __instance.sunAnimator.SetFloat("timeOfDay", originalTime * 0.3f / 0.99f);
+                __instance.sunAnimator.SetFloat("timeOfDay", BloodSkyEffect.bloodMoonSunAnimatorFixedTime);
             }
         }
     }
