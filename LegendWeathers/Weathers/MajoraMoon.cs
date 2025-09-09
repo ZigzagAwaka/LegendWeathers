@@ -196,7 +196,8 @@ namespace LegendWeathers.Weathers
         private void StartMusic()
         {
             finalHoursAudio.volume = Plugin.config.majoraMoonMusicVolume.Value;
-            finalHoursAudio.Play();
+            if (finalHoursAudio.volume > 0)
+                finalHoursAudio.Play();
         }
 
         private void StartTimer()
@@ -392,7 +393,8 @@ namespace LegendWeathers.Weathers
             yield return new WaitForEndOfFrame();
             if (finalHoursPlayingMusic)
                 yield return Effects.FadeOutAudio(finalHoursAudio, 1f);
-            finalHoursAudio.PlayOneShot(callOfTheGiantsMusic);
+            if (finalHoursAudio.volume > 0)
+                finalHoursAudio.PlayOneShot(callOfTheGiantsMusic);
             if (finalHoursPlayingParticles)
             {
                 crashParticles1.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
