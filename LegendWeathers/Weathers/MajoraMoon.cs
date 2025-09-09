@@ -151,7 +151,7 @@ namespace LegendWeathers.Weathers
                 else
                 {
                     var timeFactor = (TimeOfDay.Instance.currentDayTime - moonFallTimerOffset - startTime) / (endTime - startTime);
-                    transform.position = Vector3.Lerp(startPosition, endPosition, GetMoonFallAccelerateFactor(timeFactor));
+                    transform.position = Vector3.Lerp(startPosition, endPosition - (Vector3.up * 2), GetMoonFallAccelerateFactor(timeFactor));
                     transform.eulerAngles = Vector3.Lerp(startRotation, endRotation, GetMoonFallAccelerateFactor(timeFactor));
                     transform.localScale = Vector3.Lerp(startScale, endScale, GetMoonFallAccelerateFactor(timeFactor));
                 }

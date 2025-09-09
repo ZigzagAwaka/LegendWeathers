@@ -10,7 +10,7 @@ namespace LegendWeathers.WeatherSkyEffects
         public GameObject? spawnedBloodParticles = null;
         public List<GameObject> spawnedEffectsObjects = new List<GameObject>();
 
-        private readonly float bloodSunSizeFactor = 5f;
+        private readonly float bloodSunSizeFactor = 5.5f;
         private readonly Vector3 bloodParticleOffset = Vector3.up * 7f;
         private readonly int maxSpawnedEffectObjects = 20;
         private readonly List<Vector3> effectObjectsPositions = new List<Vector3>();
