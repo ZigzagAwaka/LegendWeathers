@@ -6,9 +6,31 @@ namespace LegendWeathers.Weathers
 {
     internal class BloodMoonManager : NetworkBehaviour
     {
+        public AudioSource introMusicAudio = null!;
+
+        private bool isInitialized = false;
+        private bool isPlayingIntroMusic = false;
+
         public void Update()
         {
+            if (!isInitialized)
+                return;
+            if (SoundManager.Instance.musicSource.isPlaying)
+                SoundManager.Instance.musicSource.Stop();
+            if (TimeOfDay.Instance.TimeOfDayMusic.isPlaying)
+                TimeOfDay.Instance.TimeOfDayMusic.Stop();
+            if (isPlayingIntroMusic)
+                CheckIntroMusicState();
+        }
 
+        private void CheckIntroMusicState()
+        {
+            var player = GameNetworkManager.Instance.localPlayerController;
+            if (player == null || player.isPlayerDead || player.isInsideFactory)
+            {
+                introMusicAudio.Stop();
+                isPlayingIntroMusic = false;
+            }
         }
 
         [ServerRpc]
@@ -37,18 +59,24 @@ namespace LegendWeathers.Weathers
                 yield break;
             }
             yield return new WaitForEndOfFrame();
-            SetupComponents();
-            //isInitialized = true;
+            StartIntroductionMusic();
+            isInitialized = true;
         }
 
-        private void SetupComponents()
+        private void StartIntroductionMusic()
         {
-
+            introMusicAudio.volume = Plugin.config.bloodMoonMusicVolume.Value;
+            if (introMusicAudio.volume > 0)
+            {
+                introMusicAudio.Play();
+                isPlayingIntroMusic = true;
+            }
         }
 
         public override void OnDestroy()
         {
-
+            if (isPlayingIntroMusic)
+                introMusicAudio.Stop();
             base.OnDestroy();
         }
     }

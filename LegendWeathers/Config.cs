@@ -19,6 +19,7 @@ namespace LegendWeathers
         public readonly ConfigEntry<string> bloodMoonTexture;
         public readonly ConfigEntry<float> bloodMoonSizeFactor;
         public readonly ConfigEntry<int> bloodMoonEffectsAbundance;
+        public readonly ConfigEntry<float> bloodMoonMusicVolume;
 
         public Config(ConfigFile cfg)
         {
@@ -35,7 +36,8 @@ namespace LegendWeathers
             bloodMoonWeather = cfg.Bind("Blood Moon", "Enabled", true, "Enable the Blood Moon weather.");
             bloodMoonTexture = cfg.Bind("Blood Moon", "Moon texture", "Classic", new ConfigDescription("Choose the texture used for the Blood Moon material.", new AcceptableValueList<string>("Classic", "Bright")));
             bloodMoonSizeFactor = cfg.Bind("Blood Moon", "Moon size factor", 5f, new ConfigDescription("The size factor of the Blood Moon material compared to the size of the vanilla sun.", new AcceptableValueRange<float>(1f, 10f)));
-            bloodMoonEffectsAbundance = cfg.Bind("Blood Moon", "Terrain effects abundance", 20, new ConfigDescription("The abundance of terrain effects during the Blood Moon weather.\nHigher values will spawn more effects but may impact performance.", new AcceptableValueRange<int>(0, 100)));
+            bloodMoonEffectsAbundance = cfg.Bind("Blood Moon", "Terrain effects abundance", 30, new ConfigDescription("The abundance of terrain effects during the Blood Moon weather.\nHigher values will spawn more effects but may impact performance.", new AcceptableValueRange<int>(0, 100)));
+            bloodMoonMusicVolume = cfg.Bind("Blood Moon", "Intro music volume", 0.9f, new ConfigDescription("An introduction music is played when the Blood Moon is spawned on the planet, this will last 30s.\nYou can customize the music volume here.", new AcceptableValueRange<float>(0f, 1f)));
 
             cfg.Save();
             cfg.SaveOnConfigSet = true;

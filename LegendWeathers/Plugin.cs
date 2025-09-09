@@ -118,7 +118,7 @@ namespace LegendWeathers
         private void RegisterBloodMoon(AssetBundle bundle, string directory)
         {
             bloodMoonDefinition = bundle.LoadAsset<WeatherDefinition>(directory + "BloodMoon/BloodMoonDefinition.asset");
-            //bloodMoonManagerObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/BloodMoonManager.prefab");
+            bloodMoonManagerObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/BloodMoonManager.prefab");
             bloodSkyObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/BloodSky.prefab");
             bloodSunObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/SunBloodTexture.prefab");
             bloodParticlesObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/BloodRainParticles.prefab");
@@ -127,7 +127,7 @@ namespace LegendWeathers
             {
                 BloodSkyEffect.CheckAndReplaceTexture();
             }
-            //NetworkPrefabs.RegisterNetworkPrefab(bloodMoonManagerObject);
+            NetworkPrefabs.RegisterNetworkPrefab(bloodMoonManagerObject);
             RegisterWeather<BloodMoonWeather, BloodSkyEffect>(bloodMoonDefinition);
         }
 

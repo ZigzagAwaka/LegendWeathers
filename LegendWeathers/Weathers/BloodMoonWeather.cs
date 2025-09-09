@@ -1,4 +1,6 @@
 ﻿using LegendWeathers.WeatherSkyEffects;
+using Unity.Netcode;
+using UnityEngine;
 using WeatherRegistry;
 
 namespace LegendWeathers.Weathers
@@ -6,6 +8,7 @@ namespace LegendWeathers.Weathers
     public class BloodMoonWeather : LegendWeather
     {
         public static string weatherAlert = "";
+        private GameObject? spawnedManager = null;
 
         public static ImprovedWeatherEffect? BloodMoonEffectReference { get; private set; } = null;
 
@@ -16,6 +19,20 @@ namespace LegendWeathers.Weathers
             base.OnEnable();
             if (!WeatherManager.IsSetupFinished)
                 return;
+            if (NetworkManager.Singleton.IsServer)
+            {
+                spawnedManager = Instantiate(Plugin.instance.bloodMoonManagerObject, Vector3.zero, Quaternion.identity);
+                if (spawnedManager != null)
+                {
+                    var managerNetObj = spawnedManager.GetComponent<NetworkObject>();
+                    managerNetObj.Spawn(true);
+                    spawnedManager.GetComponent<BloodMoonManager>().InitializeManagerServerRpc(managerNetObj);
+                }
+                else
+                {
+                    Plugin.logger.LogError("Failed to spawn " + weatherDefinition.Name + " on the server.");
+                }
+            }
             BloodMoonEffectReference = ConfigHelper.ResolveStringToWeather("bloodmoon").Effect;
             EnableVanillaSun(false);
         }
@@ -25,6 +42,18 @@ namespace LegendWeathers.Weathers
             base.OnDisable();
             if (!WeatherManager.IsSetupFinished)
                 return;
+            if (NetworkManager.Singleton.IsServer)
+            {
+                if (spawnedManager != null)
+                {
+                    var managerNetObj = spawnedManager.GetComponent<NetworkObject>();
+                    if (managerNetObj != null && managerNetObj.IsSpawned)
+                    {
+                        managerNetObj.Despawn(true);
+                    }
+                    spawnedManager = null;
+                }
+            }
             BloodMoonEffectReference?.EffectObject?.GetComponent<BloodSkyEffect>()?.ResetState();
             BloodMoonEffectReference = null;
             EnableVanillaSun(true);
