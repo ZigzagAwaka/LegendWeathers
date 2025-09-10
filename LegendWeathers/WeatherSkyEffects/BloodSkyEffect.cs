@@ -12,7 +12,7 @@ namespace LegendWeathers.WeatherSkyEffects
 
         private readonly float bloodSunSizeFactor = 5.5f;
         private readonly Vector3 bloodParticleOffset = Vector3.up * 7f;
-        private readonly int maxSpawnedEffectObjects = 20;
+        private readonly int maxSpawnedEffectObjects = 30;
         private readonly List<Vector3> effectObjectsPositions = new List<Vector3>();
 
         private readonly List<Light> originalSunlights = new List<Light>();
