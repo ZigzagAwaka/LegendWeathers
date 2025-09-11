@@ -282,6 +282,14 @@ namespace LegendWeathers.Utils
             source.volume = volume;
         }
 
+        public static void StopVanillaMusic()
+        {
+            if (SoundManager.Instance.musicSource.isPlaying)
+                SoundManager.Instance.musicSource.Stop();
+            if (TimeOfDay.Instance.TimeOfDayMusic.isPlaying)
+                TimeOfDay.Instance.TimeOfDayMusic.Stop();
+        }
+
         public static void SetCameraEndOfRound(PlayerControllerB player)
         {
             StartOfRound.Instance.SetSpectateCameraToGameOverMode(true);

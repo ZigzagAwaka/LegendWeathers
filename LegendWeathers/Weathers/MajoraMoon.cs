@@ -117,10 +117,8 @@ namespace LegendWeathers.Weathers
         {
             if (!isInitialized)
                 return;
-            if (finalHoursPlayingMusic && SoundManager.Instance.musicSource.isPlaying)
-                SoundManager.Instance.musicSource.Stop();
-            if (finalHoursPlayingMusic && TimeOfDay.Instance.TimeOfDayMusic.isPlaying)
-                TimeOfDay.Instance.TimeOfDayMusic.Stop();
+            if (finalHoursPlayingMusic)
+                Effects.StopVanillaMusic();
             if (oathToOrderStopingMoon)
                 return;
             if (Compatibility.IsMajoraActiveOnCompany)

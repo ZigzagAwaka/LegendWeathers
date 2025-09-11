@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using LegendWeathers.Utils;
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -15,10 +16,7 @@ namespace LegendWeathers.Weathers
         {
             if (!isInitialized)
                 return;
-            if (SoundManager.Instance.musicSource.isPlaying)
-                SoundManager.Instance.musicSource.Stop();
-            if (TimeOfDay.Instance.TimeOfDayMusic.isPlaying)
-                TimeOfDay.Instance.TimeOfDayMusic.Stop();
+            Effects.StopVanillaMusic();
             if (isPlayingIntroMusic)
                 CheckIntroMusicState();
         }
