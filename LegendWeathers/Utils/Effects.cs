@@ -311,11 +311,8 @@ namespace LegendWeathers.Utils
             return player.spectatedPlayerScript;
         }
 
-        public static bool IsLocalPlayerInsideFacilityAbsolute()
+        public static bool IsPlayerInsideFacilityAbsolute(PlayerControllerB player)
         {
-            if (GameNetworkManager.Instance == null)
-                return false;
-            var player = GameNetworkManager.Instance.localPlayerController;
             if (player == null)
                 return false;
             if (!player.isPlayerDead)
@@ -323,6 +320,13 @@ namespace LegendWeathers.Utils
             if (player.spectatedPlayerScript == null)
                 return false;
             return player.spectatedPlayerScript.isInsideFactory;
+        }
+
+        public static bool IsLocalPlayerInsideFacilityAbsolute()
+        {
+            if (GameNetworkManager.Instance == null)
+                return false;
+            return IsPlayerInsideFacilityAbsolute(GameNetworkManager.Instance.localPlayerController);
         }
 
         public static bool IsTimePaused()
