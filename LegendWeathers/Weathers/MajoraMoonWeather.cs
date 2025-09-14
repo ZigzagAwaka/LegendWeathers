@@ -2,6 +2,7 @@
 using LegendWeathers.Utils;
 using Unity.Netcode;
 using UnityEngine;
+using WeatherRegistry;
 
 namespace LegendWeathers.Weathers
 {
@@ -11,12 +12,14 @@ namespace LegendWeathers.Weathers
         private GameObject? spawnedMoon = null;
         private GameObject? spawnedMask = null;
 
+        public static ImprovedWeatherEffect? MajoraMoonEffectReference { get; private set; } = null;
+
         public MajoraMoonWeather() : base(Plugin.instance.majoraMoonDefinition) { }
 
         public override void OnEnable()
         {
             base.OnEnable();
-            if (!WeatherRegistry.WeatherManager.IsSetupFinished)
+            if (!WeatherManager.IsSetupFinished)
                 return;
             if (!RoundManager.Instance.currentLevel.planetHasTime)
             {
@@ -64,13 +67,14 @@ namespace LegendWeathers.Weathers
                     }
                 }
             }
+            MajoraMoonEffectReference = ConfigHelper.ResolveStringToWeather("majoramoon").Effect;
             EnableVanillaSun(false);
         }
 
         public override void OnDisable()
         {
             base.OnDisable();
-            if (!WeatherRegistry.WeatherManager.IsSetupFinished)
+            if (!WeatherManager.IsSetupFinished)
                 return;
             Compatibility.SetMajoraCompanyCompatible(false);
             if (NetworkManager.Singleton.IsServer)
@@ -98,6 +102,7 @@ namespace LegendWeathers.Weathers
                     }
                 }
             }
+            MajoraMoonEffectReference = null;
             EnableVanillaSun(true);
         }
     }

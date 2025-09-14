@@ -10,6 +10,7 @@
 - Possible fix for Majora fog not being enabled at start of moon
 - Majora compatible with Imperium time manipulation
 - Majora music will not play if volume in config is specified 0
+- Optimized the weather warning message system
 
 ## 1.1.11
 - Added custom colors for some combined weathers names

@@ -1,43 +1,9 @@
 ﻿using HarmonyLib;
 using LegendWeathers.BehaviourScripts;
-using LegendWeathers.Weathers;
-using LegendWeathers.WeatherSkyEffects;
 using System.Linq;
 
-namespace LegendWeathers.Utils
+namespace LegendWeathers.Patches
 {
-    [HarmonyPatch(typeof(StartOfRound))]
-    internal class WeatherAlertPatch
-    {
-        [HarmonyPostfix]
-        [HarmonyPatch("OnShipLandedMiscEvents")]
-        public static void OnShipLandedMiscEventsPatch()
-        {
-            string title = "Weather alert!";
-            if (Plugin.config.majoraWeather.Value && Effects.IsWeatherEffectPresent("majoramoon"))
-            {
-                Effects.MessageOneTime(title, MajoraMoonWeather.weatherAlert, true, "LW_MajoraTip");
-            }
-        }
-    }
-
-
-    [HarmonyPatch(typeof(TimeOfDay))]
-    internal class BloodMoonTimePatch
-    {
-        [HarmonyPostfix]
-        [HarmonyPatch("MoveTimeOfDay")]
-        public static void MoveTimeOfDayPatch(TimeOfDay __instance)
-        {
-            if (Plugin.config.bloodMoonWeather.Value && __instance.sunAnimator != null &&
-                BloodMoonWeather.BloodMoonEffectReference != null && BloodMoonWeather.BloodMoonEffectReference.EffectActive)
-            {
-                __instance.sunAnimator.SetFloat("timeOfDay", BloodSkyEffect.bloodMoonSunAnimatorFixedTime);
-            }
-        }
-    }
-
-
     [HarmonyPatch(typeof(MaskedPlayerEnemy))]
     internal class MajoraMaskedPatch
     {
