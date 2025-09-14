@@ -34,6 +34,7 @@ namespace LegendWeathers.Weathers
                 }
             }
             BloodMoonEffectReference = ConfigHelper.ResolveStringToWeather("bloodmoon").Effect;
+            UpdateSpawningVariables(true);
             EnableVanillaSun(false);
         }
 
@@ -56,7 +57,22 @@ namespace LegendWeathers.Weathers
             }
             BloodMoonEffectReference?.EffectObject?.GetComponent<BloodSkyEffect>()?.ResetState();
             BloodMoonEffectReference = null;
+            UpdateSpawningVariables(false);
             EnableVanillaSun(true);
+        }
+
+        private void UpdateSpawningVariables(bool update)
+        {
+            var currentLevel = RoundManager.Instance.currentLevel;
+            if (currentLevel != null)
+            {
+                var minEnemies = update ? 1 : 0;
+                RoundManager.Instance.minOutsideEnemiesToSpawn = minEnemies;
+                RoundManager.Instance.minEnemiesToSpawn = minEnemies;
+                currentLevel.maxEnemyPowerCount += update ? 5 : -5;
+                currentLevel.maxOutsideEnemyPowerCount += update ? 10 : -10;
+                //currentLevel.maxDaytimeEnemyPowerCount = 0;
+            }
         }
     }
 }

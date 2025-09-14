@@ -6,7 +6,6 @@ namespace LegendWeathers.Weathers
     public class LegendWeather : MonoBehaviour
     {
         public readonly WeatherDefinition weatherDefinition;
-        //private bool fogVolumeComponentExists = false;
 
         public LegendWeather(WeatherDefinition? definition)
         {
@@ -47,33 +46,5 @@ namespace LegendWeathers.Weathers
                 Plugin.logger.LogInfo("Failed to " + (enabled ? "enable" : "disable") + " vanilla sun. Probably not an error if the ship is going back in orbit.");
             }
         }
-
-        /*
-        public void EnableVanillaVolumeFog(bool enabled)
-        {
-            try
-            {
-                if (enabled && !fogVolumeComponentExists)
-                    return;
-                foreach (var volume in FindObjectsOfType<Volume>())
-                {
-                    if (volume == null || volume.profile == null || volume.gameObject.scene.name != RoundManager.Instance.currentLevel.sceneName)
-                        continue;
-                    foreach (var component in volume.profile.components)
-                    {
-                        if (component.active && component is Fog)
-                        {
-                            component.active = enabled;
-                            fogVolumeComponentExists = !enabled;
-                        }
-                    }
-                }
-            }
-            catch (System.Exception)
-            {
-                Plugin.logger.LogWarning("Failed to " + (enabled ? "enable" : "disable") + " vanilla volume fog.");
-            }
-        }
-        */
     }
 }
