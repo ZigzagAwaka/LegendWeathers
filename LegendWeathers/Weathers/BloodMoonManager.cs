@@ -6,11 +6,12 @@ using UnityEngine;
 
 namespace LegendWeathers.Weathers
 {
-    internal class BloodMoonManager : NetworkBehaviour
+    public class BloodMoonManager : NetworkBehaviour
     {
         public AudioSource introMusicAudio = null!;
         public AudioSource sfxAudio = null!;
         public AudioClip[] sfx = null!;
+        public GameObject resurrectEnemyInvocationObject = null!;
 
         private bool isInitialized = false;
         private PlayerControllerB? localPlayer = null;
@@ -69,6 +70,33 @@ namespace LegendWeathers.Weathers
                 nextMoonSfxTime = moonSfxTimeIntervalOutside;
                 sfxAudio.PlayOneShot(sfx[Random.Range(0, sfx.Length)], 0.5f);
             }
+        }
+
+        public void ResurrectEnemy(EnemyAI enemy)
+        {
+            if (IsServer)
+                StartCoroutine(StartAnimationThenResurrect(enemy.enemyType, enemy.transform.position, 5));
+        }
+
+        private IEnumerator StartAnimationThenResurrect(EnemyType enemyType, Vector3 originalPosition, int spawnRadius)
+        {
+            yield return new WaitForSeconds(Plugin.config.bloodMoonResurrectWaitTime.Value);
+            if (StartOfRound.Instance.inShipPhase || StartOfRound.Instance.shipIsLeaving)
+                yield break;
+            var spawnPosition = RoundManager.Instance.GetRandomNavMeshPositionInRadius(originalPosition, spawnRadius);
+            CreateInvocationObjectClientRpc(spawnPosition);
+            yield return new WaitForSeconds(2.5f);
+            if (!StartOfRound.Instance.inShipPhase)
+            {
+                RoundManager.Instance.SpawnEnemyGameObject(spawnPosition, Random.Range(-90f, 90f), -1, enemyType);
+            }
+        }
+
+        [ClientRpc]
+        private void CreateInvocationObjectClientRpc(Vector3 position)
+        {
+            if (resurrectEnemyInvocationObject != null)
+                Instantiate(resurrectEnemyInvocationObject, position, Quaternion.identity);
         }
 
         [ServerRpc]

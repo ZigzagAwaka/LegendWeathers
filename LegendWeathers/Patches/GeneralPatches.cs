@@ -12,9 +12,13 @@ namespace LegendWeathers.Patches
         public static void OnShipLandedMiscEventsPatch()
         {
             string title = "Weather alert!";
-            if (Plugin.config.majoraWeather.Value && MajoraMoonWeather.MajoraMoonEffectReference != null && MajoraMoonWeather.MajoraMoonEffectReference.EffectActive)
+            if (Plugin.config.majoraWeather.Value && MajoraMoonWeather.MajoraMoonEffectReference != null && MajoraMoonWeather.MajoraMoonEffectReference.EffectEnabled)
             {
                 Effects.MessageOneTime(title, MajoraMoonWeather.weatherAlert, true, "LW_MajoraTip");
+            }
+            if (Plugin.config.bloodMoonWeather.Value && BloodMoonWeather.BloodMoonEffectReference != null && BloodMoonWeather.BloodMoonEffectReference.EffectEnabled)
+            {
+                Effects.MessageOneTime(title, BloodMoonWeather.weatherAlert, true, "LW_BloodTip");
             }
         }
     }

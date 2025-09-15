@@ -7,7 +7,7 @@ namespace LegendWeathers.Weathers
 {
     public class BloodMoonWeather : LegendWeather
     {
-        public static string weatherAlert = "";
+        public static string weatherAlert = "A crimson moon rises, bathing the land in danger. Be on your guard.";
         private GameObject? spawnedManager = null;
 
         public static ImprovedWeatherEffect? BloodMoonEffectReference { get; private set; } = null;
@@ -73,6 +73,15 @@ namespace LegendWeathers.Weathers
                 currentLevel.maxOutsideEnemyPowerCount += update ? 10 : -10;
                 //currentLevel.maxDaytimeEnemyPowerCount = 0;
             }
+        }
+
+        public BloodMoonManager? GetBloodMoonManager()
+        {
+            if (spawnedManager != null)
+            {
+                return spawnedManager.GetComponent<BloodMoonManager>();
+            }
+            return null;
         }
     }
 }

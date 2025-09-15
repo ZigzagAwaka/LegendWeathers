@@ -18,4 +18,24 @@ namespace LegendWeathers.Patches
             }
         }
     }
+
+
+    [HarmonyPatch(typeof(EnemyAI))]
+    internal class BloodMoonEnemyResurrectionPatch
+    {
+        [HarmonyPostfix]
+        [HarmonyPatch("KillEnemy")]
+        public static void KillEnemyPatch(EnemyAI __instance, bool destroy)
+        {
+            if (!Plugin.config.bloodMoonWeather.Value || BloodMoonWeather.BloodMoonEffectReference == null || !BloodMoonWeather.BloodMoonEffectReference.EffectEnabled
+                || __instance == null || __instance.enemyType == null || !__instance.IsServer)
+            {
+                return;
+            }
+            if ((!destroy || !__instance.enemyType.canBeDestroyed) && __instance.enemyType.canDie)
+            {
+                BloodMoonWeather.BloodMoonEffectReference.WorldObject?.GetComponent<BloodMoonWeather>()?.GetBloodMoonManager()?.ResurrectEnemy(__instance);
+            }
+        }
+    }
 }
