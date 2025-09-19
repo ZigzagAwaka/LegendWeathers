@@ -12,6 +12,7 @@ namespace LegendWeathers.Weathers
         public AudioSource sfxAudio = null!;
         public AudioClip[] sfx = null!;
         public GameObject resurrectEnemyInvocationObject = null!;
+        public GameObject resurrectEnemyBurstObject = null!;
 
         private bool isInitialized = false;
         private PlayerControllerB? localPlayer = null;
@@ -21,6 +22,8 @@ namespace LegendWeathers.Weathers
         private float nextMoonSfxTime = 63;  // 63 = initial delay outside before first sfx
         private readonly float moonSfxTimeIntervalInside = 10.8f;
         private readonly float moonSfxTimeIntervalOutside = 81.8f;
+
+        private readonly int enemyResurrectDistance = 10;
 
         public void Update()
         {
@@ -75,7 +78,7 @@ namespace LegendWeathers.Weathers
         public void ResurrectEnemy(EnemyAI enemy)
         {
             if (IsServer)
-                StartCoroutine(StartAnimationThenResurrect(enemy.enemyType, enemy.transform.position, 5));
+                StartCoroutine(StartAnimationThenResurrect(enemy.enemyType, enemy.transform.position, enemyResurrectDistance));
         }
 
         private IEnumerator StartAnimationThenResurrect(EnemyType enemyType, Vector3 originalPosition, int spawnRadius)
@@ -85,7 +88,7 @@ namespace LegendWeathers.Weathers
                 yield break;
             var spawnPosition = RoundManager.Instance.GetRandomNavMeshPositionInRadius(originalPosition, spawnRadius);
             CreateInvocationObjectClientRpc(spawnPosition);
-            yield return new WaitForSeconds(2.5f);
+            yield return new WaitForSeconds(3.1f);
             if (!StartOfRound.Instance.inShipPhase)
             {
                 RoundManager.Instance.SpawnEnemyGameObject(spawnPosition, Random.Range(-90f, 90f), -1, enemyType);
@@ -95,8 +98,18 @@ namespace LegendWeathers.Weathers
         [ClientRpc]
         private void CreateInvocationObjectClientRpc(Vector3 position)
         {
-            if (resurrectEnemyInvocationObject != null)
-                Instantiate(resurrectEnemyInvocationObject, position, Quaternion.identity);
+            StartCoroutine(CreateInvocationObject(position));
+        }
+
+        private IEnumerator CreateInvocationObject(Vector3 position)
+        {
+            if (resurrectEnemyInvocationObject == null || resurrectEnemyBurstObject == null)
+                yield break;
+            var invocationObject = Instantiate(resurrectEnemyInvocationObject, position, Quaternion.identity);
+            yield return new WaitForSeconds(3f);
+            Instantiate(resurrectEnemyBurstObject, position + Vector3.up, Quaternion.identity);
+            if (invocationObject != null)
+                Destroy(invocationObject);
         }
 
         [ServerRpc]

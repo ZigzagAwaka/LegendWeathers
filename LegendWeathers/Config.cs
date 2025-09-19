@@ -39,7 +39,7 @@ namespace LegendWeathers
             bloodMoonSizeFactor = cfg.Bind("Blood Moon", "Moon size factor", 5.5f, new ConfigDescription("The size factor of the Blood Moon material compared to the size of the vanilla sun.", new AcceptableValueRange<float>(1f, 10f)));
             bloodMoonEffectsAbundance = cfg.Bind("Blood Moon", "Terrain effects abundance", 30, new ConfigDescription("The abundance of terrain effects during the Blood Moon weather.\nHigher values will spawn more effects but may impact performance.", new AcceptableValueRange<int>(0, 100)));
             bloodMoonMusicVolume = cfg.Bind("Blood Moon", "Intro music volume", 1f, new ConfigDescription("An introduction music is played when the Blood Moon is spawned on the planet, this will last 30s.\nYou can customize the music volume here.", new AcceptableValueRange<float>(0f, 1f)));
-            bloodMoonResurrectWaitTime = cfg.Bind("Blood Moon", "Enemy resurrection wait time", 5f, new ConfigDescription("When an enemy is resurrected by the Blood Moon effect, this is the time in seconds it will take before it actually respawns.", new AcceptableValueRange<float>(0f, 20f)));
+            bloodMoonResurrectWaitTime = cfg.Bind("Blood Moon", "Enemy resurrection wait time", 10f, new ConfigDescription("When an enemy is resurrected by the Blood Moon effect, this is the time in seconds it will take before it actually respawns.", new AcceptableValueRange<float>(0f, 20f)));
 
             cfg.Save();
             cfg.SaveOnConfigSet = true;
