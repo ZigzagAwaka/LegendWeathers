@@ -23,6 +23,9 @@ namespace LegendWeathers.Weathers
         private readonly float moonSfxTimeIntervalInside = 10.8f;
         private readonly float moonSfxTimeIntervalOutside = 81.8f;
 
+        private float lastChanceEventTime = 0;
+        private readonly float nextChanceEventTime = 60;
+
         private readonly int enemyResurrectDistance = 10;
 
         public void Update()
@@ -30,6 +33,7 @@ namespace LegendWeathers.Weathers
             if (!isInitialized)
                 return;
             Effects.StopVanillaMusic();
+            TryAndPlayChanceEvent();
             if (introMusicAudio.isPlaying)
                 CheckIntroMusicState();
             else
@@ -75,6 +79,25 @@ namespace LegendWeathers.Weathers
             }
         }
 
+        private void TryAndPlayChanceEvent()
+        {
+            if (!IsServer)
+                return;
+            lastChanceEventTime += Time.deltaTime;
+            if (lastChanceEventTime >= nextChanceEventTime)
+            {
+                lastChanceEventTime = 0;
+                if (Random.Range(0, 10) == 0)
+                    SpawnBloodStone();
+            }
+        }
+
+        private void SpawnBloodStone(Vector3? position = null)
+        {
+            Vector3 spawnPosition = position == null ? Effects.GetRandomMoonPosition() : RoundManager.Instance.GetRandomNavMeshPositionInRadius((Vector3)position, 5);
+            // spawning effect here
+        }
+
         public void ResurrectEnemy(EnemyAI enemy)
         {
             if (IsServer)
@@ -83,12 +106,13 @@ namespace LegendWeathers.Weathers
 
         private IEnumerator StartAnimationThenResurrect(EnemyType enemyType, Vector3 originalPosition, int spawnRadius)
         {
+            SpawnBloodStone(originalPosition);
             yield return new WaitForSeconds(Plugin.config.bloodMoonResurrectWaitTime.Value);
             if (StartOfRound.Instance.inShipPhase || StartOfRound.Instance.shipIsLeaving)
                 yield break;
             var spawnPosition = RoundManager.Instance.GetRandomNavMeshPositionInRadius(originalPosition, spawnRadius);
             CreateInvocationObjectClientRpc(spawnPosition);
-            yield return new WaitForSeconds(3.1f);
+            yield return new WaitForSeconds(3.05f);
             if (!StartOfRound.Instance.inShipPhase)
             {
                 RoundManager.Instance.SpawnEnemyGameObject(spawnPosition, Random.Range(-90f, 90f), -1, enemyType);
@@ -107,7 +131,8 @@ namespace LegendWeathers.Weathers
                 yield break;
             var invocationObject = Instantiate(resurrectEnemyInvocationObject, position, Quaternion.identity);
             yield return new WaitForSeconds(3f);
-            Instantiate(resurrectEnemyBurstObject, position + Vector3.up, Quaternion.identity);
+            Instantiate(resurrectEnemyBurstObject, position + (Vector3.up * 0.9f), Quaternion.identity);
+            yield return new WaitForSeconds(0.1f);
             if (invocationObject != null)
                 Destroy(invocationObject);
         }
