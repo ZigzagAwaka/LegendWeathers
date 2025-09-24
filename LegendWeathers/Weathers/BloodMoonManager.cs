@@ -26,8 +26,6 @@ namespace LegendWeathers.Weathers
         private float lastChanceEventTime = 0;
         private readonly float nextChanceEventTime = 60;
 
-        private readonly int enemyResurrectDistance = 10;
-
         public void Update()
         {
             if (!isInitialized)
@@ -101,40 +99,45 @@ namespace LegendWeathers.Weathers
         public void ResurrectEnemy(EnemyAI enemy)
         {
             if (IsServer)
-                StartCoroutine(StartAnimationThenResurrect(enemy.enemyType, enemy.transform.position, enemyResurrectDistance));
+                StartCoroutine(StartAnimationThenResurrect(enemy, enemy.transform.position));
         }
 
-        private IEnumerator StartAnimationThenResurrect(EnemyType enemyType, Vector3 originalPosition, int spawnRadius)
+        private IEnumerator StartAnimationThenResurrect(EnemyAI enemy, Vector3 originalPosition)
         {
             SpawnBloodStone(originalPosition);
             yield return new WaitForSeconds(Plugin.config.bloodMoonResurrectWaitTime.Value);
             if (StartOfRound.Instance.inShipPhase || StartOfRound.Instance.shipIsLeaving)
                 yield break;
-            var spawnPosition = RoundManager.Instance.GetRandomNavMeshPositionInRadius(originalPosition, spawnRadius);
-            CreateInvocationObjectClientRpc(spawnPosition);
+            var spawnPosition = RoundManager.Instance.GetNavMeshPosition(originalPosition, sampleRadius: 3f);
+            if (!RoundManager.Instance.GotNavMeshPositionResult)
+                spawnPosition = Effects.GetClosestAINodePosition(enemy.isOutside ? RoundManager.Instance.outsideAINodes : RoundManager.Instance.insideAINodes, originalPosition);
+            CreateInvocationObjectClientRpc(new NetworkObjectReference(enemy.gameObject), spawnPosition);
             yield return new WaitForSeconds(3.05f);
             if (!StartOfRound.Instance.inShipPhase)
             {
-                RoundManager.Instance.SpawnEnemyGameObject(spawnPosition, Random.Range(-90f, 90f), -1, enemyType);
+                RoundManager.Instance.SpawnEnemyGameObject(spawnPosition, Random.Range(-90f, 90f), -1, enemy.enemyType);
             }
         }
 
         [ClientRpc]
-        private void CreateInvocationObjectClientRpc(Vector3 position)
+        private void CreateInvocationObjectClientRpc(NetworkObjectReference enemyRef, Vector3 position)
         {
-            StartCoroutine(CreateInvocationObject(position));
+            StartCoroutine(CreateInvocationObject(enemyRef, position));
         }
 
-        private IEnumerator CreateInvocationObject(Vector3 position)
+        private IEnumerator CreateInvocationObject(NetworkObjectReference enemyRef, Vector3 position)
         {
             if (resurrectEnemyInvocationObject == null || resurrectEnemyBurstObject == null)
                 yield break;
+            var enemyObject = (GameObject)enemyRef;
             var invocationObject = Instantiate(resurrectEnemyInvocationObject, position, Quaternion.identity);
-            yield return new WaitForSeconds(3f);
+            yield return Effects.AnimateScaleDownObject(enemyObject, 3f);
             Instantiate(resurrectEnemyBurstObject, position + (Vector3.up * 0.9f), Quaternion.identity);
             yield return new WaitForSeconds(0.1f);
             if (invocationObject != null)
                 Destroy(invocationObject);
+            if (IsServer)
+                enemyObject.GetComponentInChildren<NetworkObject>().Despawn();
         }
 
         [ServerRpc]

@@ -282,6 +282,20 @@ namespace LegendWeathers.Utils
             source.volume = volume;
         }
 
+        public static IEnumerator AnimateScaleDownObject(GameObject gameObject, float time)
+        {
+            yield return new WaitForEndOfFrame();
+            var actualTime = 0f;
+            var scale = gameObject.transform.localScale;
+            while (actualTime < time)
+            {
+                gameObject.transform.localScale -= scale * Time.deltaTime / time;
+                actualTime += Time.deltaTime;
+                yield return null;
+            }
+            gameObject.transform.localScale = Vector3.zero;
+        }
+
         public static void StopVanillaMusic()
         {
             if (SoundManager.Instance.musicSource.isPlaying)
