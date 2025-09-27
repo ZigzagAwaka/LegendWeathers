@@ -6,6 +6,9 @@ namespace LegendWeathers
 {
     class Config
     {
+        public readonly ConfigEntry<bool> generalWeatherAlertsSaved;
+        public readonly ConfigEntry<bool> generalWeatherTweaksIntegration;
+
         public readonly ConfigEntry<bool> majoraWeather;
         public readonly ConfigEntry<string> majoraMoonModel;
         public readonly ConfigEntry<bool> majoraMoonModelAutomatic;
@@ -21,10 +24,14 @@ namespace LegendWeathers
         public readonly ConfigEntry<int> bloodMoonEffectsAbundance;
         public readonly ConfigEntry<float> bloodMoonMusicVolume;
         public readonly ConfigEntry<float> bloodMoonResurrectWaitTime;
+        public readonly ConfigEntry<string> bloodMoonDifficultyFactor;
 
         public Config(ConfigFile cfg)
         {
             cfg.SaveOnConfigSet = false;
+
+            generalWeatherAlertsSaved = cfg.Bind("_General", "Weather alerts saved", true, "By default, weather alerts are shown once then saved so you'll never get them again just like the vanilla system.\nDisable this config if you prefer to see them during every ship landing.");
+            generalWeatherTweaksIntegration = cfg.Bind("_General", "WeatherTweaks integration", true, "Enable WeatherTweaks compatibility : this will register multiple combined weather effects if you have WeatherTweaks installed.");
 
             majoraWeather = cfg.Bind("Majora Moon", "Enabled", true, "Enable the Majora Moon weather.");
             majoraMoonModel = cfg.Bind("Majora Moon", "Model version", "3DS", new ConfigDescription("Choose the model version of the moon, if you want a more retro look try the N64 version.\nOther models are also available for fun !", new AcceptableValueList<string>("3DS", "N64", "Faceless", "Boomy", "Owl", "Abibabou", "Joy", "Dice", "Baldy")));
@@ -40,6 +47,7 @@ namespace LegendWeathers
             bloodMoonEffectsAbundance = cfg.Bind("Blood Moon", "Terrain effects abundance", 30, new ConfigDescription("The abundance of terrain effects during the Blood Moon weather.\nHigher values will spawn more effects but may impact performance.", new AcceptableValueRange<int>(0, 100)));
             bloodMoonMusicVolume = cfg.Bind("Blood Moon", "Intro music volume", 1f, new ConfigDescription("An introduction music is played when the Blood Moon is spawned on the planet, this will last 30s.\nYou can customize the music volume here.", new AcceptableValueRange<float>(0f, 1f)));
             bloodMoonResurrectWaitTime = cfg.Bind("Blood Moon", "Enemy resurrection wait time", 7f, new ConfigDescription("When an enemy is resurrected by the Blood Moon effect, this is the time in seconds it will take before it actually respawns.", new AcceptableValueRange<float>(0f, 20f)));
+            bloodMoonDifficultyFactor = cfg.Bind("Blood Moon", "Difficulty", "Normal", new ConfigDescription("The difficulty factor of the Blood Moon effect, this will impact the number of spawned enemies during the weather.", new AcceptableValueList<string>("Easy", "Normal", "Hard")));
 
             cfg.Save();
             cfg.SaveOnConfigSet = true;

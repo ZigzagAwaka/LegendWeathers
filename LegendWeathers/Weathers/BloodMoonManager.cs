@@ -1,8 +1,10 @@
 ﻿using GameNetcodeStuff;
 using LegendWeathers.Utils;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Rendering.HighDefinition;
 
 namespace LegendWeathers.Weathers
 {
@@ -11,6 +13,8 @@ namespace LegendWeathers.Weathers
         public AudioSource introMusicAudio = null!;
         public AudioSource sfxAudio = null!;
         public AudioClip[] sfx = null!;
+        public GameObject bloodMoonVolumeObject = null!;
+        public GameObject bloodMoonParticlesObject = null!;
         public GameObject resurrectEnemyInvocationObject = null!;
         public GameObject resurrectEnemyBurstObject = null!;
 
@@ -18,20 +22,34 @@ namespace LegendWeathers.Weathers
         private PlayerControllerB? localPlayer = null;
         private bool localPlayerIsInsideLastChecked = false;
 
+        private GameObject? spawnedBloodVolume = null;
+        private bool volumeCorrectlyRendered = false;
+        private float volumeRenderingSafeCheckTimer = 0f;
+        private bool vanillaFogVolumeComponentExists = false;
+
+        private GameObject? spawnedBloodParticles = null;
+        private readonly Vector3 bloodParticleOffset = Vector3.up * 7f;
+
         private float lastMoonSfxTime = 0;
         private float nextMoonSfxTime = 63;  // 63 = initial delay outside before first sfx
         private readonly float moonSfxTimeIntervalInside = 10.8f;
         private readonly float moonSfxTimeIntervalOutside = 81.8f;
 
-        private float lastChanceEventTime = 0;
-        private readonly float nextChanceEventTime = 60;
+        private float lastThunderEventTime = 0;
+        private readonly float nextThunderEventTime = 20;
+
+        private List<VisualEnvironment> visualEnvironments = new List<VisualEnvironment>();
+        private List<float> originalWindSpeeds = new List<float>();
+        private readonly int windSpeedFactor = 4;
 
         public void Update()
         {
             if (!isInitialized)
                 return;
+            PerformRenderingSafeCheck();
             Effects.StopVanillaMusic();
-            TryAndPlayChanceEvent();
+            Effects.SetObjectPositionToLocalPlayer(spawnedBloodParticles, bloodParticleOffset);
+            TryAndPlayThunderEvent();
             if (introMusicAudio.isPlaying)
                 CheckIntroMusicState();
             else
@@ -77,22 +95,26 @@ namespace LegendWeathers.Weathers
             }
         }
 
-        private void TryAndPlayChanceEvent()
+        private void TryAndPlayThunderEvent()
         {
             if (!IsServer)
                 return;
-            lastChanceEventTime += Time.deltaTime;
-            if (lastChanceEventTime >= nextChanceEventTime)
+            lastThunderEventTime += Time.deltaTime;
+            if (lastThunderEventTime >= nextThunderEventTime)
             {
-                lastChanceEventTime = 0;
-                if (Random.Range(0, 10) == 0)
+                lastThunderEventTime = 0;
+                if (Random.Range(0, 10) >= 0)
                     SpawnBloodStone();
             }
         }
 
-        private void SpawnBloodStone(Vector3? position = null)
+        private void SpawnBloodStone(Vector3? originalPosition = null)
         {
-            Vector3 spawnPosition = position == null ? Effects.GetRandomMoonPosition() : RoundManager.Instance.GetRandomNavMeshPositionInRadius((Vector3)position, 5);
+            Vector3 spawnPosition = originalPosition == null ? Effects.GetRandomMoonPosition() : RoundManager.Instance.GetRandomNavMeshPositionInRadius((Vector3)originalPosition, 5);
+            if (originalPosition == null)
+            {
+                Effects.SpawnBloodLightningBolt(ref spawnPosition);
+            }
             // spawning effect here
         }
 
@@ -127,17 +149,25 @@ namespace LegendWeathers.Weathers
 
         private IEnumerator CreateInvocationObject(NetworkObjectReference enemyRef, Vector3 position)
         {
-            if (resurrectEnemyInvocationObject == null || resurrectEnemyBurstObject == null)
-                yield break;
             var enemyObject = (GameObject)enemyRef;
+            if (resurrectEnemyInvocationObject == null || resurrectEnemyBurstObject == null || enemyObject == null)
+                yield break;
+            var burstObject = Instantiate(resurrectEnemyBurstObject, position + (Vector3.up * 0.9f), Quaternion.identity);
             var invocationObject = Instantiate(resurrectEnemyInvocationObject, position, Quaternion.identity);
             yield return Effects.AnimateScaleDownObject(enemyObject, 3f);
-            Instantiate(resurrectEnemyBurstObject, position + (Vector3.up * 0.9f), Quaternion.identity);
+            burstObject.GetComponent<AudioSource>().Play();
             yield return new WaitForSeconds(0.1f);
             if (invocationObject != null)
                 Destroy(invocationObject);
-            if (IsServer)
-                enemyObject.GetComponentInChildren<NetworkObject>().Despawn();
+            yield return new WaitForSeconds(2.4f);
+            if (burstObject != null)
+                Destroy(burstObject);
+            if (IsServer && enemyObject != null)
+            {
+                var netObj = enemyObject.GetComponentInChildren<NetworkObject>();
+                if (netObj != null && netObj.IsSpawned)
+                    netObj.Despawn();
+            }
         }
 
         [ServerRpc]
@@ -171,14 +201,54 @@ namespace LegendWeathers.Weathers
                 localPlayerIsInsideLastChecked = localPlayer.isInsideFactory;
             if (localPlayerIsInsideLastChecked)
                 nextMoonSfxTime = moonSfxTimeIntervalInside;
-            StartIntroductionMusic();
+            StartInitialEffects();
             isInitialized = true;
         }
 
-        private void StartIntroductionMusic()
+        private void StartInitialEffects()
         {
+            if (bloodMoonVolumeObject != null)
+            {
+                spawnedBloodVolume = Instantiate(bloodMoonVolumeObject);
+                if (spawnedBloodVolume != null)
+                {
+                    if (Effects.SetupCustomSkyVolume(spawnedBloodVolume, out _))
+                        volumeCorrectlyRendered = true;
+                }
+                else
+                    Plugin.logger.LogError("Failed to instantiate Blood Moon Volume.");
+            }
+            if (localPlayer != null && bloodMoonParticlesObject != null)
+            {
+                var player = !localPlayer.isPlayerDead ? localPlayer : localPlayer.spectatedPlayerScript;
+                spawnedBloodParticles = Instantiate(bloodMoonParticlesObject, player.transform.position + bloodParticleOffset, Quaternion.identity);
+                if (spawnedBloodParticles == null)
+                    Plugin.logger.LogError("Failed to instantiate Blood Moon Particles for player " + player.playerUsername + ".");
+            }
+            Effects.EnableVanillaVolumeFog(false, ref vanillaFogVolumeComponentExists);
+            Effects.SetupWindSpeedComponents(ref visualEnvironments, ref originalWindSpeeds);
+            Effects.IncreaseWindSpeed(visualEnvironments, windSpeedFactor);
             introMusicAudio.volume = Plugin.config.bloodMoonMusicVolume.Value;
             introMusicAudio.Play();
+        }
+
+        // Perform a safety check to ensure the volume is correctly rendered
+        private void PerformRenderingSafeCheck()
+        {
+            if (!volumeCorrectlyRendered && spawnedBloodVolume != null)
+            {
+                volumeRenderingSafeCheckTimer += Time.deltaTime;
+                if (volumeRenderingSafeCheckTimer > 1f)
+                {
+                    if (Effects.SetupCustomSkyVolume(spawnedBloodVolume, out _))
+                    {
+                        volumeCorrectlyRendered = true;
+                        volumeRenderingSafeCheckTimer = 0f;
+                    }
+                    else
+                        Plugin.logger.LogError("Failed to setup volume values for the Blood Moon Volume.");
+                }
+            }
         }
 
         public override void OnDestroy()
@@ -187,6 +257,18 @@ namespace LegendWeathers.Weathers
                 introMusicAudio.Stop();
             if (sfxAudio.isPlaying)
                 sfxAudio.Stop();
+            if (spawnedBloodParticles != null)
+                Destroy(spawnedBloodParticles);
+            if (spawnedBloodVolume != null)
+                Destroy(spawnedBloodVolume);
+            Effects.EnableVanillaVolumeFog(true, ref vanillaFogVolumeComponentExists);
+            for (int i = 0; i < visualEnvironments.Count; i++)
+            {
+                if (visualEnvironments[i] != null)
+                    visualEnvironments[i].windSpeed.value = originalWindSpeeds[i];
+            }
+            visualEnvironments.Clear();
+            originalWindSpeeds.Clear();
             base.OnDestroy();
         }
     }

@@ -66,13 +66,19 @@ namespace LegendWeathers.Weathers
             var currentLevel = RoundManager.Instance.currentLevel;
             if (currentLevel != null)
             {
-                var minEnemies = update ? 1 : 0;
+                var minEnemies = update ? GetDifficultyIndex() : 0;
                 RoundManager.Instance.minOutsideEnemiesToSpawn = minEnemies;
                 RoundManager.Instance.minEnemiesToSpawn = minEnemies;
                 currentLevel.maxEnemyPowerCount += update ? 5 : -5;
                 currentLevel.maxOutsideEnemyPowerCount += update ? 10 : -10;
                 //currentLevel.maxDaytimeEnemyPowerCount = 0;
             }
+        }
+
+        private int GetDifficultyIndex()
+        {
+            var difficulty = Plugin.config.bloodMoonDifficultyFactor.Value;
+            return difficulty == "Easy" ? 0 : (difficulty == "Hard" ? 2 : 1);
         }
 
         public BloodMoonManager? GetBloodMoonManager()

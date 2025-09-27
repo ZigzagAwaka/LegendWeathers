@@ -1,14 +1,14 @@
-﻿using UnityEngine;
+﻿using LegendWeathers.Utils;
+using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.HighDefinition;
 
 namespace LegendWeathers.WeatherSkyEffects
 {
     public class SkyEffect : MonoBehaviour
     {
-        private readonly GameObject effectGameObject;
-        private readonly string effectName;
-        private bool fogVolumeComponentExists = false;
+        internal readonly GameObject effectGameObject;
+        internal readonly string effectName;
+        internal bool fogVolumeComponentExists = false;
 
         private bool renderingSafeCheck = false;
         private float renderingSafeCheckTimer = 0f;
@@ -16,8 +16,7 @@ namespace LegendWeathers.WeatherSkyEffects
         public GameObject? spawnedSky = null;
         public Volume? spawnedSkyVolume = null;
         public bool overrideFogVolume = false;
-        public bool IsEffectActive { get; private set; } = false;
-
+        public bool IsEffectActive { get; internal set; } = false;
 
         public SkyEffect(GameObject? gameObject)
         {
@@ -43,7 +42,7 @@ namespace LegendWeathers.WeatherSkyEffects
             else
                 Plugin.logger.LogError("Failed to instantiate " + effectName + " Sky Effect.");
             if (overrideFogVolume)
-                EnableVanillaVolumeFog(false);
+                Effects.EnableVanillaVolumeFog(false, ref fogVolumeComponentExists);
         }
 
         public virtual void OnDisable()
@@ -58,26 +57,14 @@ namespace LegendWeathers.WeatherSkyEffects
                 spawnedSkyVolume = null;
             }
             if (overrideFogVolume)
-                EnableVanillaVolumeFog(true);
+                Effects.EnableVanillaVolumeFog(true, ref fogVolumeComponentExists);
         }
 
         private void SetupSkyVolume()
         {
-            if (spawnedSky == null)
-                return;
-            spawnedSkyVolume = spawnedSky.GetComponent<Volume>();
-            foreach (var component in spawnedSkyVolume.profile.components)
-            {
-                if (component.active && component is Fog fog)
-                {
-                    fog.enableVolumetricFog.value = false;
-                    fog.enableVolumetricFog.overrideState = true;
-                    IsEffectActive = true;
-                    return;
-                }
-            }
+            if (Effects.SetupCustomSkyVolume(spawnedSky, out spawnedSkyVolume))
+                IsEffectActive = true;
         }
-
 
         public virtual void Update()
         {
@@ -101,32 +88,6 @@ namespace LegendWeathers.WeatherSkyEffects
                     else
                         Plugin.logger.LogError("Failed to perform the rendering safe check in " + effectName + " Sky Effect Volume.");
                 }
-            }
-        }
-
-        private void EnableVanillaVolumeFog(bool enabled)
-        {
-            try
-            {
-                if (enabled && !fogVolumeComponentExists)
-                    return;
-                foreach (var volume in FindObjectsOfType<Volume>())
-                {
-                    if (volume == null || volume.profile == null || volume.gameObject.scene.name != RoundManager.Instance.currentLevel.sceneName)
-                        continue;
-                    foreach (var component in volume.profile.components)
-                    {
-                        if (component.active && component is Fog)
-                        {
-                            component.active = enabled;
-                            fogVolumeComponentExists = !enabled;
-                        }
-                    }
-                }
-            }
-            catch (System.Exception e)
-            {
-                Plugin.logger.LogError("Failed to " + (enabled ? "enable" : "disable") + " vanilla volume fog.\n" + e.Message);
             }
         }
     }

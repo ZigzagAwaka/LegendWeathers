@@ -30,7 +30,7 @@ namespace LegendWeathers
     {
         const string GUID = "zigzag.legendweathers";
         const string NAME = "LegendWeathers";
-        const string VERSION = "1.1.11";
+        const string VERSION = "2.0.0";
 
         public static Plugin instance;
         public static ManualLogSource logger;
@@ -46,9 +46,7 @@ namespace LegendWeathers
 
         public WeatherDefinition? bloodMoonDefinition;
         public GameObject? bloodMoonManagerObject;
-        public GameObject? bloodSkyObject;
         public GameObject? bloodSunObject;
-        public GameObject? bloodParticlesObject;
         public GameObject? bloodTerrainEffectObject;
 
         void HarmonyPatchAll()
@@ -119,9 +117,7 @@ namespace LegendWeathers
         {
             bloodMoonDefinition = bundle.LoadAsset<WeatherDefinition>(directory + "BloodMoon/BloodMoonDefinition.asset");
             bloodMoonManagerObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/BloodMoonManager.prefab");
-            bloodSkyObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/BloodSky.prefab");
             bloodSunObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/SunBloodTexture.prefab");
-            bloodParticlesObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/BloodRainParticles.prefab");
             bloodTerrainEffectObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/BloodTerrainEffect.prefab");
             if (!config.bloodMoonTexture.Value.Equals(config.bloodMoonTexture.DefaultValue))
             {
@@ -155,7 +151,7 @@ namespace LegendWeathers
                 RegisterBloodMoon(bundle, directory);
             }
 
-            if (Compatibility.WeatherTweaksInstalled)
+            if (Compatibility.WeatherTweaksInstalled && config.generalWeatherTweaksIntegration.Value)
             {
                 TweaksIntegration.Setup();
             }

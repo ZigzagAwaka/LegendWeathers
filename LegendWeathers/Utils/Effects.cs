@@ -7,6 +7,8 @@ using System.Reflection;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.HighDefinition;
 using WeatherRegistry;
 
 namespace LegendWeathers.Utils
@@ -144,54 +146,6 @@ namespace LegendWeathers.Utils
             player.playerBodyAnimator.SetBool("Limp", false);
         }
 
-        public static void Teleportation(PlayerControllerB player, Vector3 position)
-        {
-            player.averageVelocity = 0f;
-            player.velocityLastFrame = Vector3.zero;
-            player.TeleportPlayer(position, true);
-            player.beamOutParticle.Play();
-            HUDManager.Instance.ShakeCamera(ScreenShakeType.Big);
-        }
-
-        public static void SetPosFlags(ulong playerID, bool ship = false, bool exterior = false, bool interior = false)
-        {
-            var player = StartOfRound.Instance.allPlayerScripts[playerID];
-            if (ship)
-            {
-                player.isInElevator = true;
-                player.isInHangarShipRoom = true;
-                player.isInsideFactory = false;
-            }
-            if (exterior)
-            {
-                player.isInElevator = false;
-                player.isInHangarShipRoom = false;
-                player.isInsideFactory = false;
-            }
-            if (interior)
-            {
-                player.isInElevator = false;
-                player.isInHangarShipRoom = false;
-                player.isInsideFactory = true;
-            }
-            foreach (var item in player.ItemSlots)
-            {
-                if (item != null)
-                {
-                    item.isInFactory = player.isInsideFactory;
-                    item.isInElevator = player.isInElevator;
-                    item.isInShipRoom = player.isInHangarShipRoom;
-                }
-            }
-            if (GameNetworkManager.Instance.localPlayerController.playerClientId == player.playerClientId)
-            {
-                if (player.isInsideFactory)
-                    TimeOfDay.Instance.DisableAllWeather();
-                else
-                    ActivateWeatherEffect();
-            }
-        }
-
         public static IEnumerator ShakeCameraAdvanced(ScreenShakeType shakeType, int repeat = 1, float inBetweenTimer = 0.5f)
         {
             if (shakeType == ScreenShakeType.Long || shakeType == ScreenShakeType.VeryStrong)
@@ -260,11 +214,6 @@ namespace LegendWeathers.Utils
         public static Vector3 GetClosestAINodePosition(GameObject[] nodes, Vector3 position)
         {
             return nodes.OrderBy((GameObject x) => Vector3.Distance(position, x.transform.position)).ToArray()[0].transform.position;
-        }
-
-        public static void Knockback(Vector3 position, float range, int damage = 0, float physicsForce = 30)
-        {
-            Landmine.SpawnExplosion(position, false, 0, range, damage, physicsForce);
         }
 
         public static IEnumerator FadeOutAudio(AudioSource source, float time, bool specialStop = true)
@@ -343,9 +292,91 @@ namespace LegendWeathers.Utils
             return IsPlayerInsideFacilityAbsolute(GameNetworkManager.Instance.localPlayerController);
         }
 
+        public static void SetObjectPositionToLocalPlayer(GameObject? obj, Vector3? offset = null)
+        {
+            if (obj != null)
+            {
+                var player = GetLocalPlayerAbsolute();
+                if (player != null)
+                {
+                    obj.transform.position = player.transform.position + (offset != null ? (Vector3)offset : Vector3.zero);
+                }
+            }
+        }
+
         public static bool IsTimePaused()
         {
             return Compatibility.ImperiumInstalled && Compatibility.IsMajoraImperiumPausedTime();
+        }
+
+        public static void IncreaseWindSpeed(List<VisualEnvironment> visualEnvironments, int windSpeedFactor)
+        {
+            for (int i = 0; i < visualEnvironments.Count; i++)
+            {
+                if (visualEnvironments[i] != null)
+                    visualEnvironments[i].windSpeed.value *= windSpeedFactor;
+            }
+        }
+
+        public static void SetupWindSpeedComponents(ref List<VisualEnvironment> visualEnvironments, ref List<float> originalWindSpeeds)
+        {
+            foreach (var volume in Object.FindObjectsOfType<Volume>())
+            {
+                if (volume == null || volume.profile == null || volume.gameObject.scene.name != RoundManager.Instance.currentLevel.sceneName)
+                    continue;
+                foreach (var component in volume.profile.components)
+                {
+                    if (component.active && component is VisualEnvironment environment && environment.windSpeed.overrideState)
+                    {
+                        visualEnvironments.Add(environment);
+                        originalWindSpeeds.Add(environment.windSpeed.value);
+                    }
+                }
+            }
+        }
+
+        public static bool SetupCustomSkyVolume(GameObject? skyObject, out Volume? resultingSkyVolume)
+        {
+            resultingSkyVolume = null;
+            if (skyObject == null)
+                return false;
+            resultingSkyVolume = skyObject.GetComponent<Volume>();
+            foreach (var component in resultingSkyVolume.profile.components)
+            {
+                if (component.active && component is Fog fog)
+                {
+                    fog.enableVolumetricFog.value = false;
+                    fog.enableVolumetricFog.overrideState = true;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static void EnableVanillaVolumeFog(bool enabled, ref bool fogVolumeComponentExists)
+        {
+            try
+            {
+                if (enabled && !fogVolumeComponentExists)
+                    return;
+                foreach (var volume in Object.FindObjectsOfType<Volume>())
+                {
+                    if (volume == null || volume.profile == null || volume.gameObject.scene.name != RoundManager.Instance.currentLevel.sceneName)
+                        continue;
+                    foreach (var component in volume.profile.components)
+                    {
+                        if (component.active && component is Fog)
+                        {
+                            component.active = enabled;
+                            fogVolumeComponentExists = !enabled;
+                        }
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                Plugin.logger.LogError("Failed to " + (enabled ? "enable" : "disable") + " vanilla volume fog : " + e.Message);
+            }
         }
 
         public static void ChangeWeather(LevelWeatherType weather)
@@ -593,7 +624,7 @@ namespace LegendWeathers.Utils
                 GameObject gameObject = Object.Instantiate(RoundManager.Instance.quicksandPrefab, position2, Quaternion.identity, RoundManager.Instance.mapPropsContainer.transform);
             }
         }
-
+        /*
         public static void SpawnLightningBolt(Vector3 strikePosition, bool damage = true, bool redirectInside = true)
         {
             LightningBoltPrefabScript localLightningBoltPrefabScript;
@@ -620,6 +651,64 @@ namespace LegendWeathers.Utils
             if (damage)
                 Landmine.SpawnExplosion(strikePosition + Vector3.up * 0.25f, spawnExplosionEffect: false, 2.4f, 5f);
             stormy.PlayThunderEffects(strikePosition, audioSource);
+        }*/
+
+        public static void SpawnNormalLightningBolt(ref Vector3 strikePosition, bool damage = true, bool redirectInside = true)
+        {
+            var stormy = Object.FindObjectOfType<StormyWeather>(true);
+            var lightning = CreateLightningBolt(stormy, out var source, ref strikePosition, redirectInside);
+            if (lightning != null)
+            {
+                SpawnLightningBolt(lightning, stormy, source, strikePosition, damage);
+            }
+        }
+
+        public static void SpawnBloodLightningBolt(ref Vector3 strikePosition, bool damage = true, bool redirectInside = true)
+        {
+            var stormy = Object.FindObjectOfType<StormyWeather>(true);
+            var lightning = CreateLightningBolt(stormy, out var source, ref strikePosition, redirectInside);
+            if (lightning != null)
+            {
+                lightning.LightningTintColor = Color.yellow;
+                lightning.GlowTintColor = Color.magenta;
+                lightning.LightParameters.LightColor = Color.magenta;
+                lightning.GlowIntensity = 4;
+                lightning.Intensity = 10;
+                lightning.LightParameters.LightIntensity = 0.2f;
+                SpawnLightningBolt(lightning, stormy, source, strikePosition, damage);
+            }
+        }
+
+        private static LightningBoltPrefabScript? CreateLightningBolt(StormyWeather stormy, out Vector3 source, ref Vector3 strikePosition, bool redirectInside)
+        {
+            LightningBoltPrefabScript lightning;
+            var random = new System.Random(StartOfRound.Instance.randomMapSeed);
+            random.Next(-32, 32); random.Next(-32, 32);
+            source = strikePosition + Vector3.up * 160f + new Vector3(random.Next(-32, 32), 0f, random.Next(-32, 32));
+            if (redirectInside && Physics.Linecast(source, strikePosition + Vector3.up * 0.5f, out _, StartOfRound.Instance.collidersAndRoomMaskAndDefault, QueryTriggerInteraction.Ignore))
+            {
+                if (!Physics.Raycast(source, strikePosition - source, out var rayHit, 100f, StartOfRound.Instance.collidersAndRoomMaskAndDefault, QueryTriggerInteraction.Ignore))
+                    return null;
+                strikePosition = rayHit.point;
+            }
+            lightning = Object.Instantiate(stormy.targetedThunder);
+            lightning.enabled = true;
+            lightning.Camera = GameNetworkManager.Instance.localPlayerController.gameplayCamera;
+            lightning.AutomaticModeSeconds = 0.2f;
+            return lightning;
+        }
+
+        private static void SpawnLightningBolt(LightningBoltPrefabScript lightning, StormyWeather stormy, Vector3 source, Vector3 destination, bool damage = true)
+        {
+            lightning.Source.transform.position = source;
+            lightning.Destination.transform.position = destination;
+            lightning.CreateLightningBoltsNow();
+            var audioSource = Object.Instantiate(stormy.targetedStrikeAudio);
+            audioSource.transform.position = destination + Vector3.up * 0.5f;
+            audioSource.enabled = true;
+            if (damage)
+                Landmine.SpawnExplosion(destination + Vector3.up * 0.25f, spawnExplosionEffect: false, 2.4f, 5f);
+            stormy.PlayThunderEffects(destination, audioSource);
         }
     }
 }

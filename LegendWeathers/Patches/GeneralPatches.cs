@@ -14,12 +14,20 @@ namespace LegendWeathers.Patches
             string title = "Weather alert!";
             if (Plugin.config.majoraWeather.Value && MajoraMoonWeather.MajoraMoonEffectReference != null && MajoraMoonWeather.MajoraMoonEffectReference.EffectEnabled)
             {
-                Effects.MessageOneTime(title, MajoraMoonWeather.weatherAlert, true, "LW_MajoraTip");
+                Alert(title, MajoraMoonWeather.weatherAlert, true, "LW_MajoraTip");
             }
             if (Plugin.config.bloodMoonWeather.Value && BloodMoonWeather.BloodMoonEffectReference != null && BloodMoonWeather.BloodMoonEffectReference.EffectEnabled)
             {
-                Effects.MessageOneTime(title, BloodMoonWeather.weatherAlert, true, "LW_BloodTip");
+                Alert(title, BloodMoonWeather.weatherAlert, true, "LW_BloodTip");
             }
+        }
+
+        private static void Alert(string title, string bottom, bool warning, string saveKey)
+        {
+            if (Plugin.config.generalWeatherAlertsSaved.Value)
+                Effects.MessageOneTime(title, bottom, warning, saveKey);
+            else
+                Effects.Message(title, bottom, warning);
         }
     }
 }

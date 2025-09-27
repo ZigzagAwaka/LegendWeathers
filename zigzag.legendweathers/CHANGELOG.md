@@ -11,6 +11,8 @@
 - Majora compatible with Imperium time manipulation
 - Majora music will not play if volume in config is specified 0
 - Optimized the weather warning message system
+- Optimized code related to SkyEffect management (used by all of this mod's weathers)
+- added 2 general config for weather alerts and wt integration
 
 ## 1.1.11
 - Added custom colors for some combined weathers names

@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.VFX;
 
@@ -59,8 +58,8 @@ namespace LegendWeathers.Weathers
         public bool finalHoursFinishing = false;
         public bool oathToOrderStopingMoon = false;
 
-        private readonly List<VisualEnvironment> visualEnvironments = new List<VisualEnvironment>();
-        private readonly List<float> originalWindSpeeds = new List<float>();
+        private List<VisualEnvironment> visualEnvironments = new List<VisualEnvironment>();
+        private List<float> originalWindSpeeds = new List<float>();
         private readonly int windSpeedFactor = 17;
 
         private GameObject? timerUI;
@@ -169,7 +168,7 @@ namespace LegendWeathers.Weathers
                                                 || (Compatibility.IsMajoraActiveOnCompany && Compatibility.MajoraCompanyTimer <= 91)))
             {
                 StartTimer();
-                StartIncreasingWindSpeed();
+                Effects.IncreaseWindSpeed(visualEnvironments, windSpeedFactor);
                 finalHoursDisplayingTimer = true;
             }
             if (!finalHoursPlayingParticles && ((!Compatibility.IsMajoraActiveOnCompany && TimeOfDay.Instance.currentDayTime >= finalHoursTime + 205)
@@ -218,15 +217,6 @@ namespace LegendWeathers.Weathers
                     lastMinute = true;
                     timerText.color = Color.red;
                 }
-            }
-        }
-
-        private void StartIncreasingWindSpeed()
-        {
-            for (int i = 0; i < visualEnvironments.Count; i++)
-            {
-                if (visualEnvironments[i] != null)
-                    visualEnvironments[i].windSpeed.value *= windSpeedFactor;
             }
         }
 
@@ -485,28 +475,9 @@ namespace LegendWeathers.Weathers
             endScale = transform.localScale * endSizeFactor;
             if (Plugin.config.majoraMoonModelAutomatic.Value)
                 CheckAndReplaceModel(gameObject);
-            SetupComponents();
-            isInitialized = true;
-        }
-
-        private void SetupComponents()
-        {
-            foreach (var volume in FindObjectsOfType<Volume>())
-            {
-                if (volume == null || volume.profile == null || volume.gameObject.scene.name != RoundManager.Instance.currentLevel.sceneName)
-                    continue;
-                foreach (var component in volume.profile.components)
-                {
-                    if (component.active && component is VisualEnvironment environment && environment.windSpeed.overrideState)
-                    {
-                        visualEnvironments.Add(environment);
-                        originalWindSpeeds.Add(environment.windSpeed.value);
-                    }
-                }
-            }
+            Effects.SetupWindSpeedComponents(ref visualEnvironments, ref originalWindSpeeds);
             shipLever = FindObjectOfType<StartMatchLever>();
-            //if (!Plugin.config.majoraMoonModel.Value.Equals(Plugin.config.majoraMoonModel.DefaultValue))
-            //burstVFX.SetMesh("Mesh", transform.Find(Plugin.instance.majoraModelName).gameObject.GetComponent<MeshFilter>().mesh);
+            isInitialized = true;
         }
 
         public override void OnDestroy()
