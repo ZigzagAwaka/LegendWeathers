@@ -624,34 +624,6 @@ namespace LegendWeathers.Utils
                 GameObject gameObject = Object.Instantiate(RoundManager.Instance.quicksandPrefab, position2, Quaternion.identity, RoundManager.Instance.mapPropsContainer.transform);
             }
         }
-        /*
-        public static void SpawnLightningBolt(Vector3 strikePosition, bool damage = true, bool redirectInside = true)
-        {
-            LightningBoltPrefabScript localLightningBoltPrefabScript;
-            var random = new System.Random(StartOfRound.Instance.randomMapSeed);
-            random.Next(-32, 32); random.Next(-32, 32);
-            var vector = strikePosition + Vector3.up * 160f + new Vector3(random.Next(-32, 32), 0f, random.Next(-32, 32));
-            if (redirectInside && Physics.Linecast(vector, strikePosition + Vector3.up * 0.5f, out _, StartOfRound.Instance.collidersAndRoomMaskAndDefault, QueryTriggerInteraction.Ignore))
-            {
-                if (!Physics.Raycast(vector, strikePosition - vector, out var rayHit, 100f, StartOfRound.Instance.collidersAndRoomMaskAndDefault, QueryTriggerInteraction.Ignore))
-                    return;
-                strikePosition = rayHit.point;
-            }
-            StormyWeather stormy = Object.FindObjectOfType<StormyWeather>(true);
-            localLightningBoltPrefabScript = Object.Instantiate(stormy.targetedThunder);
-            localLightningBoltPrefabScript.enabled = true;
-            localLightningBoltPrefabScript.Camera = GameNetworkManager.Instance.localPlayerController.gameplayCamera;
-            localLightningBoltPrefabScript.AutomaticModeSeconds = 0.2f;
-            localLightningBoltPrefabScript.Source.transform.position = vector;
-            localLightningBoltPrefabScript.Destination.transform.position = strikePosition;
-            localLightningBoltPrefabScript.CreateLightningBoltsNow();
-            AudioSource audioSource = Object.Instantiate(stormy.targetedStrikeAudio);
-            audioSource.transform.position = strikePosition + Vector3.up * 0.5f;
-            audioSource.enabled = true;
-            if (damage)
-                Landmine.SpawnExplosion(strikePosition + Vector3.up * 0.25f, spawnExplosionEffect: false, 2.4f, 5f);
-            stormy.PlayThunderEffects(strikePosition, audioSource);
-        }*/
 
         public static void SpawnNormalLightningBolt(ref Vector3 strikePosition, bool damage = true, bool redirectInside = true)
         {
@@ -674,7 +646,7 @@ namespace LegendWeathers.Utils
                 lightning.LightParameters.LightColor = Color.magenta;
                 lightning.GlowIntensity = 4;
                 lightning.Intensity = 10;
-                lightning.LightParameters.LightIntensity = 0.2f;
+                lightning.LightParameters.LightIntensity = 1f;
                 SpawnLightningBolt(lightning, stormy, source, strikePosition, damage);
             }
         }

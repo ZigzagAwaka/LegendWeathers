@@ -36,7 +36,7 @@ namespace LegendWeathers.Weathers
         private readonly float moonSfxTimeIntervalOutside = 81.8f;
 
         private float lastThunderEventTime = 0;
-        private readonly float nextThunderEventTime = 20;
+        private float nextThunderEventTime = 60f;
 
         private List<VisualEnvironment> visualEnvironments = new List<VisualEnvironment>();
         private List<float> originalWindSpeeds = new List<float>();
@@ -103,7 +103,8 @@ namespace LegendWeathers.Weathers
             if (lastThunderEventTime >= nextThunderEventTime)
             {
                 lastThunderEventTime = 0;
-                if (Random.Range(0, 10) >= 0)
+                nextThunderEventTime = Random.Range(20f, 40f);
+                if (Random.Range(0, 10) == 0)
                     SpawnBloodStone();
             }
         }
@@ -114,8 +115,16 @@ namespace LegendWeathers.Weathers
             if (originalPosition == null)
             {
                 Effects.SpawnBloodLightningBolt(ref spawnPosition);
+                SpawnLightningClientRpc(spawnPosition);
             }
             // spawning effect here
+        }
+
+        [ClientRpc]
+        private void SpawnLightningClientRpc(Vector3 position)
+        {
+            if (!IsServer)
+                Effects.SpawnBloodLightningBolt(ref position);
         }
 
         public void ResurrectEnemy(EnemyAI enemy)
