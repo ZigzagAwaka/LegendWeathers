@@ -17,6 +17,7 @@ namespace LegendWeathers.Weathers
         public GameObject bloodMoonParticlesObject = null!;
         public GameObject resurrectEnemyInvocationObject = null!;
         public GameObject resurrectEnemyBurstObject = null!;
+        public Material[] bloodMoonTextureMaterials = null!;
 
         private bool isInitialized = false;
         private PlayerControllerB? localPlayer = null;
@@ -255,7 +256,7 @@ namespace LegendWeathers.Weathers
                         volumeRenderingSafeCheckTimer = 0f;
                     }
                     else
-                        Plugin.logger.LogError("Failed to setup volume values for the Blood Moon Volume.");
+                        Plugin.logger.LogError("Failed to setup fog state for the Blood Moon Volume.");
                 }
             }
         }

@@ -1,4 +1,5 @@
 ﻿using LegendWeathers.Utils;
+using LegendWeathers.Weathers;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -72,16 +73,16 @@ namespace LegendWeathers.WeatherSkyEffects
             effectObjectsPositions.Clear();
         }
 
-        public static void CheckAndReplaceTexture()
+        public static void CheckAndReplaceMaterial()
         {
             var bloodSun = Plugin.instance.bloodSunObject;
-            if (bloodSun == null)
+            var bloodManager = Plugin.instance.bloodMoonManagerObject;
+            if (bloodSun == null || bloodManager == null)
             {
-                Plugin.logger.LogError("Failed to replace the Blood Moon texture, blood sun is null.");
+                Plugin.logger.LogError("Failed to replace the Blood Moon texture, blood sun is null or blood manager is null.");
                 return;
             }
-            bloodSun.transform.Find("Classic").gameObject.SetActive(false);
-            bloodSun.transform.Find("Bright").gameObject.SetActive(true);
+            bloodSun.GetComponent<MeshRenderer>().material = bloodManager.GetComponent<BloodMoonManager>().bloodMoonTextureMaterials[1];
         }
     }
 }
