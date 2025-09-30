@@ -1,4 +1,5 @@
 ﻿using GameNetcodeStuff;
+using LegendWeathers.BehaviourScripts;
 using LegendWeathers.Utils;
 using System.Collections;
 using System.Collections.Generic;
@@ -104,7 +105,7 @@ namespace LegendWeathers.Weathers
             if (lastThunderEventTime >= nextThunderEventTime)
             {
                 lastThunderEventTime = 0;
-                nextThunderEventTime = Random.Range(20f, 40f);
+                nextThunderEventTime = Random.Range(50f, 70f);
                 if (Random.Range(0, 10) == 0)
                     SpawnBloodStone();
             }
@@ -112,13 +113,30 @@ namespace LegendWeathers.Weathers
 
         private void SpawnBloodStone(Vector3? originalPosition = null)
         {
-            Vector3 spawnPosition = originalPosition == null ? Effects.GetRandomMoonPosition() : RoundManager.Instance.GetRandomNavMeshPositionInRadius((Vector3)originalPosition, 5);
+            if (Plugin.instance.bloodStoneItem == null || !Plugin.config.bloodMoonStoneItemSpawning.Value)
+                return;
+            Vector3 spawnPosition = originalPosition == null ? Effects.GetRandomMoonPosition() : RoundManager.Instance.GetRandomNavMeshPositionInRadius((Vector3)originalPosition, 15);
             if (originalPosition == null)
             {
                 Effects.SpawnBloodLightningBolt(ref spawnPosition);
                 SpawnLightningClientRpc(spawnPosition);
             }
-            // spawning effect here
+            var bloodStone = Instantiate(Plugin.instance.bloodStoneItem.spawnPrefab, spawnPosition, Quaternion.identity, RoundManager.Instance.spawnedScrapContainer);
+            if (bloodStone != null)
+            {
+                var item = bloodStone.GetComponent<BloodStoneItem>();
+                item.transform.rotation = Quaternion.Euler(item.itemProperties.restingRotation);
+                item.fallTime = 1f;
+                item.hasHitGround = true;
+                item.reachedFloorTarget = true;
+                item.scrapValue = (int)(Random.Range(Plugin.instance.bloodStoneItem.minValue, Plugin.instance.bloodStoneItem.maxValue) * RoundManager.Instance.scrapValueMultiplier);
+                item.NetworkObject.Spawn();
+                item.StartInvocationServerRpc(item.NetworkObject, item.scrapValue, isFast: originalPosition == null);
+            }
+            else
+            {
+                Plugin.logger.LogError("Failed to spawn the Blood Stone item on the server.");
+            }
         }
 
         [ClientRpc]

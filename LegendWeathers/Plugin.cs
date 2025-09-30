@@ -48,6 +48,7 @@ namespace LegendWeathers
         public GameObject? bloodMoonManagerObject;
         public GameObject? bloodSunObject;
         public GameObject? bloodTerrainEffectObject;
+        public Item? bloodStoneItem;
 
         void HarmonyPatchAll()
         {
@@ -87,12 +88,12 @@ namespace LegendWeathers
 
         private void RegisterMajora(AssetBundle bundle, string directory)
         {
-            majoraMoonDefinition = bundle.LoadAsset<WeatherDefinition>(directory + "MajoraMoon/MajoraMoonDefinition.asset");
-            majoraMoonObject = bundle.LoadAsset<GameObject>(directory + "MajoraMoon/MajoraMoon.prefab");
-            majoraSkyObject = bundle.LoadAsset<GameObject>(directory + "MajoraMoon/MajoraSky.prefab");
-            majoraMaskItem = bundle.LoadAsset<Item>(directory + "MajoraMoon/Items/MajoraMask/MajoraMaskItem.asset");
-            majoraMoonTearItem = bundle.LoadAsset<Item>(directory + "MajoraMoon/Items/MoonTear/MoonTearItem.asset");
-            vanillaItemIcon = bundle.LoadAsset<Sprite>(directory + "MajoraMoon/Items/MajoraMask/ScrapItemIcon2.png");
+            majoraMoonDefinition = bundle.LoadAsset<WeatherDefinition>(directory + "MajoraMoonDefinition.asset");
+            majoraMoonObject = bundle.LoadAsset<GameObject>(directory + "MajoraMoon.prefab");
+            majoraSkyObject = bundle.LoadAsset<GameObject>(directory + "MajoraSky.prefab");
+            majoraMaskItem = bundle.LoadAsset<Item>(directory + "Items/MajoraMask/MajoraMaskItem.asset");
+            majoraMoonTearItem = bundle.LoadAsset<Item>(directory + "Items/MoonTear/MoonTearItem.asset");
+            vanillaItemIcon = bundle.LoadAsset<Sprite>(directory + "Items/MajoraMask/ScrapItemIcon2.png");
             if (!config.majoraMoonModel.Value.Equals(config.majoraMoonModel.DefaultValue))
             {
                 MajoraMoon.CheckAndReplaceModel();
@@ -115,15 +116,19 @@ namespace LegendWeathers
 
         private void RegisterBloodMoon(AssetBundle bundle, string directory)
         {
-            bloodMoonDefinition = bundle.LoadAsset<WeatherDefinition>(directory + "BloodMoon/BloodMoonDefinition.asset");
-            bloodMoonManagerObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/BloodMoonManager.prefab");
-            bloodSunObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/SunBloodTexture.prefab");
-            bloodTerrainEffectObject = bundle.LoadAsset<GameObject>(directory + "BloodMoon/BloodTerrainEffect.prefab");
+            bloodMoonDefinition = bundle.LoadAsset<WeatherDefinition>(directory + "BloodMoonDefinition.asset");
+            bloodMoonManagerObject = bundle.LoadAsset<GameObject>(directory + "BloodMoonManager.prefab");
+            bloodSunObject = bundle.LoadAsset<GameObject>(directory + "SunBloodTexture.prefab");
+            bloodTerrainEffectObject = bundle.LoadAsset<GameObject>(directory + "BloodTerrainEffect.prefab");
+            bloodStoneItem = bundle.LoadAsset<Item>(directory + "StoneItem/BloodStoneItem.asset");
             if (!config.bloodMoonTexture.Value.Equals(config.bloodMoonTexture.DefaultValue))
             {
                 BloodSkyEffect.CheckAndReplaceMaterial();
             }
             NetworkPrefabs.RegisterNetworkPrefab(bloodMoonManagerObject);
+            NetworkPrefabs.RegisterNetworkPrefab(bloodStoneItem.spawnPrefab);
+            Utilities.FixMixerGroups(bloodStoneItem.spawnPrefab);
+            Items.RegisterScrap(bloodStoneItem, 0, Levels.LevelTypes.None);
             RegisterWeather<BloodMoonWeather, BloodSkyEffect>(bloodMoonDefinition);
         }
 
@@ -143,12 +148,12 @@ namespace LegendWeathers
 
             if (config.majoraWeather.Value)
             {
-                RegisterMajora(bundle, directory);
+                RegisterMajora(bundle, directory + "MajoraMoon/");
             }
 
             if (config.bloodMoonWeather.Value)
             {
-                RegisterBloodMoon(bundle, directory);
+                RegisterBloodMoon(bundle, directory + "BloodMoon/");
             }
 
             if (Compatibility.WeatherTweaksInstalled && config.generalWeatherTweaksIntegration.Value)
