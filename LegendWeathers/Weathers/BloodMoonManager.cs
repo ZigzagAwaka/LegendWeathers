@@ -165,7 +165,9 @@ namespace LegendWeathers.Weathers
             yield return new WaitForSeconds(3.05f);
             if (!StartOfRound.Instance.inShipPhase)
             {
-                RoundManager.Instance.SpawnEnemyGameObject(spawnPosition, Random.Range(-90f, 90f), -1, enemy.enemyType);
+                if (Compatibility.BloodMoonSpawnEnemySpecific(enemy, spawnPosition))
+                    yield break;
+                else RoundManager.Instance.SpawnEnemyGameObject(spawnPosition, Random.Range(-90f, 90f), -1, enemy.enemyType);
             }
         }
 

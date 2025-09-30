@@ -146,5 +146,20 @@ namespace LegendWeathers.Utils
             }
             return Imperium.Imperium.MoonManager.TimeIsPaused.Value;
         }
+
+        ////// BLOOD MOON //////
+
+        public static bool BloodMoonSpawnEnemySpecific(EnemyAI enemy, Vector3 spawnPosition)
+        {
+            if (enemy.gameObject == null)
+            {
+                return false;
+            }
+            var masked = enemy.gameObject.GetComponent<MaskedPlayerEnemy>();
+            if (masked != null && masked.mimickingPlayer != null)
+                Effects.SpawnMaskedOfPlayer(masked.mimickingPlayer.playerClientId, spawnPosition);
+            else return false;
+            return true;
+        }
     }
 }
