@@ -188,14 +188,19 @@ namespace LegendWeathers.Utils
             return false;
         }
 
-        public static Vector3 GetArbitraryMoonPosition(int actualIndex, int maxIndex, bool insidePosition = false, int randomizePositionRadius = 20)
+        public static Vector3 GetArbitraryMoonPosition(int actualIndex, int maxIndex, bool insidePosition = false, int radiusModifier = 20)
         {
             var nodes = insidePosition ? RoundManager.Instance.insideAINodes : RoundManager.Instance.outsideAINodes;
             var indexFactor = nodes.Length / maxIndex;
             var result = nodes[actualIndex * indexFactor].transform.position;
-            if (randomizePositionRadius > 0)
+            if (radiusModifier > 0)
             {
-                result = RoundManager.Instance.GetRandomNavMeshPositionInRadius(result, randomizePositionRadius);
+                var parity = actualIndex % 2 == 0;
+                var offset = radiusModifier * (actualIndex > (maxIndex / 2) ? 1 : -1);
+                var updatedResult = result + new Vector3(parity ? offset : 0, 0, parity ? 0 : offset);
+                if (NavMesh.SamplePosition(updatedResult, out var navHit, radiusModifier, -1))
+                    return navHit.position;
+                return result;
             }
             return result;
         }

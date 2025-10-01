@@ -30,7 +30,7 @@ namespace LegendWeathers.WeatherSkyEffects
                 {
                     for (int i = 0; i < maxSpawnedEffectObjects; i++)
                     {
-                        effectObjectsPositions.Add(Effects.GetArbitraryMoonPosition(i, maxSpawnedEffectObjects));
+                        effectObjectsPositions.Add(Effects.GetArbitraryMoonPosition(i, maxSpawnedEffectObjects, radiusModifier: 10));
                     }
                 }
                 if (effectObjectsPositions.Count != 0)
