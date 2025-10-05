@@ -65,6 +65,19 @@ According to legend... each apparition of the Majora Moon has *1% chance* of tri
 
 ##
 
+![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/BloodMoon-image1.PNG)
+
+![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/BloodMoon-image2.JPG)
+
+[Click here to download a preview video](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Videos/BloodMoon-Preview.mp4)
+
+<details><summary>More info ? *SPOILER WARNING* (click to reveal)</summary>
+
+
+</details>
+
+##
+
 ### Compatibility with other mods
 - Weathers in this mod comes with a **custom fog volume** that dynamically changes the sky's color. Some *visual bugs* related to the sky and fogs can happen on some modded moons depending on how they were made.
 - The Majora Moon weather will not work if it is spawned mid-game, it will only work properly when the ship lands on a moon with this weather active.
