@@ -1,18 +1,27 @@
-## next release
-- Blood moon beta release
-- Moon tear light intensity reduced and crash audio reduced
-- Better Majora placement on Offense, Berunah, Repress, Roart, Faith, Core and Dreck
-- Majora solid collision disabled when ship leaving before the final explosion
-- Better Majora moon falling formula
-- Better Majora slow time compatibility
-- Better Majora time modification effects compatibility
-- Majora Mask invocation now all the same player
-- Possible fix for Majora fog not being enabled at start of moon
-- Majora compatible with Imperium time manipulation
-- Majora music will not play if volume in config is specified 0
-- Optimized the weather warning message system
-- Optimized code related to SkyEffect management (used by all of this mod's weathers)
-- added 2 general config for weather alerts and wt integration
+## 2.0.0 Blood Moon release
+- **General**
+    - Added Blood Moon weather
+    - Added 2 general configs to customize weather warning messages and WeatherTweaks integration
+- **Majora Moon**
+    - Reduced light intensity and audio volume of Moon's Tears
+    - Improved the Majora Moon position in the sky for the following moons : Offense, Berunah, Repress, Roart, Faith, Core and Dreck
+    - Majora Moon's solid collision will now be disabled when the ship is leaving before the final explosion
+    - Improved the Majora Moon falling formula, this will improve visuals for the falling effect during specific situations
+    - Updated the Majora Moon falling effect to now be compatible with slower time multipliers
+    - Updated the Majora Moon falling effect to now be compatible with in-game moon's clock modifications (time shifts and similar other effects)
+    - Added compatibility for the Majora Moon falling effect when modifying the moon's actual time using [Imperium](https://thunderstore.io/c/lethal-company/p/giosuel/Imperium/)
+    - Masked enemies invocation when using the Majora's Mask will now all be the same player (the one who used the item)
+    - Fixed Majora sky sometimes not being correctly enabled when the weather is spawned
+    - The Majora crash sequence music will now not play if the config's volume is equal to 0
+    - Optimized code for the weather warning messages system
+    - Optimized code related to the rendering of sky effects
+- **Found issues**
+    - Something unexpected will happen when playing `Oath to Order` with the Ocarina item, please avoid playing this song until a proper fix is made by [WeatherRegistry](https://thunderstore.io/c/lethal-company/p/mrov/WeatherRegistry/)
+
+## IMPORTANT NOTICE
+### This release was made for **v72** of Lethal Company. Compatibility for v73 will be added later.
+
+<details><summary>Previous changes (click to reveal)</summary>
 
 ## 1.1.11
 - Added custom colors for some combined weathers names
@@ -88,3 +97,5 @@
 
 ## 1.0.0 Initial release
 - Added Majora Moon weather
+
+</details>

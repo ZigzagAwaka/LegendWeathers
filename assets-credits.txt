@@ -1,3 +1,8 @@
+Used 3D models are free and licensed under Creative Commons Attribution.
+
+- Tear Of Joy by maregajavier : https://sketchfab.com/3d-models/tear-of-joy-0a8de338f14b4903a0d90a8781732a3f
+
+
 The following assets are ripped from various games and imported thanks to https://www.models-resource.com/.
 
 - Moon : https://www.models-resource.com/nintendo_64/thelegendofzeldamajorasmask/model/28863/
@@ -9,6 +14,6 @@ The following assets are ripped from various games and imported thanks to https:
 - SCP-035 : https://www.models-resource.com/pc_computer/scpcontainmentbreach/model/52439/
 
 
-Used 3D models are free and licensed under Creative Commons Attribution.
+The following assets are ripped from various games and imported by myself.
 
-- Tear Of Joy by maregajavier : https://sketchfab.com/3d-models/tear-of-joy-0a8de338f14b4903a0d90a8781732a3f
+- Evil Stone

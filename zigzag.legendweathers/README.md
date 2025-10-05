@@ -1,6 +1,6 @@
 # Legend Weathers
 
-### This mod aims to add multiple special weather effects to the game. Still in development, there is currently **1 weather** effect that is completely playable and more are planned in future releases.
+### This mod aims to add multiple special weather effects to the game. Still in development, there is currently **2 weathers** that are completely playable and more are planned in future releases.
 
 Weathers in this mod are designed to be rare and impactful. They **are NOT like vanilla weathers**, and are meant to be seen very rarely due to their *extreme* effects. You can customize the spawn chance in the WeatherRegistery config but by default it is pretty low.
 
@@ -66,11 +66,11 @@ According to legend... each apparition of the Majora Moon has *1% chance* of tri
 ##
 
 ### Compatibility with other mods
-- It is not recommended to spawn the Majora Moon Weather manually mid-game.
-- The weather comes with a **custom fog volume** that  dynamically changes the sky's color over time. Some *visual bugs* related to the sky and fogs can happen on some modded moons depending on how they were made.
+- Weathers in this mod comes with a **custom fog volume** that dynamically changes the sky's color. Some *visual bugs* related to the sky and fogs can happen on some modded moons depending on how they were made.
+- The Majora Moon weather will not work if it is spawned mid-game, it will only work properly when the ship lands on a moon with this weather active.
 - The Majora Moon position in the sky is automatically determined but can be manually adjusted on specific planets for better placement. If you think the actual placement is not visually good, you can report the moon's name so I can improve the position on this specific moon.
-- A special compatible animation has been added when playing the Ocarina item from [ChillaxScraps](https://thunderstore.io/c/lethal-company/p/Zigzag/ChillaxScraps/) !
-- This mod adds some combined weathers effects when [WeatherTweaks](https://thunderstore.io/c/lethal-company/p/mrov/WeatherTweaks/) is installed.
+- If you have the Ocarina item from [ChillaxScraps](https://thunderstore.io/c/lethal-company/p/Zigzag/ChillaxScraps/), you can interact with the Majora Moon by playing a specific song at a specific time and place to trigger a special animation !
+- When [WeatherTweaks](https://thunderstore.io/c/lethal-company/p/mrov/WeatherTweaks/) is installed, this mod will register multiple combined weather effects to the game. This can be influenced by other weather mods that are also installed.
 
 ### Contact & Feedback
 If you want to suggest new features, report issues or simply contact me please go to the mod release page in the [modding discord](https://discord.gg/XeyYqRdRGC) or post a [github issue](https://github.com/ZigzagAwaka/LegendWeathers).
@@ -81,7 +81,7 @@ If you want to suggest new features, report issues or simply contact me please g
 
 - Thanks [Mrov](https://thunderstore.io/c/lethal-company/p/mrov/) for creating [WeatherRegistry](https://thunderstore.io/c/lethal-company/p/mrov/WeatherRegistry/) and for helping with parts of the code!
 
-- Thanks [Voxx](https://thunderstore.io/c/lethal-company/p/v0xx/) for providing help about weather volumes!
+- Thanks [Voxx](https://thunderstore.io/c/lethal-company/p/v0xx/) for providing help about Unity volumes!
 
 - Thanks [Xyphire](https://linktr.ee/Xyphire) for providing help about UI and shaders!
 
@@ -89,6 +89,6 @@ If you want to suggest new features, report issues or simply contact me please g
 
 - Assets licensed under Creative Commons Attribution, or ripped from various games, are available to check [here](https://github.com/ZigzagAwaka/LegendWeathers/blob/main/assets-credits.txt)
 
-- Compatiple model replacement are imported from [Biodiversity](https://thunderstore.io/c/lethal-company/p/super_fucking_cool_and_badass_team/Biodiversity/), [Surfaced](https://thunderstore.io/c/lethal-company/p/SurfacedTeam/Surfaced/), [PremiumScraps](https://thunderstore.io/c/lethal-company/p/Zigzag/PremiumScraps/), [Emergency_Dice_Updated](https://thunderstore.io/c/lethal-company/p/slayer6409/Emergency_Dice_Updated/) and [CodeRebirth](https://thunderstore.io/c/lethal-company/p/XuXiaolan/CodeRebirth/)
+- Compatiple replacers are imported from [Biodiversity](https://thunderstore.io/c/lethal-company/p/super_fucking_cool_and_badass_team/Biodiversity/), [Surfaced](https://thunderstore.io/c/lethal-company/p/SurfacedTeam/Surfaced/), [PremiumScraps](https://thunderstore.io/c/lethal-company/p/Zigzag/PremiumScraps/), [Emergency_Dice_Updated](https://thunderstore.io/c/lethal-company/p/slayer6409/Emergency_Dice_Updated/) and [CodeRebirth](https://thunderstore.io/c/lethal-company/p/XuXiaolan/CodeRebirth/)
 
-- Features audio sfx and music from Nintendo games
+- Features audio sfx and music from various Nintendo games
