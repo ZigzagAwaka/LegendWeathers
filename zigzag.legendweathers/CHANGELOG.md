@@ -2,6 +2,7 @@
 - **General**
     - Added Blood Moon weather
     - Added 2 general configs to customize weather warning messages and WeatherTweaks integration
+    - Updated networking to work for v73 of Lethal Company
 - **Majora Moon**
     - Reduced light intensity and audio volume of Moon's Tears
     - Improved the Majora Moon position in the sky for the following moons : Offense, Berunah, Repress, Roart, Faith, Core and Dreck
@@ -17,9 +18,6 @@
     - Optimized code related to the rendering of sky effects
 - **Found issues**
     - Something unexpected will happen when playing `Oath to Order` with the Ocarina item, please avoid playing this song until a proper fix is made by [WeatherRegistry](https://thunderstore.io/c/lethal-company/p/mrov/WeatherRegistry/)
-
-## IMPORTANT NOTICE
-### This release was made for **v72** of Lethal Company. Compatibility for v73 will be added later.
 
 <details><summary>Previous changes (click to reveal)</summary>
 
