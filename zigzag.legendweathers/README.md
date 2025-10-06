@@ -96,7 +96,9 @@ If you want to suggest new features, report issues or simply contact me please g
 
 - Thanks [Voxx](https://thunderstore.io/c/lethal-company/p/v0xx/) for providing help about Unity volumes!
 
-- Thanks [Xyphire](https://linktr.ee/Xyphire) for providing help about UI and shaders!
+- Thanks [Xyphire](https://linktr.ee/Xyphire) for providing help about UI and shaders and for some ideas!
+
+- Thanks [Xplozivo](https://www.twitch.tv/xplozivo) for some ideas!
 
 - Thanks [Zeldahu](https://thunderstore.io/c/lethal-company/p/Zeldahu/) for testing!
 
