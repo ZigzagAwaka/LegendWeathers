@@ -65,6 +65,8 @@ According to legend... each apparition of the Majora Moon has *1% chance* of tri
 
 ##
 
+<img src="https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Logos/BloodMoon-logo.png" width="400"/>
+
 ![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/BloodMoon-image1.PNG)
 
 ![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/BloodMoon-image2.JPG)
