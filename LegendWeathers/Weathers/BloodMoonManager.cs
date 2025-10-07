@@ -130,6 +130,8 @@ namespace LegendWeathers.Weathers
                 item.hasHitGround = true;
                 item.reachedFloorTarget = true;
                 item.scrapValue = (int)(Random.Range(Plugin.instance.bloodStoneItem.minValue, Plugin.instance.bloodStoneItem.maxValue) * RoundManager.Instance.scrapValueMultiplier);
+                if (originalPosition == null)
+                    item.scrapValue *= 4;
                 item.NetworkObject.Spawn();
                 item.StartInvocationServerRpc(item.NetworkObject, item.scrapValue, isFast: originalPosition == null);
             }

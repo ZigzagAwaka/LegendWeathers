@@ -4,7 +4,7 @@
 
 Weathers in this mod are designed to be rare and impactful. They **are NOT like vanilla weathers**, and are meant to be seen very rarely due to their *extreme* effects. You can customize the spawn chance in the WeatherRegistery config but by default it is pretty low.
 
-Compatible with **v72/v73** of Lethal Company.
+Compatible with **v73** of Lethal Company.
 
 ##
 
@@ -28,7 +28,7 @@ The time before the crash is a bit generous but the Company Ship has been progra
 
 <details><summary>More info ? *SPOILER WARNING* (click to reveal)</summary>
 
-### Photo taken before disaster :
+### Photo taken before disaster
 
 ![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/MajoraMoon-image3.PNG)
 🌚 I hope for you to be in the ship before the last 5 seconds...
@@ -67,14 +67,50 @@ According to legend... each apparition of the Majora Moon has *1% chance* of tri
 
 <img src="https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Logos/BloodMoon-logo.png" width="400"/>
 
+A sinister lunar phenomenon that bathes the landscape in an eerie crimson glow, signaling increased threats for all employees.
+
 ![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/BloodMoon-image1.PNG)
 
-![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/BloodMoon-image2.JPG)
+When the **Blood Moon** rises, hostile creatures will spawn more often making exploration and scrap collection much riskier than usual.
+
+The maddening red light emitted by the moon will clear all fogs on the current planet, improving visibility. However, some *blood flames* that appear on the planet's ground will serve as an ominous reminder of the danger ahead...
+
+![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/BloodMoon-image2.PNG)
+
+Employees should avoid contact with any creatures at all cost as those that dies under the Blood Moon’s watchful gaze will be **resurrected** within seconds!
+
+Yet, it is said that there is a way to benefit from this curse. Ones will need to find if this old legend is still true or not, but beware as *the odds are stacked against you*.
 
 [Click here to download a preview video](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Videos/BloodMoon-Preview.mp4)
 
 <details><summary>More info ? *SPOILER WARNING* (click to reveal)</summary>
 
+### Interiors are also affected
+
+![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/BloodMoon-image3.PNG)
+The moon's disturbing effect will spread everywhere, even inside the facility. **Nowhere is truly safe.**
+
+### Blood Stones
+
+![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/BloodMoon-image4.PNG)
+When a creature is killed under the hour of the Blood Moon, a manifestation of the monster's soul may be crystallized inside a **Blood Stone**.
+
+The Company has deemed those items to be close to worthless but employees can still collect them to help reaching the profit quota.
+
+<details><summary>More spoilers about Blood Stones</summary>
+
+###
+Very rarely, the evil spirit that reside within the moon will try to break free from it's doomed dimension. When this happens, a purple lightning bolt will strike a random position on the planet, thus spawning a more valuable Blood Stone in the process.
+
+![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/BloodMoon-image5.PNG)
+
+*Will the wicked spirit remain sealed, or will it find a way to escape?*
+
+</details>
+
+### Good luck
+
+![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/BloodMoon-image6.JPG)
 
 </details>
 
