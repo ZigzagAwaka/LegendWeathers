@@ -75,7 +75,7 @@ When the **Blood Moon** rises, hostile creatures will spawn more often making ex
 
 The maddening red light emitted by the moon will clear all fogs on the current planet, improving visibility. However, some *blood flames* that appear on the planet's ground will serve as an ominous reminder of the danger ahead...
 
-![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/BloodMoon-image2.PNG)
+![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/BloodMoon-image2.png)
 
 Employees should avoid contact with any creatures at all cost as those that dies under the Blood Moon’s watchful gaze will be **resurrected** within seconds!
 
@@ -92,7 +92,7 @@ The moon's disturbing effect will spread everywhere, even inside the facility. *
 
 ### Blood Stones
 
-![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/BloodMoon-image4.PNG)
+![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/BloodMoon-image4.png)
 When a creature is killed under the hour of the Blood Moon, a manifestation of the monster's soul may be crystallized inside a **Blood Stone**.
 
 The Company has deemed those items to be close to worthless but employees can still collect them to help reaching the profit quota.
