@@ -1,8 +1,12 @@
+## 2.0.1
+- **General**
+    - Updated networking to work for v73 of Lethal Company
+
+
 ## 2.0.0 Blood Moon release
 - **General**
     - Added Blood Moon weather
     - Added 2 general configs to customize weather warning messages and WeatherTweaks integration
-    - Updated networking to work for v73 of Lethal Company
 - **Majora Moon**
     - Reduced light intensity and audio volume of Moon's Tears
     - Improved the Majora Moon position in the sky for the following moons : Offense, Berunah, Repress, Roart, Faith, Core and Dreck
