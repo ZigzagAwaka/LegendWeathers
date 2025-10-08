@@ -2,7 +2,6 @@
 - **General**
     - Updated networking to work for v73 of Lethal Company
 
-
 ## 2.0.0 Blood Moon release
 - **General**
     - Added Blood Moon weather
