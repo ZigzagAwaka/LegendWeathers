@@ -1,9 +1,9 @@
 ## 2.0.2
-- **General**
-    - f
+- **Blood Moon**
+    - Fixed Blood Stones not getting their correct scrap value when being spawned by a lightning bolt
 - **Majora Moon**
     - Reduced the haunted pocket event timer of the Majora's Mask, so it will try to get in your active inventory space more often
-    - Reduced the random audio timer of the Majora's Mask when it's equiped by a Masked enemy, so it will laugn more often (this does not apply when the mask is not yet equiped, the timer in this case is unchanged)
+    - Reduced the random audio timer of the Majora's Mask when it's equiped by a Masked enemy, so it will laugh more often (this does not apply when the mask is not yet equiped, the timer in this case is unchanged)
 
 ## 2.0.1
 - **General**
