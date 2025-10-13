@@ -468,6 +468,17 @@ namespace LegendWeathers.Utils
             }
         }
 
+        public static bool IsModdedWeatherRegistered(string weatherName)
+        {
+            var weathers = WeatherManager.RegisteredWeathers;
+            for (int i = 0; i < weathers.Count; i++)
+            {
+                if (weathers[i].Name.Equals(weatherName))
+                    return true;
+            }
+            return false;
+        }
+
         public static ImprovedWeatherEffect? GetWeatherEffect(string weatherNameResolvable)
         {
             return GetWeatherEffect(new WeatherNameResolvable(weatherNameResolvable).WeatherType);

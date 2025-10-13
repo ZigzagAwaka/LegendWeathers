@@ -18,6 +18,7 @@ namespace LegendWeathers.Utils
         public static bool EmergencyDiceInstalled = false;
         public static bool CodeRebirthInstalled = false;
         public static bool MrovWeathersInstalled = false;
+        public static bool WesleyWeathersInstalled = false;
         public static bool ImperiumInstalled = false;
 
         public static void CheckInstalledPlugins()
@@ -31,6 +32,7 @@ namespace LegendWeathers.Utils
             EmergencyDiceInstalled = IsPluginInstalled("Theronguard.EmergencyDice");
             CodeRebirthInstalled = IsPluginInstalled("CodeRebirth");
             MrovWeathersInstalled = IsPluginInstalled("MrovWeathers");
+            WesleyWeathersInstalled = IsWeatherBundleLoaded("Forsaken");
             ImperiumInstalled = IsPluginInstalled("giosuel.Imperium");
         }
 
@@ -38,6 +40,11 @@ namespace LegendWeathers.Utils
         {
             return Chainloader.PluginInfos.ContainsKey(pluginGUID) &&
                 (pluginVersion == null || new System.Version(pluginVersion).CompareTo(Chainloader.PluginInfos[pluginGUID].Metadata.Version) <= 0);
+        }
+
+        private static bool IsWeatherBundleLoaded(string weatherName)
+        {
+            return Effects.IsModdedWeatherRegistered(weatherName);
         }
 
         ////// MAJORA MOON //////

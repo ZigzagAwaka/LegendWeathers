@@ -22,7 +22,12 @@ namespace LegendWeathers.Utils
             var tornado = new WeatherNameResolvable("tornado");
             var meteorshower = new WeatherNameResolvable("meteorshower");
             var blackout = new WeatherNameResolvable("blackout");
+            //var blackfog = new WeatherNameResolvable("blackfog");
+            //var blue = new WeatherNameResolvable("blue");
+            //var forsaken = new WeatherNameResolvable("forsaken");
+            //var hallowed = new WeatherNameResolvable("hallowed");
             var majoramoon = new WeatherNameResolvable("majoramoon");
+            //var bloodmoon = new WeatherNameResolvable("bloodmoon");
 
             if (Plugin.config.majoraWeather.Value)
             {
