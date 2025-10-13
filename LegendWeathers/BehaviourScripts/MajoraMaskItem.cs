@@ -24,7 +24,7 @@ namespace LegendWeathers.BehaviourScripts
         private bool canCheckForSpawnedEnemies = false;
         private int currentInventorySlot = -1;
         private readonly int hauntedEventChance = 80;
-        private (float, float) hauntedPocketTimer = (0, 30);
+        private (float, float) hauntedPocketTimer = (0, 20);
         private (float, float) hauntedActivateTimer = (0, 10);
 
         private readonly NetworkVariable<bool> hauntedActivateAttaching = new NetworkVariable<bool>(false);

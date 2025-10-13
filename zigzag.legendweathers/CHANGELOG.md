@@ -1,3 +1,10 @@
+## 2.0.2
+- **General**
+    - f
+- **Majora Moon**
+    - Reduced the haunted pocket event timer of the Majora's Mask, so it will try to get in your active inventory space more often
+    - Reduced the random audio timer of the Majora's Mask when it's equiped by a Masked enemy, so it will laugn more often (this does not apply when the mask is not yet equiped, the timer in this case is unchanged)
+
 ## 2.0.1
 - **General**
     - Updated networking to work for v73 of Lethal Company
