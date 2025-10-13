@@ -462,9 +462,9 @@ namespace LegendWeathers.Utils
 
         public static void RemoveWeather(LevelWeatherType weatherType)
         {
-            if (WeatherManager.CurrentWeathers.Contains(weatherType))
+            if (WeatherManager.CurrentEffectTypes.Contains(weatherType))
             {
-                WeatherManager.GetWeather(weatherType).Effect.EffectEnabled = false;
+                WeatherManager.GetWeather(weatherType).Effect.DisableEffect(true);
             }
         }
 
