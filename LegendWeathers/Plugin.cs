@@ -17,14 +17,11 @@ namespace LegendWeathers
     [BepInPlugin(GUID, NAME, VERSION)]
     [BepInDependency(LethalLib.Plugin.ModGUID, BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("mrov.WeatherRegistry", BepInDependency.DependencyFlags.HardDependency)]
-    [BepInDependency("WeatherTweaks", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInDependency("voxx.LethalElementsPlugin", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.github.biodiversitylc.Biodiversity", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("Surfaced", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("zigzag.premiumscraps", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("Theronguard.EmergencyDice", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("CodeRebirth", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInDependency("MrovWeathers", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("giosuel.Imperium", BepInDependency.DependencyFlags.SoftDependency)]
     public class Plugin : BaseUnityPlugin
     {
@@ -154,11 +151,6 @@ namespace LegendWeathers
             if (config.bloodMoonWeather.Value)
             {
                 RegisterBloodMoon(bundle, directory + "BloodMoon/");
-            }
-
-            if (Compatibility.WeatherTweaksInstalled && config.generalWeatherTweaksIntegration.Value)
-            {
-                TweaksIntegration.Setup();
             }
 
             HarmonyPatchAll();

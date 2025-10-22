@@ -1,8 +1,10 @@
 # Legend Weathers
 
-### This mod aims to add multiple special weather effects to the game. Still in development, there is currently **2 weathers** that are completely playable and more are planned in future releases.
+### This mod aims to add multiple special weather effects to the game. Still in development, there is currently <strong style="color:#008cff;">2 weathers</strong> that are completely playable and more are planned in future releases.
 
-Weathers in this mod are designed to be rare and impactful. They **are NOT like vanilla weathers**, and are meant to be seen very rarely due to their *extreme* effects. You can customize the spawn chance in the WeatherRegistery config but by default it is pretty low.
+> ### Current weathers: <strong style="color:#dd00ff;">Majora Moon</strong> and <strong style="color:#ff0051;">Blood Moon</strong>
+
+Weathers in this mod are designed to be rare and impactful. They **are NOT like vanilla weathers**, and are meant to be seen very rarely due to their *extreme* effects. You can customize the spawn chance in the [WeatherRegistry](https://thunderstore.io/c/lethal-company/p/mrov/WeatherRegistry/) config but by default it is pretty low.
 
 Compatible with **v73** of Lethal Company.
 
@@ -14,7 +16,7 @@ A sinister lunar phenomenon that bathes the landscape in an eerie crimson glow, 
 
 ![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/BloodMoon-image1.PNG)
 
-When the **Blood Moon** rises, hostile creatures will spawn more often making exploration and scrap collection much riskier than usual.
+When the **<strong style="color:#ff0051;">Blood Moon</strong>** rises, hostile creatures will spawn more often making exploration and scrap collection much riskier than usual.
 
 The maddening red light emitted by the moon will clear all fogs on the current planet, improving visibility. However, some *blood flames* that appear on the planet's ground will serve as an ominous reminder of the danger ahead...
 
@@ -66,7 +68,7 @@ Inspired by the iconic astral figure from *The Legend of Zelda: Majora's Mask*, 
 
 ![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/MajoraMoon-image1.PNG)
 
-The **Majora Moon** is set to crash on the planet in a few hours, giving you less time to find scraps in the facility.
+The **<strong style="color:#dd00ff;">Majora Moon</strong>** is set to crash on the planet in a few hours, giving you less time to find scraps in the facility.
 
 Ocasional ground rumbles will remind you of the Moon's impending collision... Don't waste any more time as with this weather active, you'll be able to find more scraps than usual, offering a chance to meet the profit quota!
 
@@ -122,7 +124,7 @@ According to legend... each apparition of the Majora Moon has *1% chance* of tri
 - The Majora Moon weather will not work if it is spawned mid-game, it will only work properly when the ship lands on a moon with this weather active.
 - The Majora Moon position in the sky is automatically determined but can be manually adjusted on specific planets for better placement. If you think the actual placement is not visually good, you can report the moon's name so I can improve the position on this specific moon.
 - If you have the Ocarina item from [ChillaxScraps](https://thunderstore.io/c/lethal-company/p/Zigzag/ChillaxScraps/), you can interact with the Majora Moon by playing a specific song at a specific time and place to trigger a special animation !
-- When [WeatherTweaks](https://thunderstore.io/c/lethal-company/p/mrov/WeatherTweaks/) is installed, this mod will register multiple combined weather effects to the game. This can be influenced by other weather mods that are also installed.
+- If you want to generate unique weathers combos then you need to install [Combined_Weathers_Toolkit](https://thunderstore.io/c/lethal-company/p/Zigzag/Combined_Weathers_Toolkit/) !
 
 ### Contact & Feedback
 If you want to suggest new features, report issues or simply contact me please go to the mod release page in the [modding discord](https://discord.gg/XeyYqRdRGC) or post a [github issue](https://github.com/ZigzagAwaka/LegendWeathers).

@@ -7,7 +7,6 @@ namespace LegendWeathers
     class Config
     {
         public readonly ConfigEntry<bool> generalWeatherAlertsSaved;
-        public readonly ConfigEntry<bool> generalWeatherTweaksIntegration;
 
         public readonly ConfigEntry<bool> majoraWeather;
         public readonly ConfigEntry<string> majoraMoonModel;
@@ -32,7 +31,6 @@ namespace LegendWeathers
             cfg.SaveOnConfigSet = false;
 
             generalWeatherAlertsSaved = cfg.Bind("_General", "Weather alerts saved", true, "By default, weather alerts are shown once then saved so you'll never get them again just like the vanilla system.\nDisable this config if you prefer to see them during every ship landing.");
-            generalWeatherTweaksIntegration = cfg.Bind("_General", "WeatherTweaks integration", true, "Enable WeatherTweaks compatibility : this will register multiple combined weather effects if you have WeatherTweaks installed.");
 
             majoraWeather = cfg.Bind("Majora Moon", "Enabled", true, "Enable the Majora Moon weather.");
             majoraMoonModel = cfg.Bind("Majora Moon", "Model version", "3DS", new ConfigDescription("Choose the model version of the moon, if you want a more retro look try the N64 version.\nOther models are also available for fun !", new AcceptableValueList<string>("3DS", "N64", "Faceless", "Boomy", "Owl", "Abibabou", "Joy", "Dice", "Baldy")));
