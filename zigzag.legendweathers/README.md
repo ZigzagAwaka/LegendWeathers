@@ -124,7 +124,7 @@ According to legend... each apparition of the Majora Moon has *1% chance* of tri
 - The Majora Moon weather will not work if it is spawned mid-game, it will only work properly when the ship lands on a moon with this weather active.
 - The Majora Moon position in the sky is automatically determined but can be manually adjusted on specific planets for better placement. If you think the actual placement is not visually good, you can report the moon's name so I can improve the position on this specific moon.
 - If you have the Ocarina item from [ChillaxScraps](https://thunderstore.io/c/lethal-company/p/Zigzag/ChillaxScraps/), you can interact with the Majora Moon by playing a specific song at a specific time and place to trigger a special animation !
-- If you want to generate unique weathers combos then you need to install [Combined_Weathers_Toolkit](https://thunderstore.io/c/lethal-company/p/Zigzag/Combined_Weathers_Toolkit/) !
+- If you want to generate unique combined weathers using this mod then you need to install [Combined_Weathers_Toolkit](https://thunderstore.io/c/lethal-company/p/Zigzag/Combined_Weathers_Toolkit/) !
 
 ### Contact & Feedback
 If you want to suggest new features, report issues or simply contact me please go to the mod release page in the [modding discord](https://discord.gg/XeyYqRdRGC) or post a [github issue](https://github.com/ZigzagAwaka/LegendWeathers).
