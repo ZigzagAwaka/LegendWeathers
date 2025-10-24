@@ -58,6 +58,12 @@ namespace LegendWeathers.WeatherSkyEffects
                                 terrainObject.transform.Find("Flame").gameObject.SetActive(false);
                                 terrainObject.transform.Find("BlackFog").gameObject.SetActive(true);
                             }
+                            if (Plugin.config.bloodMoonEffectsVolume.Value != 1f)
+                            {
+                                var audio = terrainObject.GetComponentInChildren<AudioSource>();
+                                if (audio != null)
+                                    audio.volume *= Plugin.config.bloodMoonEffectsVolume.Value;
+                            }
                             spawnedEffectsObjects.Add(terrainObject);
                             swapEffect = !swapEffect;
                         }
@@ -118,7 +124,7 @@ namespace LegendWeathers.WeatherSkyEffects
                 foreach (var audio in spawnedSun.GetComponentsInChildren<AudioSource>())
                 {
                     if (audio != null)
-                        audio.volume = eclipsedMusicEnabled ? 0f : Plugin.config.bloodMoonAmbienceMusicVolume.Value;
+                        audio.volume *= eclipsedMusicEnabled ? 0f : Plugin.config.bloodMoonAmbienceMusicVolume.Value;
                 }
             }
         }
