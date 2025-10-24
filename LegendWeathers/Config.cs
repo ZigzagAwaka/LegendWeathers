@@ -21,7 +21,9 @@ namespace LegendWeathers
         public readonly ConfigEntry<string> bloodMoonTexture;
         public readonly ConfigEntry<float> bloodMoonSizeFactor;
         public readonly ConfigEntry<int> bloodMoonEffectsAbundance;
-        public readonly ConfigEntry<float> bloodMoonMusicVolume;
+        public readonly ConfigEntry<float> bloodMoonIntroMusicVolume;
+        public readonly ConfigEntry<float> bloodMoonAmbienceMusicVolume;
+        public readonly ConfigEntry<string> bloodMoonAmbienceMusicType;
         public readonly ConfigEntry<float> bloodMoonResurrectWaitTime;
         public readonly ConfigEntry<bool> bloodMoonStoneItemSpawning;
         public readonly ConfigEntry<string> bloodMoonDifficultyFactor;
@@ -44,7 +46,9 @@ namespace LegendWeathers
             bloodMoonTexture = cfg.Bind("Blood Moon", "Moon texture", "Classic", new ConfigDescription("Choose the texture used for the Blood Moon material.", new AcceptableValueList<string>("Classic", "Bright")));
             bloodMoonSizeFactor = cfg.Bind("Blood Moon", "Moon size factor", 5.5f, new ConfigDescription("The size factor of the Blood Moon material compared to the size of the vanilla sun.", new AcceptableValueRange<float>(1f, 10f)));
             bloodMoonEffectsAbundance = cfg.Bind("Blood Moon", "Terrain effects abundance", 30, new ConfigDescription("The abundance of terrain effects during the Blood Moon weather.\nHigher values will spawn more effects but may impact performance.", new AcceptableValueRange<int>(0, 100)));
-            bloodMoonMusicVolume = cfg.Bind("Blood Moon", "Intro music volume", 0.8f, new ConfigDescription("An introduction music is played when the Blood Moon is spawned on the planet, this will last 30s.\nYou can customize the music volume here.", new AcceptableValueRange<float>(0f, 1f)));
+            bloodMoonIntroMusicVolume = cfg.Bind("Blood Moon", "Intro music volume", 0.8f, new ConfigDescription("An introduction music is played when the Blood Moon is spawned on the planet, this will last 30s.\nYou can customize the music volume here.", new AcceptableValueRange<float>(0f, 1f)));
+            bloodMoonAmbienceMusicVolume = cfg.Bind("Blood Moon", "Ambience music volume", 1f, new ConfigDescription("The volume for the Blood Moon ambient music when you are outside (similar to the vanilla Eclipsed ambient music).", new AcceptableValueRange<float>(0f, 1f)));
+            bloodMoonAmbienceMusicType = cfg.Bind("Blood Moon", "Ambience music type", "Blood Moon", new ConfigDescription("If you prefer to have the vanilla ambient Eclipsed music instead of the Blood Moon ambient custom music, then you can change it here.\nPlease note that the 'Ambient music volume' config will not apply if you select the Eclipsed music.", new AcceptableValueList<string>("Blood Moon", "Eclipsed")));
             bloodMoonResurrectWaitTime = cfg.Bind("Blood Moon", "Enemy resurrection wait time", 10f, new ConfigDescription("When an enemy is resurrected by the Blood Moon effect, this is the time in seconds it will take before it actually respawns.", new AcceptableValueRange<float>(0f, 30f)));
             bloodMoonStoneItemSpawning = cfg.Bind("Blood Moon", "Blood Stone spawning", true, "Allow the spawning of the Blood Stone item during specific conditions.");
             bloodMoonDifficultyFactor = cfg.Bind("Blood Moon", "Difficulty", "Normal", new ConfigDescription("The difficulty factor of the Blood Moon effect, this will impact the number of spawned enemies during the weather.", new AcceptableValueList<string>("Easy", "Normal", "Hard")));

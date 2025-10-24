@@ -99,8 +99,6 @@ namespace LegendWeathers
             NetworkPrefabs.RegisterNetworkPrefab(majoraMoonObject);
             NetworkPrefabs.RegisterNetworkPrefab(majoraMaskItem.spawnPrefab);
             NetworkPrefabs.RegisterNetworkPrefab(majoraMoonTearItem.spawnPrefab);
-            Utilities.FixMixerGroups(majoraMaskItem.spawnPrefab);
-            Utilities.FixMixerGroups(majoraMoonTearItem.spawnPrefab);
             if (config.majoraMaskValueParsed.Item1 != -1)
             {
                 majoraMaskItem.minValue = (int)(config.majoraMaskValueParsed.Item1 * 2.5f);
@@ -124,7 +122,6 @@ namespace LegendWeathers
             }
             NetworkPrefabs.RegisterNetworkPrefab(bloodMoonManagerObject);
             NetworkPrefabs.RegisterNetworkPrefab(bloodStoneItem.spawnPrefab);
-            Utilities.FixMixerGroups(bloodStoneItem.spawnPrefab);
             Items.RegisterScrap(bloodStoneItem, 0, Levels.LevelTypes.None);
             RegisterWeather<BloodMoonWeather, BloodSkyEffect>(bloodMoonDefinition);
         }

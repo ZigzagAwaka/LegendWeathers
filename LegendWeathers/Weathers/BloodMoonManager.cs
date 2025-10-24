@@ -93,7 +93,8 @@ namespace LegendWeathers.Weathers
             {
                 lastMoonSfxTime = 0;
                 nextMoonSfxTime = moonSfxTimeIntervalOutside;
-                sfxAudio.PlayOneShot(sfx[Random.Range(0, sfx.Length)], 0.5f);
+                if (Plugin.config.bloodMoonAmbienceMusicType.Value == "Blood Moon")
+                    sfxAudio.PlayOneShot(sfx[Random.Range(0, sfx.Length)], 0.5f * Plugin.config.bloodMoonAmbienceMusicVolume.Value);
             }
         }
 
@@ -260,7 +261,7 @@ namespace LegendWeathers.Weathers
             Effects.EnableVanillaVolumeFog(false, ref vanillaFogVolumeComponentExists);
             Effects.SetupWindSpeedComponents(ref visualEnvironments, ref originalWindSpeeds);
             Effects.IncreaseWindSpeed(visualEnvironments, windSpeedFactor);
-            introMusicAudio.volume = Plugin.config.bloodMoonMusicVolume.Value;
+            introMusicAudio.volume = Plugin.config.bloodMoonIntroMusicVolume.Value;
             introMusicAudio.Play();
         }
 

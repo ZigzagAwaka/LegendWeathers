@@ -1,6 +1,7 @@
 ## 2.0.4
 - **Blood Moon**
-    - f
+    - Added `Ambience music volume` config, this can be used to customize the volume of the weather's ambient music
+    - Added `Ambience music type` config, you can use this to replace the weather's ambient music by the vanilla Eclipsed music
 - **Majora Moon**
     - f
 
