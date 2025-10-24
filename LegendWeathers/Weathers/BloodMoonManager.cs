@@ -44,6 +44,8 @@ namespace LegendWeathers.Weathers
         private List<float> originalWindSpeeds = new List<float>();
         private readonly int windSpeedFactor = 4;
 
+        internal static bool hasFirstNutcrackerRespawned = false;
+
         public void Update()
         {
             if (!isInitialized)
@@ -305,6 +307,7 @@ namespace LegendWeathers.Weathers
             }
             visualEnvironments.Clear();
             originalWindSpeeds.Clear();
+            hasFirstNutcrackerRespawned = false;
             base.OnDestroy();
         }
     }

@@ -6,6 +6,7 @@
     - Added `Ambience music volume` config, this can be used to customize the volume of the weather's ambient music
     - Added `Ambience music type` config, you can use this to replace the weather's ambient music by the vanilla Eclipsed music if wanted
     - Added `Blood Stone spawning blacklist` config, this can be filled by the host with enemy names that will never spawn Blood Stones when they are killed
+    - Changed how the Nutcracker enemy is spawning his items when killed during the Blood Moon weather
 - **Majora Moon**
     - f
 
