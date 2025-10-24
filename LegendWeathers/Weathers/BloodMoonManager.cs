@@ -157,7 +157,10 @@ namespace LegendWeathers.Weathers
 
         private IEnumerator StartAnimationThenResurrect(EnemyAI enemy, Vector3 originalPosition)
         {
-            SpawnBloodStone(originalPosition);
+            if (Plugin.config.bloodMoonStoneSpawnBlacklist.Count == 0 || !Plugin.config.bloodMoonStoneSpawnBlacklist.Contains(enemy.enemyType.enemyName.ToLower()))
+            {
+                SpawnBloodStone(originalPosition);
+            }
             yield return new WaitForSeconds(Plugin.config.bloodMoonResurrectWaitTime.Value);
             if (StartOfRound.Instance.inShipPhase || StartOfRound.Instance.shipIsLeaving)
                 yield break;

@@ -1,5 +1,6 @@
 ﻿using BepInEx.Configuration;
 using LegendWeathers.Utils;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace LegendWeathers
@@ -27,7 +28,9 @@ namespace LegendWeathers
         public readonly ConfigEntry<string> bloodMoonAmbientMusicType;
         public readonly ConfigEntry<float> bloodMoonResurrectWaitTime;
         public readonly ConfigEntry<bool> bloodMoonStoneItemSpawning;
+        public readonly ConfigEntry<string> bloodMoonStoneSpawnBlacklistStr;
         public readonly ConfigEntry<string> bloodMoonDifficultyFactor;
+        public readonly List<string> bloodMoonStoneSpawnBlacklist = new List<string>();
 
         public Config(ConfigFile cfg)
         {
@@ -53,6 +56,7 @@ namespace LegendWeathers
             bloodMoonAmbientMusicType = cfg.Bind("Blood Moon", "Ambient music type", "Blood Moon", new ConfigDescription("If you prefer to have the vanilla ambient Eclipsed music instead of the Blood Moon ambient custom music, then you can change it here.\nPlease note that the 'Ambient music volume' config will not apply if you select the Eclipsed music.", new AcceptableValueList<string>("Blood Moon", "Eclipsed")));
             bloodMoonResurrectWaitTime = cfg.Bind("Blood Moon", "Enemy resurrection wait time", 10f, new ConfigDescription("When an enemy is resurrected by the Blood Moon effect, this is the time in seconds it will take before it actually respawns.", new AcceptableValueRange<float>(0f, 30f)));
             bloodMoonStoneItemSpawning = cfg.Bind("Blood Moon", "Blood Stone spawning", true, "Allow the spawning of the Blood Stone item during specific conditions.");
+            bloodMoonStoneSpawnBlacklistStr = cfg.Bind("Blood Moon", "Blood Stone spawning blacklist", "", "Comma separated list of enemy names that will never spawn Blood Stones when they are killed.");
             bloodMoonDifficultyFactor = cfg.Bind("Blood Moon", "Difficulty", "Normal", new ConfigDescription("The difficulty factor of the Blood Moon effect, this will impact the number of spawned enemies during the weather.", new AcceptableValueList<string>("Easy", "Normal", "Hard")));
 
             cfg.Save();
@@ -65,6 +69,7 @@ namespace LegendWeathers
             if (!Compatibility.WeatherRegisteryInstalled)
                 Plugin.logger.LogError("WeatherRegistery is not installed! Please install WeatherRegistery before using this mod.");
             ParseValues();
+            PopulateList();
         }
 
         private void ParseValues()
@@ -79,6 +84,16 @@ namespace LegendWeathers
             if (minV > maxV)
             { majoraMaskValueParsed = (-1, -1); return; }
             majoraMaskValueParsed = (minV, maxV);
+        }
+
+        private void PopulateList()
+        {
+            if (string.IsNullOrWhiteSpace(bloodMoonStoneSpawnBlacklistStr.Value))
+                return;
+            foreach (string value in bloodMoonStoneSpawnBlacklistStr.Value.Split(',').Select(s => s.Trim()))
+            {
+                bloodMoonStoneSpawnBlacklist.Add(value.ToLower());
+            }
         }
     }
 }
