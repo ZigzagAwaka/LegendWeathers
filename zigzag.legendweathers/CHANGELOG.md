@@ -7,6 +7,7 @@
     - Added `Ambience music type` config, you can use this to replace the weather's ambient music by the vanilla Eclipsed music if wanted
     - Added `Blood Stone spawning blacklist` config, this can be filled by the host with enemy names that will never spawn Blood Stones when they are killed
     - Changed how the Nutcracker enemy is spawning his items when killed during the Blood Moon weather
+    - Added a check to prevent errors when trying to resurrecting null enemies (hmmmm Giant Sapsucker)
 - **Majora Moon**
     - Added `Remove Timer UI` config, you can enable this if you want to not have the Majora Timer UI displayed on the screen during the crash sequence (makes the game more immersive but you will not have any indication of the time left)
 
