@@ -199,6 +199,8 @@ namespace LegendWeathers.Weathers
 
         private void StartTimer()
         {
+            if (Plugin.config.majoraMoonRemoveTimerDisplay.Value)
+                return;
             if (timerUI != null)
                 Destroy(timerUI);
             timerUI = Instantiate(finalHoursTimer);
