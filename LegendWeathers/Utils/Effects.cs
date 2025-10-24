@@ -188,21 +188,20 @@ namespace LegendWeathers.Utils
             return false;
         }
 
-        public static Vector3 GetArbitraryMoonPosition(int actualIndex, int maxIndex, bool insidePosition = false, int radiusModifier = 20)
+        public static Vector3 GetSeededMoonPosition(System.Random rand, bool insidePosition = false, float radius = 20f)
         {
             var nodes = insidePosition ? RoundManager.Instance.insideAINodes : RoundManager.Instance.outsideAINodes;
-            var indexFactor = nodes.Length / maxIndex;
-            var result = nodes[actualIndex * indexFactor].transform.position;
-            if (radiusModifier > 0)
+            var pos = nodes[rand.Next(0, nodes.Length)].transform.position;
+            float y = pos.y;
+            Quaternion quat = Quaternion.Euler((float)(360f * rand.NextDouble()), (float)(360f * rand.NextDouble()), (float)(360f * rand.NextDouble()));
+            Vector3 forward = quat * Vector3.forward;
+            pos = (forward * (float)(radius * rand.NextDouble())) + pos;
+            pos.y = y;
+            if (NavMesh.SamplePosition(pos, out var navHit, radius, -1))
             {
-                var parity = actualIndex % 2 == 0;
-                var offset = radiusModifier * (actualIndex > (maxIndex / 2) ? 1 : -1);
-                var updatedResult = result + new Vector3(parity ? offset : 0, 0, parity ? 0 : offset);
-                if (NavMesh.SamplePosition(updatedResult, out var navHit, radiusModifier, -1))
-                    return navHit.position;
-                return result;
+                return navHit.position;
             }
-            return result;
+            return pos;
         }
 
         public static Vector3 GetRandomMoonPosition(bool insidePosition = false, int randomizePositionRadius = 20)

@@ -1,5 +1,7 @@
 ## 2.0.4
 - **Blood Moon**
+    - Terrain effects will now spawn randomly each time the ship is landing, their position is now based on the map random seed
+    - Fixed terrain effects getting all placed in the same position when a high abundance is selected in the config
     - Added `Terrain effects volume` config, this can be used to customize the volume of the weather's terrain effects
     - Added `Ambience music volume` config, this can be used to customize the volume of the weather's ambient music
     - Added `Ambience music type` config, you can use this to replace the weather's ambient music by the vanilla Eclipsed music if wanted

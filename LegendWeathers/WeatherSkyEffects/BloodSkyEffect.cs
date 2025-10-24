@@ -22,7 +22,7 @@ namespace LegendWeathers.WeatherSkyEffects
             sunlightColor = new Color(1, 0.36f, 0.7f);
             sunSizeFactor = Plugin.config.bloodMoonSizeFactor.Value;
             maxSpawnedEffectObjects = Plugin.config.bloodMoonEffectsAbundance.Value;
-            eclipsedMusicEnabled = Plugin.config.bloodMoonAmbienceMusicType.Value == "Eclipsed";
+            eclipsedMusicEnabled = Plugin.config.bloodMoonAmbientMusicType.Value == "Eclipsed";
         }
 
         public override void OnEnable()
@@ -34,15 +34,16 @@ namespace LegendWeathers.WeatherSkyEffects
                 {
                     ActivateEclipsedMusic(true);
                 }
-                if (IsEffectActive && (Plugin.config.bloodMoonAmbienceMusicVolume.Value != 1f || eclipsedMusicEnabled))
+                if (IsEffectActive && (Plugin.config.bloodMoonAmbientMusicVolume.Value != 1f || eclipsedMusicEnabled))
                 {
                     CustomizeAmbientMusicVolume();
                 }
                 if (effectObjectsPositions.Count == 0)
                 {
+                    var rand = new System.Random(StartOfRound.Instance.randomMapSeed);
                     for (int i = 0; i < maxSpawnedEffectObjects; i++)
                     {
-                        effectObjectsPositions.Add(Effects.GetArbitraryMoonPosition(i, maxSpawnedEffectObjects, radiusModifier: 10));
+                        effectObjectsPositions.Add(Effects.GetSeededMoonPosition(rand));
                     }
                 }
                 if (effectObjectsPositions.Count != 0)
@@ -124,7 +125,7 @@ namespace LegendWeathers.WeatherSkyEffects
                 foreach (var audio in spawnedSun.GetComponentsInChildren<AudioSource>())
                 {
                     if (audio != null)
-                        audio.volume *= eclipsedMusicEnabled ? 0f : Plugin.config.bloodMoonAmbienceMusicVolume.Value;
+                        audio.volume *= eclipsedMusicEnabled ? 0f : Plugin.config.bloodMoonAmbientMusicVolume.Value;
                 }
             }
         }

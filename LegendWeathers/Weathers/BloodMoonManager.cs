@@ -93,8 +93,8 @@ namespace LegendWeathers.Weathers
             {
                 lastMoonSfxTime = 0;
                 nextMoonSfxTime = moonSfxTimeIntervalOutside;
-                if (Plugin.config.bloodMoonAmbienceMusicType.Value == "Blood Moon")
-                    sfxAudio.PlayOneShot(sfx[Random.Range(0, sfx.Length)], 0.5f * Plugin.config.bloodMoonAmbienceMusicVolume.Value);
+                if (Plugin.config.bloodMoonAmbientMusicType.Value == "Blood Moon")
+                    sfxAudio.PlayOneShot(sfx[Random.Range(0, sfx.Length)], 0.5f * Plugin.config.bloodMoonAmbientMusicVolume.Value);
             }
         }
 
