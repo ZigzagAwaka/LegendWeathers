@@ -1,5 +1,12 @@
+## 2.0.4
+- **Blood Moon**
+    - f
+- **Majora Moon**
+    - f
+
 ## 2.0.3
-- Fully removed WeatherTweaks integration as it's now managed by [Combined_Weathers_Toolkit](https://thunderstore.io/c/lethal-company/p/Zigzag/Combined_Weathers_Toolkit/)
+- **General**
+    - Fully removed WeatherTweaks integration as it's now managed by [Combined_Weathers_Toolkit](https://thunderstore.io/c/lethal-company/p/Zigzag/Combined_Weathers_Toolkit/)
 
 ## 2.0.2
 - **Blood Moon**
