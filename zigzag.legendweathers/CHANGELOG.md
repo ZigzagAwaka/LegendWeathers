@@ -2,13 +2,15 @@
 - **Blood Moon**
     - Terrain effects will now spawn randomly each time the ship is landing, their position is now based on the map random seed
     - Fixed terrain effects getting all placed in the same position when a high abundance is selected in the config
-    - Added `Terrain effects volume` config, this can be used to customize the volume of the weather's terrain effects
+    - Added `Terrain effects volume` config, this can be used to customize the volume of the weather's terrain effects sounds
     - Added `Ambience music volume` config, this can be used to customize the volume of the weather's ambient music
     - Added `Ambience music type` config, you can use this to replace the weather's ambient music by the vanilla Eclipsed music if wanted
     - Added `Blood Stone spawning blacklist` config, this can be filled by the host with enemy names that will never spawn Blood Stones when they are killed
     - Changed how the Nutcracker enemy is spawning his items when killed during the Blood Moon weather
-    - Added a check to prevent errors when trying to resurrecting null enemies (hmmmm Giant Sapsucker)
+    - Added a check to prevent errors when trying to resurrect null enemies *(hmmmm Giant Sapsucker)*
 - **Majora Moon**
+    - Added Vanilla model version (can be activated in the config), this will reskin the moon to match a vanilla moon prefab (the Majora's Mask will also be reskined the same way as for the Faceless model)
+    - When both the Vanilla model is selected and the `Automatic model selection` config is activated, the moon texture will be randomized from one of your installed moons (requires a mod like [Chameleon](https://thunderstore.io/c/lethal-company/p/ButteryStancakes/Chameleon/) to see the planet prefabs or else it will not work)
     - Added `Remove Timer UI` config, you can enable this if you want to not have the Majora Timer UI displayed on the screen during the crash sequence (makes the game more immersive but you will not have any indication of the time left)
 
 ## 2.0.3

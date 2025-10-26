@@ -391,7 +391,7 @@ namespace LegendWeathers.BehaviourScripts
         public static void CheckAndReplaceModel()
         {
             var moonModelName = Plugin.config.majoraMoonModel.Value;
-            if (moonModelName == "N64" || moonModelName == "Faceless")
+            if (moonModelName == "N64" || moonModelName == "Faceless" || moonModelName == "Vanilla")
             {
                 var maskItem = Plugin.instance.majoraMaskItem;
                 if (maskItem == null)

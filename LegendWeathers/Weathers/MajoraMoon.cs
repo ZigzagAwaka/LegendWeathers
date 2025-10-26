@@ -421,7 +421,9 @@ namespace LegendWeathers.Weathers
             }
             if (moonInstanceObject != null)
             {
-                if (Compatibility.CodeRebirthInstalled && Compatibility.IsMajoraCodeRebirthCompatible())
+                if (modelName == "Vanilla")
+                    SwapVanillaPrefabTexture(moonObject);
+                else if (Compatibility.CodeRebirthInstalled && Compatibility.IsMajoraCodeRebirthCompatible())
                     newModelName = "Baldy";
                 else if (Compatibility.PremiumScrapsInstalled && Compatibility.IsMajoraPremiumScrapsCompatible())
                     newModelName = "Abibabou";
@@ -437,6 +439,29 @@ namespace LegendWeathers.Weathers
             moonObject.transform.Find("Models/" + newModelName).gameObject.SetActive(true);
             moonObject.transform.Find("Models/" + modelName).gameObject.SetActive(false);
             modelName = newModelName;
+        }
+
+        private static void SwapVanillaPrefabTexture(GameObject? moonObject)
+        {
+            if (moonObject == null) return;
+            var rand = new System.Random(StartOfRound.Instance.randomMapSeed);
+            var randomPlanet = StartOfRound.Instance.levels[rand.Next(0, StartOfRound.Instance.levels.Length)];
+            if (randomPlanet == null || randomPlanet.planetPrefab == null) return;
+            var moonObjectMaterial = moonObject.transform.Find("Models/Vanilla").gameObject.GetComponent<MeshRenderer>().material;
+            if (randomPlanet.planetPrefab.transform.childCount != 0)  // try to get the moon texture from the planet prefab
+            {
+                var planetMoonRenderer = randomPlanet.planetPrefab.transform.GetChild(0).GetComponentInChildren<MeshRenderer>();
+                if (planetMoonRenderer != null && planetMoonRenderer.material != null && planetMoonRenderer.material.mainTexture != null)
+                {
+                    moonObjectMaterial.SetTexture("_Texture2D", planetMoonRenderer.material.mainTexture);
+                    return;
+                }
+            }
+            var planetRenderer = randomPlanet.planetPrefab.GetComponentInChildren<MeshRenderer>();  // fallback, get the planet texture directly
+            if (planetRenderer != null && planetRenderer.material != null && planetRenderer.material.mainTexture != null)
+            {
+                moonObjectMaterial.SetTexture("_Texture2D", planetRenderer.material.mainTexture);
+            }
         }
 
         [ServerRpc]
