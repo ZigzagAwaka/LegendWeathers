@@ -1,6 +1,8 @@
 ﻿using BepInEx.Bootstrap;
+using LegendWeathers.Weathers;
 using LethalLib.Modules;
 using System.Text.RegularExpressions;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace LegendWeathers.Utils
@@ -156,6 +158,31 @@ namespace LegendWeathers.Utils
                 Effects.SpawnMaskedOfPlayer(masked.mimickingPlayer.playerClientId, spawnPosition);
             else return false;
             return true;
+        }
+
+        public static bool ManageSpecialItemForBloodMoon(string enemyNameHeldBy, GrabbableObject specialItem)  // used by BloodMoonPatches
+        {
+            if (!BloodMoonManager.UpdateFirstEnemyRespawned(enemyNameHeldBy))
+            {
+                if (specialItem is ShotgunItem gunItem)
+                {
+                    gunItem.shellsLoaded = 2;
+                }
+                BloodMoonManager.UpdateFirstEnemyRespawned(enemyNameHeldBy, true);
+                return true;
+            }
+            else
+            {
+                if (specialItem.IsServer)
+                {
+                    var itemNetwork = specialItem.gameObject.GetComponent<NetworkObject>();
+                    if (itemNetwork != null && itemNetwork.IsSpawned)
+                    {
+                        itemNetwork.Despawn();
+                    }
+                }
+                return false;
+            }
         }
     }
 }

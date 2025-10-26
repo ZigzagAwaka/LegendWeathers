@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
+using LegendWeathers.Utils;
 using LegendWeathers.Weathers;
 using LegendWeathers.WeatherSkyEffects;
-using Unity.Netcode;
 
 namespace LegendWeathers.Patches
 {
@@ -54,24 +54,50 @@ namespace LegendWeathers.Patches
             {
                 return true;
             }
-            if (!BloodMoonManager.hasFirstNutcrackerRespawned)
+            return Compatibility.ManageSpecialItemForBloodMoon("Nutcracker", __instance.gun);
+        }
+    }
+
+
+    [HarmonyPatch]
+    internal class BloodMoonHauntedHarpistPatches
+    {
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(LethalCompanyHarpGhost.EnforcerGhost.EnforcerGhostAIClient), "HandleDropShotgun")]
+        public static bool EnforcerGhostDropGunUnique(LethalCompanyHarpGhost.EnforcerGhost.EnforcerGhostAIClient __instance)
+        {
+            if (!Plugin.config.bloodMoonWeather.Value || BloodMoonWeather.BloodMoonEffectReference == null || !BloodMoonWeather.BloodMoonEffectReference.EffectEnabled
+                || __instance == null || __instance._heldShotgun == null)
             {
-                __instance.gun.shellsLoaded = 2;
-                BloodMoonManager.hasFirstNutcrackerRespawned = true;
                 return true;
             }
-            else
+            return Compatibility.ManageSpecialItemForBloodMoon("EnforcerGhost", __instance._heldShotgun);
+        }
+
+
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(LethalCompanyHarpGhost.BagpipesGhost.BagpipesGhostAIClient), "HandleDropInstrument")]
+        public static bool BagpipesGhostDropInstrumentReduced(LethalCompanyHarpGhost.BagpipesGhost.BagpipesGhostAIClient __instance)
+        {
+            if (!Plugin.config.bloodMoonWeather.Value || BloodMoonWeather.BloodMoonEffectReference == null || !BloodMoonWeather.BloodMoonEffectReference.EffectEnabled
+                || __instance == null || __instance._heldInstrument == null)
             {
-                if (__instance.IsServer)
-                {
-                    var gunNetwork = __instance.gun.gameObject.GetComponent<NetworkObject>();
-                    if (gunNetwork != null && gunNetwork.IsSpawned)
-                    {
-                        gunNetwork.Despawn();
-                    }
-                }
-                return false;
+                return true;
             }
+            return Compatibility.ManageSpecialItemForBloodMoon("BagpipesGhost", __instance._heldInstrument);
+        }
+
+
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(LethalCompanyHarpGhost.HarpGhost.HarpGhostAIClient), "HandleDropInstrument")]
+        public static bool HarpGhostDropInstrumentReduced(LethalCompanyHarpGhost.HarpGhost.HarpGhostAIClient __instance)
+        {
+            if (!Plugin.config.bloodMoonWeather.Value || BloodMoonWeather.BloodMoonEffectReference == null || !BloodMoonWeather.BloodMoonEffectReference.EffectEnabled
+                || __instance == null || __instance._heldInstrument == null)
+            {
+                return true;
+            }
+            return Compatibility.ManageSpecialItemForBloodMoon("HarpGhost", __instance._heldInstrument);
         }
     }
 }

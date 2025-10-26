@@ -49,12 +49,19 @@ namespace LegendWeathers
         public GameObject? bloodTerrainEffectObject;
         public Item? bloodStoneItem;
 
+
         void HarmonyPatchAll()
         {
             harmony.CreateClassProcessor(typeof(WeatherAlertPatch), true).Patch();
             harmony.CreateClassProcessor(typeof(MajoraMaskedPatch), true).Patch();
             harmony.CreateClassProcessor(typeof(BloodMoonPatches), true).Patch();
+
+            if (Compatibility.HauntedHarpistInstalled)
+            {
+                harmony.CreateClassProcessor(typeof(BloodMoonHauntedHarpistPatches), true).Patch();
+            }
         }
+
 
         private GameObject GetEffect<T>() where T : Component
         {
@@ -129,6 +136,7 @@ namespace LegendWeathers
             Items.RegisterScrap(bloodStoneItem, 0, Levels.LevelTypes.None);
             RegisterWeather<BloodMoonWeather, BloodSkyEffect>(bloodMoonDefinition);
         }
+
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051")]
         void Awake()

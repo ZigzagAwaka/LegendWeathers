@@ -44,7 +44,8 @@ namespace LegendWeathers.Weathers
         private List<float> originalWindSpeeds = new List<float>();
         private readonly int windSpeedFactor = 4;
 
-        internal static bool hasFirstNutcrackerRespawned = false;
+        // To keep track of special enemies that have already respawned once
+        private static readonly Dictionary<string, bool> firstEnemiesRespawned = new Dictionary<string, bool>();
 
         public void Update()
         {
@@ -289,6 +290,20 @@ namespace LegendWeathers.Weathers
             }
         }
 
+        internal static bool UpdateFirstEnemyRespawned(string enemyName, bool? overrideValue = null)
+        {
+            if (firstEnemiesRespawned.ContainsKey(enemyName))
+            {
+                if (overrideValue.HasValue)
+                {
+                    firstEnemiesRespawned[enemyName] = overrideValue.Value;
+                }
+                return firstEnemiesRespawned[enemyName];
+            }
+            firstEnemiesRespawned[enemyName] = overrideValue ?? false;
+            return false;
+        }
+
         public override void OnDestroy()
         {
             if (introMusicAudio.isPlaying)
@@ -307,7 +322,7 @@ namespace LegendWeathers.Weathers
             }
             visualEnvironments.Clear();
             originalWindSpeeds.Clear();
-            hasFirstNutcrackerRespawned = false;
+            firstEnemiesRespawned.Clear();
             base.OnDestroy();
         }
     }

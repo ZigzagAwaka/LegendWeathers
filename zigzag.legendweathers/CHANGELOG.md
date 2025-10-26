@@ -6,7 +6,7 @@
     - Added `Ambience music volume` config, this can be used to customize the volume of the weather's ambient music
     - Added `Ambience music type` config, you can use this to replace the weather's ambient music by the vanilla Eclipsed music if wanted
     - Added `Blood Stone spawning blacklist` config, this can be filled by the host with enemy names that will never spawn Blood Stones when they are killed
-    - Changed how the Nutcracker enemy is spawning his items when killed during the Blood Moon weather
+    - Changed how the Nutcracker enemy and Ghost enemies ([Haunted_Harpist](https://thunderstore.io/c/lethal-company/p/Bob123/Haunted_Harpist/)) are spawning their items when killed during the Blood Moon weather
     - Added a check to prevent errors when trying to resurrect null enemies *(hmmmm Giant Sapsucker)*
 - **Majora Moon**
     - Added Vanilla model version (can be activated in the config), this will reskin the moon to match a vanilla moon prefab (the Majora's Mask will also be reskined the same way as for the Faceless model)
