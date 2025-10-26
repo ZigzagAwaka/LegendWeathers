@@ -15,6 +15,7 @@ namespace LegendWeathers.Utils
         public static bool PremiumScrapsInstalled = false;
         public static bool EmergencyDiceInstalled = false;
         public static bool CodeRebirthInstalled = false;
+        public static bool HauntedHarpistInstalled = false;
         public static bool ImperiumInstalled = false;
 
         public static void CheckInstalledPlugins()
@@ -25,6 +26,7 @@ namespace LegendWeathers.Utils
             PremiumScrapsInstalled = IsPluginInstalled("zigzag.premiumscraps");
             EmergencyDiceInstalled = IsPluginInstalled("Theronguard.EmergencyDice");
             CodeRebirthInstalled = IsPluginInstalled("CodeRebirth");
+            HauntedHarpistInstalled = IsPluginInstalled("LethalCompanyHarpGhost");
             ImperiumInstalled = IsPluginInstalled("giosuel.Imperium");
         }
 

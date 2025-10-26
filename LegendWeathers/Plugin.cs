@@ -2,6 +2,7 @@
 using BepInEx.Logging;
 using HarmonyLib;
 using LegendWeathers.BehaviourScripts;
+using LegendWeathers.Patches;
 using LegendWeathers.Utils;
 using LegendWeathers.Weathers;
 using LegendWeathers.WeatherSkyEffects;
@@ -22,6 +23,7 @@ namespace LegendWeathers
     [BepInDependency("zigzag.premiumscraps", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("Theronguard.EmergencyDice", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("CodeRebirth", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("LethalCompanyHarpGhost", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("giosuel.Imperium", BepInDependency.DependencyFlags.SoftDependency)]
     public class Plugin : BaseUnityPlugin
     {
@@ -49,7 +51,9 @@ namespace LegendWeathers
 
         void HarmonyPatchAll()
         {
-            harmony.PatchAll();
+            harmony.CreateClassProcessor(typeof(WeatherAlertPatch), true).Patch();
+            harmony.CreateClassProcessor(typeof(MajoraMaskedPatch), true).Patch();
+            harmony.CreateClassProcessor(typeof(BloodMoonPatches), true).Patch();
         }
 
         private GameObject GetEffect<T>() where T : Component
