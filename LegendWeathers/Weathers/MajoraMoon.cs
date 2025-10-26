@@ -148,7 +148,7 @@ namespace LegendWeathers.Weathers
                 else
                 {
                     var timeFactor = (TimeOfDay.Instance.currentDayTime - moonFallTimerOffset - startTime) / (endTime - startTime);
-                    transform.position = Vector3.Lerp(startPosition, endPosition - (Vector3.up * 2), GetMoonFallAccelerateFactor(timeFactor));
+                    transform.position = Vector3.Lerp(startPosition, endPosition - (Vector3.up * 4), GetMoonFallAccelerateFactor(timeFactor));
                     transform.eulerAngles = Vector3.Lerp(startRotation, endRotation, GetMoonFallAccelerateFactor(timeFactor));
                     transform.localScale = Vector3.Lerp(startScale, endScale, GetMoonFallAccelerateFactor(timeFactor));
                 }
@@ -186,7 +186,7 @@ namespace LegendWeathers.Weathers
             }
             if (!finalHoursFinishing && StartOfRound.Instance.shipIsLeaving)
                 DisableColliders(false);
-            UpdateTimer(smoothTime + (!Compatibility.IsMajoraActiveOnCompany ? -21 : -8));
+            UpdateTimer(smoothTime + (!Compatibility.IsMajoraActiveOnCompany ? -21.9f : -8f));
             UpdateImpact();
         }
 

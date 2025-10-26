@@ -11,6 +11,7 @@
 - **Majora Moon**
     - Added Vanilla model version (can be activated in the config), this will reskin the moon to match a vanilla moon prefab (the Majora's Mask will also be reskined the same way as for the Faceless model)
     - When both the Vanilla model is selected and the `Automatic model selection` config is activated, the moon texture will be randomized from one of your installed moons (requires a mod like [Chameleon](https://thunderstore.io/c/lethal-company/p/ButteryStancakes/Chameleon/) to see the planet prefabs or else it will not work)
+    - The Majora Timer UI and the Majora falling effect are both now more accurate by 1 second
     - Added `Remove Timer UI` config, you can enable this if you want to not have the Majora Timer UI displayed on the screen during the crash sequence (makes the game more immersive but you will not have any indication of the time left)
 
 ## 2.0.3
