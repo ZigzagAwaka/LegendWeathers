@@ -1,4 +1,4 @@
-## 2.0.4
+## 2.1.0
 - **Blood Moon**
     - Terrain effects will now spawn randomly each time the ship is landing, their position is now based on the map random seed
     - Fixed terrain effects getting all placed in the same position when a high abundance is selected in the config
