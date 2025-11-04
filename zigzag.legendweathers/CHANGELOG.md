@@ -1,3 +1,7 @@
+## 2.1.1
+- **Majora Moon**
+    - Fixed [Biodiversity](https://thunderstore.io/c/lethal-company/p/super_fucking_cool_and_badass_team/Biodiversity/) compatibility
+
 ## 2.1.0
 - **Blood Moon**
     - Terrain effects will now spawn randomly each time the ship is landing, their position is now based on the map random seed

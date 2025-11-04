@@ -70,7 +70,7 @@ namespace LegendWeathers.Utils
             {
                 return false;
             }
-            var (levelRarities, customLevelRarities) = Biodiversity.Creatures.BiodiverseAIHandler<Biodiversity.Creatures.MicBird.MicBirdHandler>.ConfigParsing(Biodiversity.Creatures.MicBird.MicBirdHandler.Instance.Config.BoomBirdRarity);
+            var (levelRarities, customLevelRarities) = Biodiversity.Util.LethalLibUtils.ConfigParsing(Biodiversity.Creatures.MicBird.MicBirdHandler.Instance.Config.BoomBirdRarity);
             var moonName = Regex.Replace(RoundManager.Instance.currentLevel.PlanetName, "^[0-9]+", string.Empty);
             if (moonName[0] == ' ')
                 moonName = moonName[1..];
