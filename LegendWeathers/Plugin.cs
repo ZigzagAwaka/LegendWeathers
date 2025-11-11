@@ -29,7 +29,7 @@ namespace LegendWeathers
     {
         const string GUID = "zigzag.legendweathers";
         const string NAME = "LegendWeathers";
-        const string VERSION = "2.1.1";
+        const string VERSION = "2.1.2";
 
         public static Plugin instance;
         public static ManualLogSource logger;
@@ -52,6 +52,7 @@ namespace LegendWeathers
 
         void HarmonyPatchAll()
         {
+            harmony.CreateClassProcessor(typeof(GetEnemies), true).Patch();
             harmony.CreateClassProcessor(typeof(WeatherAlertPatch), true).Patch();
             harmony.CreateClassProcessor(typeof(MajoraMaskedPatch), true).Patch();
             harmony.CreateClassProcessor(typeof(BloodMoonPatches), true).Patch();

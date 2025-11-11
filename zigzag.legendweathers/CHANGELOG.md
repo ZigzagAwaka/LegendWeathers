@@ -1,3 +1,9 @@
+## 2.1.2
+- **Blood Moon**
+    - Fixed random enemy spawning when resurrecting a masked enemy who is mimicking a player
+- **Majora Moon**
+    - Fixed random enemies invocation when using the Majora's Mask
+
 ## 2.1.1
 - **Majora Moon**
     - Fixed [Biodiversity](https://thunderstore.io/c/lethal-company/p/super_fucking_cool_and_badass_team/Biodiversity/) compatibility
