@@ -77,8 +77,14 @@ namespace LegendWeathers.Weathers
 
         private int GetDifficultyIndex()
         {
-            var difficulty = Plugin.config.bloodMoonDifficultyFactor.Value;
-            return difficulty == "Easy" ? 0 : (difficulty == "Hard" ? 2 : 1);
+            return Plugin.config.bloodMoonDifficultyFactor.Value switch
+            {
+                "Easy" => 0,
+                "Normal" => 1,
+                "Hard" => 2,
+                "Extreme" => 3,
+                _ => 1,
+            };
         }
 
         public BloodMoonManager? GetBloodMoonManager()

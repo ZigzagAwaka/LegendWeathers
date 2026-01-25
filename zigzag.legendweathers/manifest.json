@@ -1,11 +1,11 @@
 {
     "name": "LegendWeathers",
-    "version_number": "2.1.2",
+    "version_number": "2.2.0",
     "website_url": "https://github.com/ZigzagAwaka/LegendWeathers",
     "description": "A mod that aims to add several new extreme weather effects to the game.",
     "dependencies": [
-        "mrov-WeatherRegistry-0.7.0",
-        "Evaisa-LethalLib-1.1.0",
+        "mrov-WeatherRegistry-0.8.0",
+        "Evaisa-LethalLib-1.1.1",
         "BepInEx-BepInExPack-5.4.2100"
     ]
 }

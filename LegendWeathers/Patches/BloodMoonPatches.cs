@@ -40,6 +40,10 @@ namespace LegendWeathers.Patches
         [HarmonyPatch(typeof(NutcrackerEnemyAI), "SpawnShotgunShells")]
         public static bool NutcrackerShellsSkip(NutcrackerEnemyAI __instance)
         {
+            if (Plugin.config.bloodMoonSpecificEnemiesItemSpawningMode.Value == "Chance")
+            {
+                return Compatibility.ManageSpecialItemForBloodMoonByChance(null);
+            }
             return !(Plugin.config.bloodMoonWeather.Value && BloodMoonWeather.BloodMoonEffectReference != null && BloodMoonWeather.BloodMoonEffectReference.EffectEnabled
                 && __instance != null && __instance.enemyType != null);
         }

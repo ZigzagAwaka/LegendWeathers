@@ -45,7 +45,13 @@ namespace LegendWeathers.Weathers
         private readonly int windSpeedFactor = 4;
 
         // To keep track of special enemies that have already respawned once
+        // Only used when the config "Specific enemies item spawning Mode" is set to "Limited"
         private static readonly Dictionary<string, bool> firstEnemiesRespawned = new Dictionary<string, bool>();
+        // Seed and next value for specific enemy item spawning
+        // Only used when the config "Specific enemies item spawning Mode" is set to "Chance"
+        private static System.Random? globalSeedForSpecificEnemyItemSpawning;
+        public static int nextRandomSpecificEnemyItemSpawnChance = 0;
+
 
         public void Update()
         {
@@ -164,8 +170,12 @@ namespace LegendWeathers.Weathers
             {
                 SpawnBloodStone(originalPosition);
             }
+            if (Plugin.config.bloodMoonSpecificEnemiesItemSpawningMode.Value == "Chance" && globalSeedForSpecificEnemyItemSpawning != null)
+            {
+                nextRandomSpecificEnemyItemSpawnChance = globalSeedForSpecificEnemyItemSpawning.Next(0, 100);
+            }
             yield return new WaitForSeconds(Plugin.config.bloodMoonResurrectWaitTime.Value);
-            if (enemy == null || StartOfRound.Instance.inShipPhase || StartOfRound.Instance.shipIsLeaving)
+            if (enemy == null || StartOfRound.Instance.inShipPhase || StartOfRound.Instance.shipIsLeaving || (Plugin.config.bloodMoonResurrectBlacklist.Count != 0 && Plugin.config.bloodMoonResurrectBlacklist.Contains(enemy.enemyType.enemyName.ToLower())))
                 yield break;
             var spawnPosition = RoundManager.Instance.GetNavMeshPosition(originalPosition, sampleRadius: 3f);
             if (!RoundManager.Instance.GotNavMeshPositionResult)
@@ -240,6 +250,11 @@ namespace LegendWeathers.Weathers
                 localPlayerIsInsideLastChecked = localPlayer.isInsideFactory;
             if (localPlayerIsInsideLastChecked)
                 nextMoonSfxTime = moonSfxTimeIntervalInside;
+            if (Plugin.config.bloodMoonSpecificEnemiesItemSpawningMode.Value == "Chance")
+            {
+                globalSeedForSpecificEnemyItemSpawning = new System.Random(StartOfRound.Instance.randomMapSeed);
+                nextRandomSpecificEnemyItemSpawnChance = globalSeedForSpecificEnemyItemSpawning.Next(0, 100);
+            }
             StartInitialEffects();
             isInitialized = true;
         }

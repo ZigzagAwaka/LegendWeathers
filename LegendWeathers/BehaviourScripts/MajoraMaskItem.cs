@@ -268,7 +268,14 @@ namespace LegendWeathers.BehaviourScripts
             if (!StartOfRound.Instance.inShipPhase)
             {
                 var netObjectRef = RoundManager.Instance.SpawnEnemyGameObject(spawnPosition, Random.Range(-90f, 90f), -1, mimicEnemy);
-                CreateEnemyClientRpc(netObjectRef, inFactory);
+                if (netObjectRef.TryGet(out var networkObject))
+                {
+                    var component = networkObject.GetComponent<MaskedPlayerEnemy>();
+                    component.SetSuit(previousPlayerHeldBy.currentSuitID);
+                    component.mimickingPlayer = previousPlayerHeldBy;
+                    component.SetEnemyOutside(!inFactory);
+                    CreateEnemyClientRpc(netObjectRef, inFactory);
+                }
             }
         }
 

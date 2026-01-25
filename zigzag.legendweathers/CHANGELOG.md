@@ -1,3 +1,17 @@
+## 2.2.0
+- **General**
+    - Updated to work for [WeatherRegistry](https://thunderstore.io/c/lethal-company/p/mrov/WeatherRegistry/) 0.8.0+
+    - Slightly edited weathers terminal text colors
+    - Updated compatibility notes in the README
+- **Blood Moon**
+    - Added `Enemy resurrection blacklist` config, this can be filled by the host with enemy names that will never resurrect when they are killed (use this config in combination of `Blood Stone spawning blacklist` to configure your experience just like you want)
+    - Increased the max possible value of the `Enemy resurrection wait time` config to 90s, default value is unchanged
+    - Added "Extreme" as a possible `Difficulty` config value
+    - Added `Specific enemies item spawning Mode` and `Specific enemies item spawning Chance` configs, these can be used to configure how the weather is managing specific items that are spawned by Nutcrackers and Ghost enemies ([Haunted_Harpist](https://thunderstore.io/c/lethal-company/p/Bob123/Haunted_Harpist/))
+- **Majora Moon**
+    - Adjusted the visuals and effects of the crashing animation when the final explosion happens
+    - The issue listed in the 2.0.0 changes related to playing `Oath to Order` with the Ocarina item is now fixed thanks to the latest version of [WeatherRegistry](https://thunderstore.io/c/lethal-company/p/mrov/WeatherRegistry/)
+
 ## 2.1.2
 - **Blood Moon**
     - Fixed random enemy spawning when resurrecting a masked enemy who is mimicking a player

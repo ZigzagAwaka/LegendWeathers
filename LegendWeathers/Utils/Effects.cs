@@ -463,7 +463,7 @@ namespace LegendWeathers.Utils
         {
             if (WeatherManager.CurrentEffectTypes.Contains(weatherType))
             {
-                WeatherManager.GetWeather(weatherType).Effect.DisableEffect(true);
+                WeatherController.RemoveWeatherEffect(weatherType);
             }
         }
 

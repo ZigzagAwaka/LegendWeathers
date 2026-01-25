@@ -29,7 +29,7 @@ namespace LegendWeathers
     {
         const string GUID = "zigzag.legendweathers";
         const string NAME = "LegendWeathers";
-        const string VERSION = "2.1.2";
+        const string VERSION = "2.2.0";
 
         public static Plugin instance;
         public static ManualLogSource logger;
@@ -79,18 +79,18 @@ namespace LegendWeathers
             RegisterWeather(definition, weatherEffect);
         }
 
-        private void RegisterWeather<T>(WeatherDefinition definition) where T : LegendWeather
+        /*private void RegisterWeather<T>(WeatherDefinition definition) where T : LegendWeather
         {
             var weatherEffect = new ImprovedWeatherEffect(null, GetEffect<T>());
             RegisterWeather(definition, weatherEffect);
-        }
+        }*/
 
         private void RegisterWeather(WeatherDefinition definition, ImprovedWeatherEffect weatherEffect)
         {
             var weather = new Weather(definition.Name, weatherEffect)
             {
                 Config = definition.Config.CreateFullConfig(),
-                Color = definition.Color
+                ColorGradient = definition.ColorGradient
             };
             WeatherManager.RegisterWeather(weather);
         }

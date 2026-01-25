@@ -9,7 +9,7 @@ namespace LegendWeathers.Utils
 {
     internal class Compatibility
     {
-        ////// PLUGIN //////
+        #region PLUGIN
 
         public static bool WeatherRegisteryInstalled = false;
         public static bool BiodiversityInstalled = false;
@@ -38,7 +38,9 @@ namespace LegendWeathers.Utils
                 (pluginVersion == null || new System.Version(pluginVersion).CompareTo(Chainloader.PluginInfos[pluginGUID].Metadata.Version) <= 0);
         }
 
-        ////// MAJORA MOON //////
+        #endregion
+
+        #region MAJORA MOON
 
         internal static bool IsMajoraActiveOnCompany { get; private set; } = false;
         internal static float MajoraCompanyTimer { get; private set; } = 105;  // in seconds
@@ -145,7 +147,9 @@ namespace LegendWeathers.Utils
             return Imperium.Imperium.MoonManager.TimeIsPaused.Value;
         }
 
-        ////// BLOOD MOON //////
+        #endregion
+
+        #region BLOOD MOON
 
         public static bool BloodMoonSpawnEnemySpecific(EnemyAI enemy, Vector3 spawnPosition)
         {
@@ -160,11 +164,15 @@ namespace LegendWeathers.Utils
             return true;
         }
 
-        public static bool ManageSpecialItemForBloodMoon(string enemyNameHeldBy, GrabbableObject specialItem)  // used by BloodMoonPatches
+        public static bool ManageSpecialItemForBloodMoon(string enemyNameHeldBy, GrabbableObject? specialItem)  // used by BloodMoonPatches
         {
+            if (Plugin.config.bloodMoonSpecificEnemiesItemSpawningMode.Value == "Chance")
+            {
+                return ManageSpecialItemForBloodMoonByChance(specialItem);
+            }
             if (!BloodMoonManager.UpdateFirstEnemyRespawned(enemyNameHeldBy))
             {
-                if (specialItem is ShotgunItem gunItem)
+                if (specialItem != null && specialItem is ShotgunItem gunItem)
                 {
                     gunItem.shellsLoaded = 2;
                 }
@@ -173,7 +181,7 @@ namespace LegendWeathers.Utils
             }
             else
             {
-                if (specialItem.IsServer)
+                if (specialItem != null && specialItem.IsServer)
                 {
                     var itemNetwork = specialItem.gameObject.GetComponent<NetworkObject>();
                     if (itemNetwork != null && itemNetwork.IsSpawned)
@@ -184,5 +192,27 @@ namespace LegendWeathers.Utils
                 return false;
             }
         }
+
+        public static bool ManageSpecialItemForBloodMoonByChance(GrabbableObject? specialItem)  // used by BloodMoonPatches
+        {
+            if (BloodMoonManager.nextRandomSpecificEnemyItemSpawnChance < Plugin.config.bloodMoonSpecificEnemiesItemSpawningChance.Value)
+            {
+                return true;
+            }
+            else
+            {
+                if (specialItem != null && specialItem.IsServer)
+                {
+                    var itemNetwork = specialItem.gameObject.GetComponent<NetworkObject>();
+                    if (itemNetwork != null && itemNetwork.IsSpawned)
+                    {
+                        itemNetwork.Despawn();
+                    }
+                }
+                return false;
+            }
+        }
+
+        #endregion
     }
 }

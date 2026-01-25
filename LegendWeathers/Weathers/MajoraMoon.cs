@@ -23,6 +23,7 @@ namespace LegendWeathers.Weathers
         public ParticleSystem crashParticles1 = null!;
         public ParticleSystem crashParticles2 = null!;
         public GameObject impactObject = null!;
+        public GameObject blastObject = null!;
         public Transform tearPosition = null!;
         public ParticleSystem burstParticles1 = null!;
         public ParticleSystem burstParticles2 = null!;
@@ -68,6 +69,7 @@ namespace LegendWeathers.Weathers
         private bool timerStarted = false;
 
         private GameObject? impact;
+        private GameObject? blast;
         private readonly float impactScaleFactor = 1.4f;
         private readonly int impactGroundPosOffset = 100;
         private bool impactStarted = false;
@@ -240,7 +242,9 @@ namespace LegendWeathers.Weathers
             StartOfRound.Instance.shipLeftAutomatically = false;
             StartOfRound.Instance.shipIsLeaving = true;
             Effects.MessageComputer("The autopilot emergency code has been activated.", "You've met with a terrible fate, haven't you?");
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(2f);
+            StartCoroutine(Effects.ShakeCameraAdvanced(ScreenShakeType.Long, 16));
+            yield return new WaitForSeconds(3f);
             HUDManager.Instance.shipLeavingEarlyIcon.enabled = false;
             if (shipLever != null)
             {
@@ -253,12 +257,33 @@ namespace LegendWeathers.Weathers
             yield return new WaitForSeconds(1f);
             //Effects.SetCameraEndOfRound(GameNetworkManager.Instance.localPlayerController);
             yield return new WaitForSeconds(4f);
+            var blastPosition = endPosition - Vector3.up * impactGroundPosOffset * 1.3f;
+            var impactPosition = endPosition - Vector3.up * impactGroundPosOffset;
+            if (blast != null)
+                Destroy(blast);
+            blast = Instantiate(blastObject, blastPosition, Quaternion.identity);
+            blast.transform.localScale = Vector3.one * (moonRadiusApprox * 0.5f);
+            BlastKnockbackEffect(blastPosition, 600, 40);
             if (impact != null)
                 Destroy(impact);
-            impact = Instantiate(impactObject, endPosition - Vector3.up * impactGroundPosOffset, Quaternion.identity);
+            impact = Instantiate(impactObject, impactPosition, Quaternion.identity);
             DisableColliders();
             impactStarted = true;
-            yield return Effects.ShakeCameraAdvanced(ScreenShakeType.VeryStrong, 2);
+            yield return Effects.ShakeCameraAdvanced(ScreenShakeType.VeryStrong, 5);
+        }
+
+        private void BlastKnockbackEffect(Vector3 position, float range, float force)
+        {
+            var player = GameNetworkManager.Instance.localPlayerController;
+            if (player == null || player.isPlayerDead || player.isInHangarShipRoom || player.isInElevator || player.inVehicleAnimation)
+                return;
+            var distance = Vector3.Distance(player.transform.position, position);
+            if (force > 0f && distance <= range)
+            {
+                Vector3 power = Vector3.Normalize(player.transform.position + Vector3.up * distance - position) * force;
+                player.CancelSpecialTriggerAnimations();
+                player.externalForceAutoFade += power;
+            }
         }
 
         private void DisableColliders(bool disable = true)
@@ -535,6 +560,11 @@ namespace LegendWeathers.Weathers
             }
             if (finalHoursFinishing)
             {
+                if (blast != null)
+                {
+                    Destroy(blast);
+                    blast = null;
+                }
                 if (impact != null)
                 {
                     Destroy(impact);

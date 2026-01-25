@@ -1,8 +1,8 @@
 # Legend Weathers
 
-### This mod aims to add multiple special weather effects to the game. Still in development, there is currently <strong style="color:#008cff;">2 weathers</strong> that are completely playable and more are planned in future releases.
+### This mod aims to add some special weather effects to the game. There is currently <strong style="color:#008cff;">2 weathers</strong> that are completely playable but more are planned in future releases.
 
-> ### Current weathers: <strong style="color:#dd00ff;">Majora Moon</strong> and <strong style="color:#ff0051;">Blood Moon</strong>
+> ### Current weathers: <strong style="color:#DD3CFF;">Majora Moon</strong> and <strong style="color:#FF2D83;">Blood Moon</strong>
 
 Weathers in this mod are designed to be rare and impactful. They **are NOT like vanilla weathers**, and are meant to be seen very rarely due to their *extreme* effects. You can customize the spawn chance in the [WeatherRegistry](https://thunderstore.io/c/lethal-company/p/mrov/WeatherRegistry/) config but by default it is pretty low.
 
@@ -16,7 +16,7 @@ A sinister lunar phenomenon that bathes the landscape in an eerie crimson glow, 
 
 ![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/BloodMoon-image1.PNG)
 
-When the **<strong style="color:#ff0051;">Blood Moon</strong>** rises, hostile creatures will spawn more often making exploration and scrap collection much riskier than usual.
+When the **<strong style="color:#FF2D83;">Blood Moon</strong>** rises, hostile creatures will spawn more often making exploration and scrap collection much riskier than usual.
 
 The maddening red light emitted by the moon will clear all fogs on the current planet, improving visibility. However, some *blood flames* that appear on the planet's ground will serve as an ominous reminder of the danger ahead...
 
@@ -68,7 +68,7 @@ Inspired by the iconic astral figure from *The Legend of Zelda: Majora's Mask*, 
 
 ![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/MajoraMoon-image1.PNG)
 
-The **<strong style="color:#dd00ff;">Majora Moon</strong>** is set to crash on the planet in a few hours, giving you less time to find scraps in the facility.
+The **<strong style="color:#DD3CFF;">Majora Moon</strong>** is set to crash on the planet in a few hours, giving you less time to find scraps in the facility.
 
 Ocasional ground rumbles will remind you of the Moon's impending collision... Don't waste any more time as with this weather active, you'll be able to find more scraps than usual, offering a chance to meet the profit quota!
 
@@ -82,17 +82,12 @@ The time before the crash is a bit generous but the Company Ship has been progra
 
 <details><summary>More info ? *SPOILER WARNING* (click to reveal)</summary>
 
-### Photo taken before disaster
-
-![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/MajoraMoon-image3.PNG)
-🌚 I hope for you to be in the ship before the last 5 seconds...
-
 ### Majora's Mask
 
 ![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/MajoraMoon-image4.PNG)
 When the Majora Moon Weather is active, an accursed and dangerous item will spawn inside the facility: the **Majora's Mask**.
 
-While this mask is worth a **HUGE sum** of money, it comes with severe *side effects*... such as **a̷̤̖̾c̷͈̪̐͂c̴̯͐ȇ̷̜̹͗l̷̜͙̑̾e̷̢̙̓r̴̙̊a̵̤̍͐͜t̸̠͉͆͊ỉ̶̖̦͠n̶̤͂g̴͔͎̐̋ ̸̟̅̕t̶̳͍̓h̴̩̾e̵̫̲̒̒ ̶̼̀͝M̵̗͆å̸̙͗j̶̟̰̽ò̷̝̓r̸̃͝ͅả̵͎ ̸̠̋M̵̢̿̀o̷̰̅̍o̴͚̣͊͝n̸͕̙͝**.
+While this mask is worth a **HUGE sum** of money, it comes with severe *side effects*... such as **a̴c̸c̴e̴l̴e̸r̴a̸t̴i̴n̷g̶ ̵t̴h̶e̵ ̵M̶a̷j̵o̴r̸a̶ ̵M̸o̴o̴n̶**.
 
 <details><summary>More spoilers about the Majora's Mask</summary>
 
@@ -115,16 +110,28 @@ According to legend... each apparition of the Majora Moon has *1% chance* of tri
 
 </details>
 
+### Photo taken before disaster
+
+![Preview](https://raw.githubusercontent.com/ZigzagAwaka/LegendWeathers/main/Previews/Images/MajoraMoon-image3.PNG)
+🌚 I hope for you to be in the ship before the last 5 seconds...
+
 </details>
 
 ##
 
 ### Compatibility with other mods
-- Weathers in this mod comes with a **custom fog volume** that dynamically changes the sky's color. Some *visual bugs* related to the sky and fogs can happen on some modded moons depending on how they were made.
-- The Majora Moon weather will not work if it is spawned mid-game, it will only work properly when the ship lands on a moon with this weather active.
-- The Majora Moon position in the sky is automatically determined but can be manually adjusted on specific planets for better placement. If you think the actual placement is not visually good, you can report the moon's name so I can improve the position on this specific moon.
-- If you have the Ocarina item from [ChillaxScraps](https://thunderstore.io/c/lethal-company/p/Zigzag/ChillaxScraps/), you can interact with the Majora Moon by playing a specific song at a specific time and place to trigger a special animation !
-- If you want to generate unique combined weathers using this mod then you need to install [Combined_Weathers_Toolkit](https://thunderstore.io/c/lethal-company/p/Zigzag/Combined_Weathers_Toolkit/) !
+- General
+    - Weathers in this mod comes with a **custom fog volume** that dynamically changes the sky's color. Some *visual bugs* related to the sky and fogs can happen on some modded moons depending on how they were made.
+    - This mod is not compatible with [HDLCPatch](https://thunderstore.io/c/lethal-company/p/MintyMods/HDLCPatch/), having both mods installed will get you visual issues, such as fog not getting reenabled properly on moons.
+    - If you want to generate unique combined weathers using this mod then you need to install [Combined_Weathers_Toolkit](https://thunderstore.io/c/lethal-company/p/Zigzag/Combined_Weathers_Toolkit/) !
+- Majora Moon
+    - The Majora Moon crashing animation will kinda work if it is spawned mid-game, so make sure to only have it spawned naturally when the ship lands on a moon with this weather active.
+    - The Majora Moon position in the sky is automatically determined but can be manually adjusted on specific planets for better placement. If you think the actual placement is not visually good, you can report the moon's name so I can improve the position on this specific moon.
+    - By default, the Majora Moon weather will not work on Company moons but that can be changed by enabling a config of this mod and removing the Company moons names in the moons' blacklist section of the [WeatherRegistry](https://thunderstore.io/c/lethal-company/p/mrov/WeatherRegistry/) config. 
+    - If you have the Ocarina item from [ChillaxScraps](https://thunderstore.io/c/lethal-company/p/Zigzag/ChillaxScraps/), you can interact with the Majora Moon by playing a specific song at a specific time and place to trigger a special animation !
+- Blood Moon
+    - Blood Moon is designed to be a high risk - high reward event, but don't forget to edit the config to your liking if you find it a bit too easy/a bit too hard... You can even blacklist some enemies that could cause issues when being resurrected.
+    - By default, the Blood Moon weather can and will resurrect all vanilla and modded enemies if it's possible to resurrect them. However, enemies that despawn after their death will not be resurrected; this is the case for Giant Sapsuckers and for enemies killed by an Earth Leviathan.
 
 ### Contact & Feedback
 If you want to suggest new features, report issues or simply contact me please go to the mod release page in the [modding discord](https://discord.gg/XeyYqRdRGC) or post a [github issue](https://github.com/ZigzagAwaka/LegendWeathers).
@@ -147,4 +154,4 @@ If you want to suggest new features, report issues or simply contact me please g
 
 - Compatiple replacers are imported from [Biodiversity](https://thunderstore.io/c/lethal-company/p/super_fucking_cool_and_badass_team/Biodiversity/), [Surfaced](https://thunderstore.io/c/lethal-company/p/SurfacedTeam/Surfaced/), [PremiumScraps](https://thunderstore.io/c/lethal-company/p/Zigzag/PremiumScraps/), [Emergency_Dice_Updated](https://thunderstore.io/c/lethal-company/p/slayer6409/Emergency_Dice_Updated/) and [CodeRebirth](https://thunderstore.io/c/lethal-company/p/XuXiaolan/CodeRebirth/)
 
-- Features audio sfx and music from various Nintendo games
+- Features original and modified audio sfx and music from various Nintendo games
