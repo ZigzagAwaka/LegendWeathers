@@ -6,7 +6,7 @@
 
 Weathers in this mod are designed to be rare and impactful. They **are NOT like vanilla weathers**, and are meant to be seen very rarely due to their *extreme* effects. You can customize the spawn chance in the [WeatherRegistry](https://thunderstore.io/c/lethal-company/p/mrov/WeatherRegistry/) config but by default it is pretty low.
 
-Compatible with **v73** of Lethal Company.
+Compatible with **v81** of Lethal Company.
 
 ##
 
@@ -120,16 +120,16 @@ According to legend... each apparition of the Majora Moon has *1% chance* of tri
 ##
 
 ### Compatibility with other mods
-- General
+- **General**
     - Weathers in this mod comes with a **custom fog volume** that dynamically changes the sky's color. Some *visual bugs* related to the sky and fogs can happen on some modded moons depending on how they were made.
     - This mod is not compatible with [HDLCPatch](https://thunderstore.io/c/lethal-company/p/MintyMods/HDLCPatch/), having both mods installed will get you visual issues, such as fog not getting reenabled properly on moons.
     - If you want to generate unique combined weathers using this mod then you need to install [Combined_Weathers_Toolkit](https://thunderstore.io/c/lethal-company/p/Zigzag/Combined_Weathers_Toolkit/) !
-- Majora Moon
+- **Majora Moon**
     - The Majora Moon crashing animation will kinda work if it is spawned mid-game, so make sure to only have it spawned naturally when the ship lands on a moon with this weather active.
     - The Majora Moon position in the sky is automatically determined but can be manually adjusted on specific planets for better placement. If you think the actual placement is not visually good, you can report the moon's name so I can improve the position on this specific moon.
     - By default, the Majora Moon weather will not work on Company moons but that can be changed by enabling a config of this mod and removing the Company moons names in the moons' blacklist section of the [WeatherRegistry](https://thunderstore.io/c/lethal-company/p/mrov/WeatherRegistry/) config. 
     - If you have the Ocarina item from [ChillaxScraps](https://thunderstore.io/c/lethal-company/p/Zigzag/ChillaxScraps/), you can interact with the Majora Moon by playing a specific song at a specific time and place to trigger a special animation !
-- Blood Moon
+- **Blood Moon**
     - Blood Moon is designed to be a high risk - high reward event, but don't forget to edit the config to your liking if you find it a bit too easy/a bit too hard... You can even blacklist some enemies that could cause issues when being resurrected.
     - By default, the Blood Moon weather can and will resurrect all vanilla and modded enemies if it's possible to resurrect them. However, enemies that despawn after their death will not be resurrected; this is the case for Giant Sapsuckers and for enemies killed by an Earth Leviathan.
 

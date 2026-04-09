@@ -1,4 +1,5 @@
 ﻿using BepInEx.Bootstrap;
+using GameNetcodeStuff;
 using LegendWeathers.Weathers;
 using LethalLib.Modules;
 using System.Text.RegularExpressions;
@@ -151,17 +152,45 @@ namespace LegendWeathers.Utils
 
         #region BLOOD MOON
 
-        public static bool BloodMoonSpawnEnemySpecific(EnemyAI enemy, Vector3 spawnPosition)
+        public static bool BloodMoonSpawnEnemySpecific(EnemyAI enemy, Vector3 spawnPosition, out bool withEnemyRef, out NetworkObjectReference enemyRef, out bool withPlayer, out ulong playerId)
         {
+            withEnemyRef = false;
+            withPlayer = false;
+            enemyRef = new NetworkObjectReference();
+            playerId = 0;
             if (enemy.gameObject == null)
             {
                 return false;
             }
             var masked = enemy.gameObject.GetComponent<MaskedPlayerEnemy>();
+            var cadaverBloom = enemy.gameObject.GetComponent<CadaverBloomAI>();
             if (masked != null && masked.mimickingPlayer != null)
+            {
                 Effects.SpawnMaskedOfPlayer(masked.mimickingPlayer.playerClientId, spawnPosition);
-            else return false;
+            }
+            else if (cadaverBloom != null && cadaverBloom.burstPlayer != null)
+            {
+                withEnemyRef = true;
+                withPlayer = true;
+                playerId = cadaverBloom.burstPlayer.playerClientId;
+                enemyRef = RoundManager.Instance.SpawnEnemyGameObject(spawnPosition, Random.Range(-90f, 90f), -1, enemy.enemyType);
+            }
+            else
+            {
+                return false;
+            }
             return true;
+        }
+
+        public static void SyncBloodMoonSpawnEnemySpecific(NetworkObjectReference enemyRef, Vector3 spawnPosition, bool playerIdIsValid, ulong playerId)
+        {
+            GameObject enemyObject = (GameObject)enemyRef;
+            CadaverBloomAI cadaverBloom = enemyObject.GetComponent<CadaverBloomAI>();
+            if (cadaverBloom != null && playerIdIsValid)
+            {
+                PlayerControllerB player = StartOfRound.Instance.allPlayerScripts[playerId];
+                cadaverBloom.BurstForth(player, false, spawnPosition, new Vector3(0f, Random.Range(-90f, 90f), 0f));
+            }
         }
 
         public static bool ManageSpecialItemForBloodMoon(string enemyNameHeldBy, GrabbableObject? specialItem)  // used by BloodMoonPatches

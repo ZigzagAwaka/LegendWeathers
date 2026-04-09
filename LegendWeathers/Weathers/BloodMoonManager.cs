@@ -184,10 +184,26 @@ namespace LegendWeathers.Weathers
             yield return new WaitForSeconds(3.05f);
             if (!StartOfRound.Instance.inShipPhase)
             {
-                if (Compatibility.BloodMoonSpawnEnemySpecific(enemy, spawnPosition))
+                if (Compatibility.BloodMoonSpawnEnemySpecific(enemy, spawnPosition, out bool withEnemyRef, out NetworkObjectReference enemyRef, out bool withPlayer, out ulong playerId))
+                {
+                    if (withEnemyRef)
+                    {
+                        yield return new WaitForSeconds(0.2f);
+                        SyncSpawnEnemySpecificClientRpc(enemyRef, spawnPosition, withPlayer, playerId);
+                    }
                     yield break;
-                else RoundManager.Instance.SpawnEnemyGameObject(spawnPosition, Random.Range(-90f, 90f), -1, enemy.enemyType);
+                }
+                else
+                {
+                    RoundManager.Instance.SpawnEnemyGameObject(spawnPosition, Random.Range(-90f, 90f), -1, enemy.enemyType);
+                }
             }
+        }
+
+        [ClientRpc]
+        private void SyncSpawnEnemySpecificClientRpc(NetworkObjectReference enemyRef, Vector3 spawnPosition, bool playerIdIsValid, ulong playerId)
+        {
+            Compatibility.SyncBloodMoonSpawnEnemySpecific(enemyRef, spawnPosition, playerIdIsValid, playerId);
         }
 
         [ClientRpc]

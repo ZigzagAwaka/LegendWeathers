@@ -1,3 +1,9 @@
+## 2.2.1
+- **General**
+    - Updated to now be compatible with v81 of the game
+- **Blood Moon**
+    - Added a compatibility check to properly respawn Cadaver Bloom enemies
+
 ## 2.2.0
 - **General**
     - Updated to work for [WeatherRegistry](https://thunderstore.io/c/lethal-company/p/mrov/WeatherRegistry/) 0.8.0+
