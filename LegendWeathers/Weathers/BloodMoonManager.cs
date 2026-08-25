@@ -121,7 +121,7 @@ namespace LegendWeathers.Weathers
             }
         }
 
-        private void SpawnBloodStone(Vector3? originalPosition = null)
+        private void SpawnBloodStone(Vector3? originalPosition = null, float priceMult = 0f)
         {
             if (Plugin.instance.bloodStoneItem == null || !Plugin.config.bloodMoonStoneItemSpawning.Value)
                 return;
@@ -131,15 +131,19 @@ namespace LegendWeathers.Weathers
                 Effects.SpawnBloodLightningBolt(ref spawnPosition);
                 SpawnLightningClientRpc(spawnPosition);
             }
-            var bloodStone = Instantiate(Plugin.instance.bloodStoneItem.spawnPrefab, spawnPosition, Quaternion.identity, RoundManager.Instance.spawnedScrapContainer);
+            GameObject bloodStone = Instantiate(Plugin.instance.bloodStoneItem.spawnPrefab, spawnPosition, Quaternion.identity, RoundManager.Instance.spawnedScrapContainer);
             if (bloodStone != null)
             {
-                var item = bloodStone.GetComponent<BloodStoneItem>();
+                BloodStoneItem item = bloodStone.GetComponent<BloodStoneItem>();
                 item.transform.rotation = Quaternion.Euler(item.itemProperties.restingRotation);
                 item.fallTime = 1f;
                 item.hasHitGround = true;
                 item.reachedFloorTarget = true;
                 item.scrapValue = (int)(Random.Range(Plugin.instance.bloodStoneItem.minValue, Plugin.instance.bloodStoneItem.maxValue) * RoundManager.Instance.scrapValueMultiplier);
+                if (Plugin.config.bloodMoonStoneValueScaleMult.Value > 0f && priceMult != 0f && originalPosition != null)
+                {
+                    item.scrapValue += (int)(5 * priceMult * Plugin.config.bloodMoonStoneValueScaleMult.Value);
+                }
                 if (originalPosition == null)
                     item.scrapValue *= 4;
                 item.NetworkObject.Spawn();
@@ -168,7 +172,7 @@ namespace LegendWeathers.Weathers
         {
             if (enemy == null || Plugin.config.bloodMoonStoneSpawnBlacklist.Count == 0 || !Plugin.config.bloodMoonStoneSpawnBlacklist.Contains(enemy.enemyType.enemyName.ToLower()))
             {
-                SpawnBloodStone(originalPosition);
+                SpawnBloodStone(originalPosition, enemy != null ? enemy.enemyType.PowerLevel : 0f);
             }
             if (Plugin.config.bloodMoonSpecificEnemiesItemSpawningMode.Value == "Chance" && globalSeedForSpecificEnemyItemSpawning != null)
             {

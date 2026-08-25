@@ -1,3 +1,9 @@
+## 2.2.2
+- **General**
+    - Should now be compatible when playing with [LethalCompanyVR](https://thunderstore.io/c/lethal-company/p/DaXcess/LethalCompanyVR/)
+- **Blood Moon**
+    - Added `Blood Stone value scale` config, this can be used to activate a scaling calculation on the Blood Stone's value based on the enemy's power level, and acts as a multiplier to customize this calculation (if you don't find it your liking), defaults to -1 which means it's not active
+
 ## 2.2.1
 - **General**
     - Updated to now be compatible with v81 of the game
